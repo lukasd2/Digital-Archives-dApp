@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Digital Archives Prototype</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <h1 class="text-center">Digital Archives Prototype</h1>
+          <hr/>
+          <br/>
+        </div>
+      </div>
+
+      <div class="col-md-12" id="info-box">
+        <div class="row">
+          <div class="col-lg-12">
+            <p id="account" class="welcome pull-right"></p>
+            <p id="accountBalance" class="welcome pull-left"></p>
+          </div>
+        </div>
+
+      <h2>Public showcase of minor artworks</h2>
+      <div id="archivesRow" class="row">
+        <!-- Works load HERE -->
+      </div>
+    </div>
+
+    <div id="archiviesTemplate" style="display: none;">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="panel panel-default panel-pet">
+          <div class="panel-heading">
+            <h3 class="panel-title">Scrappy</h3>
+          </div>
+          <div class="panel-body">
+            <br/><br/>
+            <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
+            <strong>id</strong>: <span class="art-id">Golden Retriever</span><br/>
+            <strong>name</strong>: <span class="art-name">3</span><br/>
+            <strong>author</strong>: <span class="art-author">3</span><br/>
+            <strong>desc</strong>: <span class="art-description">Warren, MI</span><br/><br/>
+            <button class="btn btn-default btn-adopt" type="button" data-id="0">Adopt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8" id="image-box">
+      <div class="row">
+        <form id="addFile">
+          <h2>Insert your artwork to the blockchain -- main form</h2>
+          <div class="form-group">
+            <label for="artw_name">Artwork name</label>
+            <input type="text" class="form-control" id="artw_name" placeholder="Artwork title">
+          </div>
+          <div class="form-group">
+            <label for="artw_description">Artwork description: </label>
+            <textarea type="text" class="form-control vresize" id="artw_description" placeholder="Describe your artwork, Space for a possible TEI5 encoding implementation" maxlength="255"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="imagePreview">Preview of your upload: </label>
+            <img id="imagePreview" src="" alt="" style="display: block">
+          </div>
+          <div class="form-group-artwork">
+            <label for="exampleFormControlFile1">Example file input</label>
+            <input type="file" class="form-control-file" id="captureFileUpload">
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="Privato">
+              <label class="form-check-label" for="Privato">
+                  Private Upload (Do you wish to hide this upload from other user except for artwork checkers?) -- not implemented
+              </label>
+            </div>
+          <button id="sendToChain" type="submit" class="btn btn-primary mb-2" onclick="App.uploadArtw(); return false;">Send Form</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-4">
+        <div id="loader" class="sk-folding-cube" style="display: none;"> <!-- Credits: http://tobiasahlin.com/spinkit/ -->
+          <div class="sk-cube1 sk-cube"></div>
+          <div class="sk-cube2 sk-cube"></div>
+          <div class="sk-cube4 sk-cube"></div>
+          <div class="sk-cube3 sk-cube"></div>
+          <h3>Loading...</h3>
+          <p class="text-center">Uploading your input data to IPFS via Infura</p>
+      </div>
+      <div class="row">
+        <ul id="receiptRow"></ul>
+          <!-- Receipt loads HERE -->
+      </div>
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script> 
+    <script src="js/bundle.js"></script> 
+  </body>
+</html>
