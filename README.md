@@ -11,14 +11,16 @@ In questo prototipo sono implementate alcune funzionalità per un'applicazione i
 3. Front-end Prototipo in Bootstrap
 
 Lo sviluppo passo dopo passo
-1. Utilizzo del framework truffle (httpstruffleframework.com) e in particolare un truffle-box ufficiale, pet-shop (httpstruffleframework.comboxespet-shop) è un boilerplate che ho utilizzato come base del progetto per la struttura generale della directorystruttura dei file. 
-1. Sempre all'interno del pacchetto truffle, ho utilizzato Ganache (httpstruffleframework.comganache) per simulare una blockchain virtuale Ethereum.
-2. Per la parte relativa ai ruolipermessi dei vari utenti e in particolare per implementare il ruolo di artwork checker ho utilizzato contratti (whitelist.sol, RBAC.sol, Roles.sol e Ownable.sol) forniti e testati dalla comunità di OpenZeppelin (httpsgithub.comOpenZeppelinopenzeppelin-solidity)
-1. Durante lo sviluppo ho utilizzato i pacchetti npm buffer (httpswww.npmjs.compackagebuffer) e ipfs-api (httpswww.npmjs.compackageipfs-api)
+1. Utilizzo del framework truffle (https://truffleframework.com) e in particolare un truffle-box ufficiale, pet-shop (httpstruffleframework.comboxespet-shop) è un boilerplate che ho utilizzato come base del progetto per la struttura generale della directorystruttura dei file. 
+1. Sempre all'interno del pacchetto truffle, ho utilizzato Ganache (https://truffleframework.comganache) per simulare una blockchain virtuale Ethereum.
+2. Per la parte relativa ai ruolipermessi dei vari utenti e in particolare per implementare il ruolo di artwork checker ho utilizzato contratti (whitelist.sol, RBAC.sol, Roles.sol e Ownable.sol) forniti e testati dalla comunità di OpenZeppelin (https://github.comOpenZeppelinopenzeppelin-solidity)
+1. Durante lo sviluppo ho utilizzato i pacchetti npm buffer (https://www.npmjs.compackagebuffer) e ipfs-api (https://www.npmjs.compackageipfs-api)
 	1. buffer serve per manipolare i dati binari (sequenze di byte) nel progetto è utilizzato per codifcare l'upload di un file(per esempio un'immagine) in un formato addatto per essere caricato su IPFS. Ad esempio, nel nostro caso, quando facciamo l'upload il file diventa di tipo Uint8Array(38365) [137, 80, 78... etc.
 	2. ipfs-api è una libreria (HTTP API implementata in javascript) che permette di connettersi al nodo IPFS come client. 
-1. Infura (httpsinfura.io) offre un API per connettersi direttamente a IPFS (httpsinfura.iodocsipfsgetfiles_read) (senza la necessità di mantenere una sessione IPFS in locale quindi non è necessario mantenere una connessione attiva con gli altri peer sulla nostra macchina). 
+1. Infura (https://infura.io) offre un API per connettersi direttamente a IPFS (httpsinfura.iodocsipfsgetfiles_read) (senza la necessità di mantenere una sessione IPFS in locale quindi non è necessario mantenere una connessione attiva con gli altri peer sulla nostra macchina). 
 ## Getting Started
+
+![test](/src/img/1-mainpage.png)
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
