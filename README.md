@@ -2,13 +2,47 @@
 
 In questo prototipo sono implementate alcune funzionalità per un'applicazione il cui scopo principale è l'inserimento di opere d'arte minori sulle blockchain. Questo esempio può essere facilmente esteso e modificato per implementare nuove funzionalità.
 
-### Architettura
+## Architettura
 
-1. Back-end blockchain Ethereum (smart contracts scritti in Solidity)
-2. Storage-layer IPFS
-2. Connessione back-end e front-end javascript + web3.js (libreria che permette di interagire con i contratti)
-2. Connessione back-end e storage-layer Infura (API che fornisce l'accesso al nodo IPFS)
-3. Front-end Prototipo in Bootstrap
+Queste sono le tecnologie principali utilizzate (per dettagli sullo sviluppo vedi sezione "Development"): 
+
+1. Back-end: blockchain Ethereum (smart contracts scritti in Solidity)
+2. Storage-layer: IPFS
+2. Connessione back-end e front-end:  javascript + web3.js (libreria che permette di interagire con i contratti)
+2. Connessione back-end e storage-layer: Infura (API che fornisce l'accesso al nodo IPFS)
+3. Front-end: prototipo con Bootstrap
+
+## Funzionamento e features
+
+Le funzionalità implementate in questo momento sono:
+#### 1. Inserimento di opere d'arte minori sulla blockchain Ethereum:
+In realtà è possible inserire e registrare qualsiasi file che verrà poi mantenuto in modo permanente e immutabile dentro la blockchain.
+Queste sono le informazioni che vengono trasferite con la transazione (compilazione della form con descrizione etc.).
+```
+//Archives.sol 
+struct Artwork {
+        uint id;
+        address author;
+        string name;
+        string description;
+        string dataHash;// Hash del file relativo all'oggetto memorizzato su IPFS, ad esempio:
+                        QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE 
+                        vediamo se ritroviamo direttamente l'immagine direttamente memorizzata su ipfs:
+                        https://ipfs.io/ipfs/QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE
+                        il risultato dovrebbe essere un'immagine con le pale eoliche in bianco e nero
+        bool validation; // Indica se l'opera è stata revisionata da un artwork checker 
+}
+```   
+Molte caratteristiche dell'applicazione sono inerenti all'utilizzo di una blockchain pubblica. Al momento ho scelto di limitare il meno possibile quelli che si ritiene siano i maggiori vantaggi di una blockchain aperta. Dunque, i dati inseriti in questo momento sono pubblici, distribuiti (e decentralizzati) perché contenuti dentro la blockchain Ethereum e in parte memorizzati su IPFS. Ovviamente questo supponendo che questo prototipo fosse pubblicato allo stato attuale sulla blockchain Ethereum. 
+Purtroppo, nonostante la scelta di Ethereum e IPFS, al momento tra i sistemi più maturi e più sviluppati, si tratta sempre di sistemi in via di sviluppo, allo stato attuale difficilmente adatte a ospitare un’applicazione reale. D’altra parte, un’applicazione di questo tipo può essere facilmente adattata e trasferita su una blockchain privata (ad esempio una blockchain regolata da Proof of Authority) oppure su un sistema alternativo (sidechains? Storj per data strorage ecc.).
+
+Di seguito alcune idee che stavo considerando per continuare il progetto (cercando di trovare un equilibrio senza cercare di limitare funzionalità del protocollo Ethereum, creando un’applicazione adatta ai requisiti iniziali).
+
+
+#### 2. Storage layer su IPFS
+
+
+## Development
 
 Lo sviluppo passo dopo passo
 1. Utilizzo del framework truffle (https://truffleframework.com) e in particolare un truffle-box ufficiale, pet-shop (httpstruffleframework.comboxespet-shop) è un boilerplate che ho utilizzato come base del progetto per la struttura generale della directorystruttura dei file. 
