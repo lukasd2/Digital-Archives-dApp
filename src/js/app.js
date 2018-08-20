@@ -1,5 +1,5 @@
 require('buffer');
-const IPFS = require('ipfs-api')
+const IPFS = require('ipfs-api');
 
 App = {
   web3Provider: null,
@@ -185,7 +185,7 @@ App = {
       loader.style.display = "none";
     }
   },
-
+  //listen for events global
   bindEvents: function () {
     var res = null;
     var imagePreview = document.getElementById("imagePreview");
