@@ -120496,9 +120496,9 @@ App = {
 
   initContract: function () {
     // fetch and store  
-    $.getJSON('Archives.json', function (chainListArtifact) {
+    $.getJSON('Archives.json', function (archivesArtifact) {
       // get the contract artifact file and use it to instantiate a truffle contract abstraction
-      App.contracts.Archives = TruffleContract(chainListArtifact);
+      App.contracts.Archives = TruffleContract(archivesArtifact);
       // set the provider for our contracts
       App.contracts.Archives.setProvider(App.web3Provider);
       //listen to events 
@@ -120527,7 +120527,7 @@ App = {
         var artworkId = artworksIds[i];
         //take artwks from the mapping
         contractInstance.artworks(artworkId.toNumber()).then(function (artwork) {
-          App.displayArtworks(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4]);
+          App.displayArtworks(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
         });
       }
       App.loading = false;
@@ -120537,7 +120537,7 @@ App = {
     });
   },
 
-  displayArtworks: function (id, author, name, description, dataHash) {
+  displayArtworks: function (id, author, name, description, dataHash, validation) {
     var artRow = $('#archivesRow');
     var archiviesTemplate = $('#archiviesTemplate');
     archiviesTemplate.find('.panel-title').text("Title: "+name);
@@ -120546,11 +120546,37 @@ App = {
     archiviesTemplate.find('.art-author').text(author);
     archiviesTemplate.find('.art-name').text(name);
     archiviesTemplate.find('.art-description').text(description);
+    archiviesTemplate.find('.art-validity').text(validation);
+    archiviesTemplate.find('.art-validity').attr('data-id', id);
+    archiviesTemplate.find('.alert').attr('data-id', id);
     archiviesTemplate.find('img').attr('src', `https://ipfs.io/ipfs/${dataHash}`);
     archiviesTemplate.find('.btn-adopt').attr('data-id', id);
-
     artRow.append(archiviesTemplate.html());
   },
+  /* TODO, not implemented with app.ValidateArtwork function 
+  updateArtworkState: function () {
+    console.log("updateArtworkState");
+    var takeTheBox = document.querySelectorAll(".panel-body");
+    var takeVal = document.querySelector("art-validity");
+    takeTheBox.forEach(function(key) {
+      console.log(takeVal.prev());
+    });
+    console.log(takeTheBox);
+    var contractInstance;
+    App.contracts.Archives.deployed().then(function (instance) {
+      contractInstance = instance;
+      return contractInstance.getArtworks(); //async again -- returns an array of ids all artwks available
+    }).then(function (artworksIds) {
+      //retrieve the placeholder and clear it
+      $('#archivesRow').empty();
+      for (var i = 0; i < artworksIds.length; i++) {
+        var artworkId = artworksIds[i];
+        //take artwks from the mapping
+        contractInstance.artworks(artworkId.toNumber()).then(function (artwork) {
+        });
+      }
+    });
+  },*/
 
   uploadArtw: function () {
     if(App.loading) {
@@ -120573,7 +120599,7 @@ App = {
     }).then(function (result) {
       console.log(result);
       var receiptRow = $('#receiptRow');
-      //we update our interface in listen for events here we get the receipt
+      //the receipt
       $.each(result.receipt, function( key, value ) {
         console.log( key + ": " + value );
         var x = document.createElement("li");
@@ -120615,7 +120641,6 @@ App = {
   },
 
   bindEvents: function () {
-    //var articlePrice = web3.toWei(parseFloat($('#article_price').val() || 0), "ether");
     var res = null;
     var imagePreview = document.getElementById("imagePreview");
     imagePreview.src = "http://place-hold.it/400x300";
@@ -120635,7 +120660,7 @@ App = {
       reader.onloadend = () => {
         res = Buffer(reader.result);
         console.log(Buffer(reader.result));
-        console.log("this is it", res);
+        //console.log("this is it", res);
         return App.AddFile(res);;
       }
     };
@@ -120643,8 +120668,14 @@ App = {
     App.contracts.Archives.deployed().then(function (instance) {
       instance.LogSendArtw({}, {}).watch(function (error, event) {
         if (!error) {
-          //$("#events").append('<li class="list-group-item">' + event.args._name + ' is now for sale</li>');
-          console.log("event fired", event.args._name);
+          console.log("event LogSendArtw fired", event.args._name);
+          $("#events").append(`
+          <li>
+            <b>publishArtwork</b> contract has been called correctly, artwork
+            <b>${event.args._name}</b> has been added to the blockchain by account: 
+            <b>${event.args._author}</b>
+          </li>
+        `);
         } else {
           console.error(error);
         }
@@ -120652,7 +120683,49 @@ App = {
         App.reloadArtworks();
       });
     });
-  }, 
+
+    App.contracts.Archives.deployed().then(function (instance) {
+      instance.ValidateArtw({}, {}).watch(function (error, event) {
+        if (!error) {
+          console.log("event validateArtw fired", event.args._id);
+          $("#events").append(`
+          <li>
+            <b>approveArtwork</b> contract has been called correctly, artwork with id: 
+            <b>${event.args._id}</b> has been validated by the following artwork checker: 
+            <b>${event.args._author}</b>
+          </li>
+        `);
+        } else {
+          console.error(error);
+        }
+        //reload and update the interface
+        App.reloadArtworks();
+      });
+    });
+  },
+
+  ValidateArtwork: function (ev) {
+    //console.log($(ev.target).data('id'));
+    var infoBox = document.createElement('div');
+    infoBox.className = "alert alert-success";
+    const idToApprove = $(ev.target).data('id');
+    console.log(idToApprove);
+    App.contracts.Archives.deployed().then(function (instance) {
+      return instance.approveArtwork(idToApprove, {
+        from: App.account
+        //gas: 500000
+      });
+    }).then(function (result) {
+      //
+      /* TODO - alert for each panel indicating its status
+      var target = $('span[data-id="'+idToApprove+'"]');
+      target.append(infoBox);
+      console.log(target.append(infoBox));/*
+      //App.updateArtworkState();
+      App.reloadArtworks();*/
+
+    });
+  }
 };
 
 $(function () {

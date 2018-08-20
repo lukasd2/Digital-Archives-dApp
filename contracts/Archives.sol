@@ -1,6 +1,9 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.24;
 
-contract Archives {
+
+import "./Whitelist.sol";
+
+contract Archives is Whitelist {
 
     //For more complex data types, Solidity provides: struct
     struct Artwork {
@@ -9,6 +12,7 @@ contract Archives {
         string name;
         string description;
         string dataHash;
+        bool validation;
     }
 
     //state variables
@@ -25,7 +29,13 @@ contract Archives {
         address indexed _author,
         string _name,
         string _description,
-        string _data
+        string _data,
+        bool validation
+    );
+
+    event ValidateArtw(
+        uint indexed _id,
+        address indexed _author
     );
 
     //publish an artwork
@@ -37,10 +47,11 @@ contract Archives {
             msg.sender,
             _name,
             _description,
-            _dataHash
+            _dataHash,
+            false
         );
 
-        emit LogSendArtw(artworkCounter, msg.sender, _name, _description, _dataHash);
+        emit LogSendArtw(artworkCounter, msg.sender, _name, _description, _dataHash, false);
     }
 
 
@@ -53,18 +64,23 @@ contract Archives {
     }
     
     constructor() public  {
-        addArtwork(1, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "art1", "desc1", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE");
-        addArtwork(2, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "art2", "desc2", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE");
+        addArtwork(1, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte minore 1", "Descrizione dell'opera", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false);
+        addArtwork(2, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Immagine creata da Tizio", "Voglio preservare questa immagine sulla blockchain...", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false);
     }
 
-    function addArtwork(uint _id, address _author, string _name, string _description, string _dataHash) public {
+    function test() onlyIfWhitelisted(msg.sender) public {
+        addArtwork(3, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "esempio3", "descrizione esempio 3", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", true);
+    }
+
+    function addArtwork(uint _id, address _author, string _name, string _description, string _dataHash, bool _validation) public {
         artworkCounter++;
         artworks[artworkCounter] = Artwork (
             _id,
             _author,
             _name,
             _description,
-            _dataHash
+            _dataHash,
+            _validation
         );
     }
 
@@ -90,6 +106,8 @@ contract Archives {
         return displayArt;
     }
 
-   
-
+    function approveArtwork(uint _id) onlyIfWhitelisted(msg.sender) public {
+        artworks[_id].validation = true;
+        emit ValidateArtw(_id, msg.sender);
+    }
 }
