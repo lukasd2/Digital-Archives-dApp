@@ -79,17 +79,32 @@ Lo sviluppo passo dopo passo
 1. Infura (https://infura.io) offre un API per connettersi direttamente a IPFS (https://infura.io/docs/ipfs/get/files_read) (senza la necessità di mantenere una sessione IPFS in locale quindi non è necessario mantenere una connessione attiva con gli altri peer sulla nostra macchina). 
 ## Getting Started
 
-![test](/src/img/1-mainpage.png)
+
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites
+## L'applicazione:
 
-What things you need to install the software and how to install them
+1. In alto abbiamo la sezione dove poter consulare i lavori memorizzati sulla blockchain. Il modulo (in verde) permette di interagire con il contratto e IPFS inserendo un nuovo oggetto (produce una transazione).
 
-```
-Give examples
-```
+![mainpage](/src/img/1-mainpage.png)
+
+2.Durante l'inserimento del file, prima di poter effettuare la transazione, il file viene spedito su IPFS e il relativo indirizzo hash prodotto.
+
+![steptwo](/src/img/2-step.png)
+3. Concluso questo passaggio è possibile procedere con la transazione (supponendo che la form sia compilata correttamente ecc.)
+
+![transaction](/src/img/3-transaction.png)
+
+4. Risultato della transazione conclusa correttamente e aggiunta dell'oggetto sull'interfaccia
+
+![final](/src/img/4-final.png)
+
+5.Nella barra "Events" è possibile vedere le ultime interazione (chiamate) al contratto. Qui vediamo che un artwork checker ha approvato l'oggetto numero (id: 3) cambiando il suo valore Validation: true.
+
+
+![validation](/src/img/5-validation.PNG)
+
 
 ### Installing
 
