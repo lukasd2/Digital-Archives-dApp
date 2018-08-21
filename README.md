@@ -38,20 +38,45 @@ Purtroppo, nonostante la scelta di Ethereum e IPFS, al momento tra i sistemi pi�
 
 Di seguito alcune idee che stavo considerando per continuare il progetto (cercando di trovare un equilibrio senza cercare di limitare funzionalità del protocollo Ethereum, creando un’applicazione adatta ai requisiti iniziali).
 
+- Aggiungere la possibilità di un upload "privato" visibile solo all'utente e artwork checkers, nascondere questi oggetti dall'interfaccia (front-end) è il primo passo ma inutile per quanto riguarda la visibilità pubblica delle transazioni sulla blockchain e IPFS.
+- Per quanto riguardo l'upload dei file su IPFS si potrebbe usare la crittografia assimmetrica, ad esempio utizzando GPG (https://gnupg.org/) per encryption dei file prima di passarli all'IPFS. Un sistema di questo tipo è questo: https://github.com/TroyWilson1/ipfs-add-from-encrypted.
+- Limitare la visibilità dei dati sulla blockchain è più difficile (https://medium.com/solidified/keeping-secrets-on-ethereum-5b556c3bb1ee) si potrebbe provare a usare le funzioni hash (https://keccak.team/index.html) come keccak256 in soldity e in web3js (https://web3js.readthedocs.io/en/1.0/web3-utils.html#soliditysha3). In più si può limitare ulteriormente l'accesso estendendo le funzionalità di rule-based access (il contratto whitelist.sol) in modo che certe funzioni possano essere chiamate solo da utenti autorizzati. 
+
 
 #### 2. Storage layer su IPFS
+
+Tutti i dati troppo grandi per essere memorizzati (immagini, pdf ecc.) sulle blockchain possono essere richiamati da IPFS. In questo progetto utilizziamo una struttura di questo tipo: 
+
+```
+//app.js
+await ipfs.files.add(res, (err, result) => { //res contiene sequenze di byte prodotto dal buffer precedentemente 
+      App.Loading(false);
+      if (err) {
+        console.error(err);
+        return
+      }
+      App.ipfsHash = result[0].hash;
+      imagePreview.src = `https://ipfs.io/ipfs/${App.ipfsHash}`; //quando la promise è conclusa, il valore (hash che indica la posizione su IPFS) viene aggiunto direttamente all'indirizzo. 
+```
+
+Tutti i dati troppo grandi per essere memorizzati (immagini, pdf ecc.) sulle blockchain possono essere richiamati da IPFS. In questo progetto utilizziamo una struttura di questo tipo: 
+
+La compilazione del modulo per l’inserimento di una nuova opera d’arte include la spedizione del file su Ipfs. Prima quindi di poter spedire la transazione sulla blockchain, la richiesta viene processata e in attesa di un upload avvenuto con successo su IPFS. Così otteniamo l’indirizzo hash del nostro file che con la transazione (ora disponibile) memorizziamo in maniera permanente sulla blockchain.
+
+La finalità di IPFS consiste proprio nel mantenere file in maniera permanente e in maniera distribuita. La tecnologia al momento non è pronta e i file non utilizzati (e non condivisi con altri peer) vengono rimossi. Per non mantenere una o più sessioni attive in locale soltanto per mantenere i file su IPFS si è scelto di usare l’API di Infura che consente l’accesso e l’interazione con il sistema. 
+
 
 
 ## Development
 
 Lo sviluppo passo dopo passo
-1. Utilizzo del framework truffle (https://truffleframework.com) e in particolare un truffle-box ufficiale, pet-shop (httpstruffleframework.comboxespet-shop) è un boilerplate che ho utilizzato come base del progetto per la struttura generale della directorystruttura dei file. 
-1. Sempre all'interno del pacchetto truffle, ho utilizzato Ganache (https://truffleframework.comganache) per simulare una blockchain virtuale Ethereum.
-2. Per la parte relativa ai ruolipermessi dei vari utenti e in particolare per implementare il ruolo di artwork checker ho utilizzato contratti (whitelist.sol, RBAC.sol, Roles.sol e Ownable.sol) forniti e testati dalla comunità di OpenZeppelin (https://github.comOpenZeppelinopenzeppelin-solidity)
-1. Durante lo sviluppo ho utilizzato i pacchetti npm buffer (https://www.npmjs.compackagebuffer) e ipfs-api (https://www.npmjs.compackageipfs-api)
+1. Utilizzo del framework truffle (https://truffleframework.com) e in particolare un truffle-box ufficiale, pet-shop (https://truffleframework.com/boxes/pet-shop) è un boilerplate che ho utilizzato come base del progetto per la struttura generale della directorystruttura dei file. 
+1. Sempre all'interno del pacchetto truffle, ho utilizzato Ganache (https://truffleframework.com/ganache) per simulare una blockchain virtuale Ethereum.
+2. Per la parte relativa ai ruolipermessi dei vari utenti e in particolare per implementare il ruolo di artwork checker ho utilizzato contratti (whitelist.sol, RBAC.sol, Roles.sol e Ownable.sol) forniti e testati dalla comunità di OpenZeppelin (https://github.com/OpenZeppelin/openzeppelin-solidity)
+1. Durante lo sviluppo ho utilizzato i pacchetti npm buffer (https://www.npmjs.com/package/buffer) e ipfs-api (https://www.npmjs.com/package/ipfs-api)
 	1. buffer serve per manipolare i dati binari (sequenze di byte) nel progetto è utilizzato per codifcare l'upload di un file(per esempio un'immagine) in un formato addatto per essere caricato su IPFS. Ad esempio, nel nostro caso, quando facciamo l'upload il file diventa di tipo Uint8Array(38365) [137, 80, 78... etc.
 	2. ipfs-api è una libreria (HTTP API implementata in javascript) che permette di connettersi al nodo IPFS come client. 
-1. Infura (https://infura.io) offre un API per connettersi direttamente a IPFS (httpsinfura.iodocsipfsgetfiles_read) (senza la necessità di mantenere una sessione IPFS in locale quindi non è necessario mantenere una connessione attiva con gli altri peer sulla nostra macchina). 
+1. Infura (https://infura.io) offre un API per connettersi direttamente a IPFS (https://infura.io/docs/ipfs/get/files_read) (senza la necessità di mantenere una sessione IPFS in locale quindi non è necessario mantenere una connessione attiva con gli altri peer sulla nostra macchina). 
 ## Getting Started
 
 ![test](/src/img/1-mainpage.png)
@@ -116,11 +141,11 @@ Add additional notes about how to deploy this on a live system
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](httpsgist.github.comPurpleBoothb24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBoothb24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](httpsemver.org) for versioning. For the versions available, see the [tags on this repository](httpsgithub.comyourprojecttags). 
+We use [SemVer](http://semver.org) for versioning. For the versions available, see the [tags on this repository](https://github.comyourprojecttags). 
 
 ## Authors
 
