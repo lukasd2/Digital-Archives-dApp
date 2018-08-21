@@ -85,22 +85,23 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## L'applicazione:
 
-1. In alto abbiamo la sezione dove poter consulare i lavori memorizzati sulla blockchain. Il modulo (in verde) permette di interagire con il contratto e IPFS inserendo un nuovo oggetto (produce una transazione).
+#### 1. In alto abbiamo la sezione dove poter consulare i lavori memorizzati sulla blockchain. Il modulo (in verde) permette di interagire con il contratto e IPFS inserendo un nuovo oggetto (produce una transazione).
 
 ![mainpage](/src/img/1-mainpage.png)
 
-2.Durante l'inserimento del file, prima di poter effettuare la transazione, il file viene spedito su IPFS e il relativo indirizzo hash prodotto.
+#### 2.Durante l'inserimento del file, prima di poter effettuare la transazione, il file viene spedito su IPFS e il relativo indirizzo hash prodotto.
 
 ![steptwo](/src/img/2-step.png)
-3. Concluso questo passaggio è possibile procedere con la transazione (supponendo che la form sia compilata correttamente ecc.)
 
-![transaction](/src/img/3-transaction.png)
+#### 3. Concluso questo passaggio è possibile procedere con la transazione (supponendo che la form sia compilata correttamente ecc.)
 
-4. Risultato della transazione conclusa correttamente e aggiunta dell'oggetto sull'interfaccia
+![transaction](/src/img/3-transaction.PNG)
+
+#### 4. Risultato della transazione conclusa correttamente e aggiunta dell'oggetto sull'interfaccia
 
 ![final](/src/img/4-final.png)
 
-5.Nella barra "Events" è possibile vedere le ultime interazione (chiamate) al contratto. Qui vediamo che un artwork checker ha approvato l'oggetto numero (id: 3) cambiando il suo valore Validation: true.
+#### 5.Nella barra "Events" è possibile vedere le ultime interazione (chiamate) al contratto. Qui vediamo che un artwork checker ha approvato l'oggetto numero (id: 3) cambiando il suo valore Validation: true.
 
 
 ![validation](/src/img/5-validation.PNG)
