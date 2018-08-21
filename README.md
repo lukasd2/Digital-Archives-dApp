@@ -4,7 +4,7 @@ In questo prototipo sono implementate alcune funzionalità per un'applicazione i
 
 ## Architettura
 
-Queste sono le tecnologie principali utilizzate (per dettagli sullo sviluppo vedi sezione "Development"): 
+Queste sono le tecnologie principali utilizzate (per dettagli sullo sviluppo vedi sezione "Development" ["Development"](https://github.com/lukasd2/DigitalArchivesPrototype#development)): 
 
 1. Back-end: blockchain Ethereum (smart contracts scritti in Solidity)
 2. Storage-layer: IPFS
