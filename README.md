@@ -112,7 +112,8 @@ In questo modo abbiamo aggiunto un utente (contrassegnato da address) con i perm
 Per quanto riguarda front-end, l’interfaccia verrà progettata dall’inizio. Alcune funzionalità che possono essere aggiunte: 
 
 - possibilità di filtare le opere in base allo stato (validato o non), al tipo (immagine, documento, ecc.)
-- costruzione di una form vera e propria, idonea all'aggiungere di certi tipi di oggetti
+- costruzione di una form vera e propria (con tutti i campi necessari per descrivere l'oggetto), idonea all'aggiungere di certi tipi di oggetti
+  - ad esempio la possibilità di tracciare gli spostamenti di un'opera in luoghi diversi 
 
 
 ## Development
@@ -124,7 +125,8 @@ Lo sviluppo passo dopo passo
 1. Durante lo sviluppo ho utilizzato i pacchetti npm buffer (https://www.npmjs.com/package/buffer) e ipfs-api (https://www.npmjs.com/package/ipfs-api)
 	1. buffer serve per manipolare i dati binari (sequenze di byte) nel progetto è utilizzato per codifcare l'upload di un file(per esempio un'immagine) in un formato addatto per essere caricato su IPFS. Ad esempio, nel nostro caso, quando facciamo l'upload il file diventa di tipo Uint8Array(38365) [137, 80, 78... etc.
 	2. ipfs-api è una libreria (HTTP API implementata in javascript) che permette di connettersi al nodo IPFS come client. 
-1. Infura (https://infura.io) offre un API per connettersi direttamente a IPFS (https://infura.io/docs/ipfs/get/files_read) (senza la necessità di mantenere una sessione IPFS in locale quindi non è necessario mantenere una connessione attiva con gli altri peer sulla nostra macchina). 
+1. Infura (https://infura.io) offre un API per connettersi direttamente a IPFS (https://infura.io/docs/ipfs/get/files_read) (senza la necessità di mantenere una sessione IPFS in locale quindi non è necessario mantenere una connessione attiva con gli altri peer sulla nostra macchina).
+1. Per lo sviluppo in locale (oltre truffle, ganache) ho utilizzato il pacchetto browserify (http://browserify.org/) e watchify (http://browserify.org/) che permette di includere e aggiornare automaticamente tutte le dipendenze del progetto in un file bundle.js (contiente quindi app.js + i moduli richiamati dalla directory node_modules, ad esempio l'api IPFS...)
 
 ## Getting Started
 Di seguito per iniziare lo sviluppo e interazione con questo progetto con il framework truffle e ganache.
@@ -142,6 +144,8 @@ Avvio di un live server (con lite server):
 ```sh
 $ npm run dev
 ```
+
+**Per interagire con il contratto è necessario utilizzare il plugin Metamask (https://metamask.io/) oppure un browser che permette la visualizzazione di applicazioni sulla blockchain (Mist, Brave)**
 
 
 ## L'applicazione:
