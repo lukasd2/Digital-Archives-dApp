@@ -8,18 +8,24 @@
   },
   "scripts": {
     "dev": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css-watch": "npm run css-build -- --watch",
+    "css-build": "node-sass --omit-source-map-url src/sass/styles.scss src/css/styles.css"
   },
   "author": "digitalarchives",
   "license": "ISC",
   "devDependencies": {
-    "lite-server": "^2.3.0"
+    "lite-server": "^2.3.0",
+    "node-sass": "^4.9.3"
   },
   "dependencies": {
     "browserify": "^16.2.2",
     "buffer": "^5.2.0",
+    "bulma": "^0.7.1",
     "ipfs-api": "^24.0.0",
     "ipfs-mini": "^1.1.2",
-    "uniq": "^1.0.1"
+    "node-gyp": "^3.8.0",
+    "uniq": "^1.0.1",
+    "windows-build-tools": "^3.1.0"
   }
 }
