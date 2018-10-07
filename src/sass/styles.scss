@@ -185,6 +185,10 @@ $input-shadow: none;
 	min-height: 30vh;
 }
 
+.object-insertion {
+	background-color: $light;
+}
+
 @media (max-width: 769px) {
 	.intro-description::before {
 		content: none !important;

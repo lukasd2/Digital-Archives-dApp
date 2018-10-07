@@ -120451,9 +120451,109 @@ function Node (value, prev, next, list) {
 }
 
 },{}],682:[function(require,module,exports){
+module.exports=[
+    {
+      "IMG": "http://www.sigecweb.beniculturali.it/images/fullsize/ICCD12500/ICCD6917450_mb005834.jpg",
+      "BENE_CULTURALE": "incisione",
+      "TITOLO": "",
+      "SOGGETTO": "Battesimo di Cristo",
+      "TIPO_SCHEDA": "OA_2.00",
+      "CODICE_UNIVOCO": "09 00390354",
+      "LOCALIZZAZIONE": "MS, Carrara",
+      "CONTENITORE": "palazzo, accademia, Accademia di Belle Arti, magazzini",
+      "DATAZIONE": "sec. XIX metà",
+      "AMBITO_CULTURALE": "incisore francese",
+      "AUTORE": "",
+      "MATERIA_TECNICA": "incisione",
+      "MISURE": "alt. 71, largh. 100,",
+      "CONDIZIONE_GIURIDICA": "proprietà Stato, Ministero Pubblica Istruzione - Accademia di Belle Arti di Carrara",
+      "DATI_ANALITICI": "Cornice in legno.",
+      "ISCRIZIONE": "Classe di appartenenza: documentaria;  Posizione: sul retro del telaio; 493 - 486",
+      "NOTIZIE_STORICO-CRITICHE": "Sia il nome del pittore che quello dell'incisore non sono leggibili.",
+      "ALTRA_LOCALIZZAZIONE": "",
+      "REPERIMENTO": "",
+      "ALTRE_ATTRIBUZIONI": "",
+      "COMMITTENZA": "",
+      "DATI_CATASTALI": "",
+      "GEOREFERENZIAZIONE": "",
+      "BIBLIOGRAFIA": "",
+      "DEFINIZIONE": "incisione",
+      "DENOMINAZIONE": "",
+      "CLASSIFICAZIONE": "",
+      "REGIONE": "",
+      "PROVINCIA": "MS",
+      "COMUNE": "Carrara",
+      "LOCALITA": "",
+      "TOPONIMO": "",
+      "DIOCESI": "",
+      "INDIRIZZO": "",
+      "PROVVEDIMENTI_TUTELA": "",
+      "INVENTARIO": "",
+      "STIMA": "",
+      "RAPPORTO": "",
+      "ALTRI_CODICI": "",
+      "ENTE_SCHEDATORE": "S39",
+      "ENTE_COMPETENTE": "S39",
+      "AUTORI": "Compilatore scheda: Sisti B.; Funzionario responsabile: Russo S.",
+      "ANNO_CREAZIONE": 1995,
+      "ANNO_MODIFICA": "",
+      "LAT": 44.082117,
+      "LON": 10.094062
+    },
+    {
+      "IMG": "http://www.sigecweb.beniculturali.it/images/fullsize/ICCD12500/ICCD7102168_ma001405.jpg",
+      "BENE_CULTURALE": "stampa",
+      "TITOLO": "",
+      "SOGGETTO": "cartina dello stato di Lucca",
+      "TIPO_SCHEDA": "OA_2.00",
+      "CODICE_UNIVOCO": "09 00390338",
+      "LOCALIZZAZIONE": "MS, Carrara",
+      "CONTENITORE": "palazzo, accademia, Accademia di Belle Arti, presidenza (ripostiglio)",
+      "DATAZIONE": "",
+      "AMBITO_CULTURALE": "",
+      "AUTORE": "",
+      "MATERIA_TECNICA": "incisione, a colori, carta",
+      "MISURE": "alt. 54, largh. 63,",
+      "CONDIZIONE_GIURIDICA": "proprietà Stato, Ministero Pubblica Istruzione - Accademia di Belle Arti di Carrara",
+      "DATI_ANALITICI": "cornice in legno.",
+      "ISCRIZIONE": "",
+      "NOTIZIE_STORICO-CRITICHE": "",
+      "ALTRA_LOCALIZZAZIONE": "",
+      "REPERIMENTO": "",
+      "ALTRE_ATTRIBUZIONI": "",
+      "COMMITTENZA": "",
+      "DATI_CATASTALI": "",
+      "GEOREFERENZIAZIONE": "",
+      "BIBLIOGRAFIA": "",
+      "DEFINIZIONE": "stampa",
+      "DENOMINAZIONE": "",
+      "CLASSIFICAZIONE": "",
+      "REGIONE": "",
+      "PROVINCIA": "MS",
+      "COMUNE": "Carrara",
+      "LOCALITA": "",
+      "TOPONIMO": "",
+      "DIOCESI": "",
+      "INDIRIZZO": "",
+      "PROVVEDIMENTI_TUTELA": "",
+      "INVENTARIO": "",
+      "STIMA": "",
+      "RAPPORTO": "",
+      "ALTRI_CODICI": "",
+      "ENTE_SCHEDATORE": "S39",
+      "ENTE_COMPETENTE": "S39",
+      "AUTORI": "Compilatore scheda: Sisti B.; Funzionario responsabile: Russo S.",
+      "ANNO_CREAZIONE": 1995,
+      "ANNO_MODIFICA": "",
+      "LAT": 44.082117,
+      "LON": 10.094062
+    }
+  ]
+},{}],683:[function(require,module,exports){
 (function (Buffer){
 require('buffer');
 const IPFS = require('ipfs-api');
+let json = require('../../src/example.json');
 
 App = {
   web3Provider: null,
@@ -120501,11 +120601,66 @@ App = {
       App.contracts.Archives = TruffleContract(archivesArtifact);
       // set the provider for our contracts
       App.contracts.Archives.setProvider(App.web3Provider);
-      //listen to events 
+      //setup data
+      //App.loadData();
+      //listen to events
       App.bindEvents();
       //retrieve the article from the contract
       return App.reloadArtworks();
     })
+  },
+
+  loadData: async function () {
+    /*fetch('http://github.com/lukasd2/Drukarnia-Format/blob/master/mergedDataset.json', {mode: 'no-cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(myJson) {
+      console.log(JSON.stringify(myJson));
+    });*/
+    var ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }); 
+    console.log(json);
+    const finaldata = JSON.stringify(json);
+    console.log(finaldata);
+    console.log("prova2");
+    for(var key in json) {
+      console.log(key, json[key]);
+      var buf = Buffer.from(JSON.stringify(json[key]));
+      const files = [
+        {
+          //path: '/src/example.json',
+          content: buf
+        }
+      ]
+      await ipfs.files.add(files, function (err, files) {
+        // 'files' will be an array of objects containing paths and the multihashes of the files added
+        if(err) {
+          console.log(err);
+        return;
+        };
+        console.log(files);
+      })
+    }
+    /*var buf = Buffer.from(JSON.stringify(json));
+    var temp = JSON.parse(buf.toString());
+    console.log(buf);
+    console.log(temp);
+    const files = [
+      {
+        path: '../example.json',
+        content: buf
+      }
+    ]*/
+    
+    /*ipfs.files.add(files, function (err, files) {
+      // 'files' will be an array of objects containing paths and the multihashes of the files added
+      if(err) {
+        console.log(err);
+      return;
+      };
+      console.log(files);
+    })*/
+      
   },
 
   reloadArtworks: function () {
@@ -120577,6 +120732,60 @@ App = {
       }
     });
   },*/
+
+  generateDC: function () {
+    if(App.loading) {
+      return;
+    }
+    var generatedXMLCode = '';
+  	var generatedHTMLCode = '';
+    let title = "";
+    title = $('input[name="title"]');
+    let creator = "";
+    creator = $('input[name="creator"]');
+    let subject  = "";
+    subject = $('input[name="subject"]');
+    let description  = "";
+    description = $('textarea[name="description"]');
+    /*let date  = "";
+    date = $('input[name="date"]');
+    let type   = "";
+    type = $('input[name="type"]');
+    let source  = "";
+    source = $('input[name="source"]');
+    let language  = "";
+    language = $('input[name="language"]');
+    let coverage  = "";
+    coverage = $('input[name="coverage"]');*/
+    console.log(title);
+    generatedXMLCode = `
+    <dc:title> ${title.val()} </dc:title>
+    <dc:creator> ${creator.val()} </dc:creator>
+    <dc:subject> ${subject.val()} </dc:subject>
+    <dc:description> ${description.val()} </dc:description>
+    `
+
+    generatedHTMLCode = `
+    <meta name="DC.Title" content="${title.val()}">
+    <meta name="DC.Creator" content="${creator.val()}">
+    <meta name="DC.Subject" content="${subject.val()}">
+    <meta name="DC.Description" content="${description.val()}">
+    `
+
+
+    //generatedXMLCode += "<dc:title>" + title.val() + "</dc:title>" + '\n';
+    //generatedHTMLCode += "<link rel=\"DC.Title\" href=\"" + title.val() + "\">" + '\n';
+    
+    /*generatedXMLCode += "<dc:creator>" + creator.val() + "</dc:creator>" + '\n'; 
+    generatedHTMLCode += "<link rel=\"DC.Creator\" href=\"" + creator.val() + "\">" + '\n';
+
+    generatedXMLCode += "<dc:subject>" + subject.val() + "</dc:subject>" + '\n'; 
+  	generatedHTMLCode +="<link rel=\"DC.Subject\" href=\"" + subject.val() + "\">" + '\n';*/
+    
+    console.log(generatedXMLCode);
+    console.log(generatedHTMLCode);
+
+  },
 
   uploadArtw: function () {
     if(App.loading) {
@@ -120734,4 +120943,4 @@ $(function () {
   });
 });
 }).call(this,require("buffer").Buffer)
-},{"buffer":7,"ipfs-api":221}]},{},[682]);
+},{"../../src/example.json":682,"buffer":7,"ipfs-api":221}]},{},[683]);

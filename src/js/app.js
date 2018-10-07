@@ -1,5 +1,6 @@
 require('buffer');
 const IPFS = require('ipfs-api');
+let json = require('../../src/example.json');
 
 App = {
   web3Provider: null,
@@ -47,11 +48,66 @@ App = {
       App.contracts.Archives = TruffleContract(archivesArtifact);
       // set the provider for our contracts
       App.contracts.Archives.setProvider(App.web3Provider);
-      //listen to events 
+      //setup data
+      //App.loadData();
+      //listen to events
       App.bindEvents();
       //retrieve the article from the contract
       return App.reloadArtworks();
     })
+  },
+
+  loadData: async function () {
+    /*fetch('http://github.com/lukasd2/Drukarnia-Format/blob/master/mergedDataset.json', {mode: 'no-cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(myJson) {
+      console.log(JSON.stringify(myJson));
+    });*/
+    var ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }); 
+    console.log(json);
+    const finaldata = JSON.stringify(json);
+    console.log(finaldata);
+    console.log("prova2");
+    for(var key in json) {
+      console.log(key, json[key]);
+      var buf = Buffer.from(JSON.stringify(json[key]));
+      const files = [
+        {
+          //path: '/src/example.json',
+          content: buf
+        }
+      ]
+      await ipfs.files.add(files, function (err, files) {
+        // 'files' will be an array of objects containing paths and the multihashes of the files added
+        if(err) {
+          console.log(err);
+        return;
+        };
+        console.log(files);
+      })
+    }
+    /*var buf = Buffer.from(JSON.stringify(json));
+    var temp = JSON.parse(buf.toString());
+    console.log(buf);
+    console.log(temp);
+    const files = [
+      {
+        path: '../example.json',
+        content: buf
+      }
+    ]*/
+    
+    /*ipfs.files.add(files, function (err, files) {
+      // 'files' will be an array of objects containing paths and the multihashes of the files added
+      if(err) {
+        console.log(err);
+      return;
+      };
+      console.log(files);
+    })*/
+      
   },
 
   reloadArtworks: function () {
@@ -123,6 +179,60 @@ App = {
       }
     });
   },*/
+
+  generateDC: function () {
+    if(App.loading) {
+      return;
+    }
+    var generatedXMLCode = '';
+  	var generatedHTMLCode = '';
+    let title = "";
+    title = $('input[name="title"]');
+    let creator = "";
+    creator = $('input[name="creator"]');
+    let subject  = "";
+    subject = $('input[name="subject"]');
+    let description  = "";
+    description = $('textarea[name="description"]');
+    /*let date  = "";
+    date = $('input[name="date"]');
+    let type   = "";
+    type = $('input[name="type"]');
+    let source  = "";
+    source = $('input[name="source"]');
+    let language  = "";
+    language = $('input[name="language"]');
+    let coverage  = "";
+    coverage = $('input[name="coverage"]');*/
+    console.log(title);
+    generatedXMLCode = `
+    <dc:title> ${title.val()} </dc:title>
+    <dc:creator> ${creator.val()} </dc:creator>
+    <dc:subject> ${subject.val()} </dc:subject>
+    <dc:description> ${description.val()} </dc:description>
+    `
+
+    generatedHTMLCode = `
+    <meta name="DC.Title" content="${title.val()}">
+    <meta name="DC.Creator" content="${creator.val()}">
+    <meta name="DC.Subject" content="${subject.val()}">
+    <meta name="DC.Description" content="${description.val()}">
+    `
+
+
+    //generatedXMLCode += "<dc:title>" + title.val() + "</dc:title>" + '\n';
+    //generatedHTMLCode += "<link rel=\"DC.Title\" href=\"" + title.val() + "\">" + '\n';
+    
+    /*generatedXMLCode += "<dc:creator>" + creator.val() + "</dc:creator>" + '\n'; 
+    generatedHTMLCode += "<link rel=\"DC.Creator\" href=\"" + creator.val() + "\">" + '\n';
+
+    generatedXMLCode += "<dc:subject>" + subject.val() + "</dc:subject>" + '\n'; 
+  	generatedHTMLCode +="<link rel=\"DC.Subject\" href=\"" + subject.val() + "\">" + '\n';*/
+    
+    console.log(generatedXMLCode);
+    console.log(generatedHTMLCode);
+
+  },
 
   uploadArtw: function () {
     if(App.loading) {

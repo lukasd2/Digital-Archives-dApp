@@ -152,6 +152,9 @@ $input-shadow: none;
   padding-top: 100px;
   min-height: 30vh; }
 
+.object-insertion {
+  background-color: #EBF2FA; }
+
 @media (max-width: 769px) {
   .intro-description::before {
     content: none !important; }
