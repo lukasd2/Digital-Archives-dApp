@@ -184,8 +184,9 @@ App = {
     if(App.loading) {
       return;
     }
-    var generatedXMLCode = '';
-  	var generatedHTMLCode = '';
+    let contentRow = $('#column-test-content');
+    let generatedXMLCode = '';
+  	let generatedHTMLCode = '';
     let title = "";
     title = $('input[name="title"]');
     let creator = "";
@@ -213,24 +214,18 @@ App = {
     `
 
     generatedHTMLCode = `
-    <meta name="DC.Title" content="${title.val()}">
-    <meta name="DC.Creator" content="${creator.val()}">
+    <meta name="DC.Title" content="${title.val()}"> 
+    <meta name="DC.Creator" content="${creator.val()}"> 
     <meta name="DC.Subject" content="${subject.val()}">
     <meta name="DC.Description" content="${description.val()}">
     `
 
-
-    //generatedXMLCode += "<dc:title>" + title.val() + "</dc:title>" + '\n';
-    //generatedHTMLCode += "<link rel=\"DC.Title\" href=\"" + title.val() + "\">" + '\n';
-    
-    /*generatedXMLCode += "<dc:creator>" + creator.val() + "</dc:creator>" + '\n'; 
-    generatedHTMLCode += "<link rel=\"DC.Creator\" href=\"" + creator.val() + "\">" + '\n';
-
-    generatedXMLCode += "<dc:subject>" + subject.val() + "</dc:subject>" + '\n'; 
-  	generatedHTMLCode +="<link rel=\"DC.Subject\" href=\"" + subject.val() + "\">" + '\n';*/
-    
     console.log(generatedXMLCode);
     console.log(generatedHTMLCode);
+    contentRow.text(generatedHTMLCode);
+    contentRow.text(generatedHTMLCode);
+    contentRow.append(generatedHTMLCode);
+    contentRow.append(generatedXMLCode);
 
   },
 
@@ -280,7 +275,7 @@ App = {
       console.log(App.ipfsHash);
       App.ipfsHash = result[0].hash;
       console.log("ipfshash", App.ipfsHash);
-      imagePreview.src = `https://ipfs.io/ipfs/${App.ipfsHash}`;
+      //imagePreview.src = `https://ipfs.io/ipfs/${App.ipfsHash}`;URL.createObjectURL
     });
   },
 
@@ -316,6 +311,7 @@ App = {
       reader.onloadend = () => {
         res = Buffer(reader.result);
         console.log(Buffer(reader.result));
+        imagePreview.src = URL.createObjectURL(ev.target.files[0]);
         //console.log("this is it", res);
         return App.AddFile(res);;
       }

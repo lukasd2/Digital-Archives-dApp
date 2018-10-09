@@ -22,9 +22,11 @@
     "browserify": "^16.2.2",
     "buffer": "^5.2.0",
     "bulma": "^0.7.1",
+    "dotenv": "^6.1.0",
     "ipfs-api": "^24.0.0",
     "ipfs-mini": "^1.1.2",
     "node-gyp": "^3.8.0",
+    "truffle-hdwallet-provider": "0.0.6",
     "uniq": "^1.0.1",
     "windows-build-tools": "^3.1.0"
   }
