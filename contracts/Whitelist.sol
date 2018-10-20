@@ -4,7 +4,6 @@ pragma solidity ^0.4.24;
 import "./roles/Ownable.sol";
 import "./roles/RBAC.sol";
 
-
 /**
  * @title Whitelist
  * @dev The Whitelist contract has a whitelist of addresses, and provides basic authorization control functions.
@@ -13,6 +12,9 @@ import "./roles/RBAC.sol";
 contract Whitelist is Ownable, RBAC {
   string public constant ROLE_WHITELISTED = "artworkChecker";
 
+
+//Digital Archives
+address[] public artworkCheckersAccount;
   /**
    * @dev Throws if operator is not whitelisted.
    * @param _operator address
@@ -31,6 +33,8 @@ contract Whitelist is Ownable, RBAC {
     public
     onlyOwner
   {
+    require(!(whitelist(_operator)));
+    artworkCheckersAccount.push(_operator);   
     addRole(_operator, ROLE_WHITELISTED);
   }
 
