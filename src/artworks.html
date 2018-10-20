@@ -26,16 +26,18 @@
                     </a>
                 </div>
                 <div class="navbar-start is-tab">
-                    <a class="navbar-item" href="#">
+                    <a class="navbar-item" href="bulma.html">
                         Home
                     </a>
-                    <div class="navbar-item">
+                    <div class="navbar-item is-tab">
                         <a class="navbar-item" href="#">
-                            Test
+                            Inserimento
                         </a>
-                        <a class="navbar-item" href="#">
-                            Test2
-                        </a>
+                    </div>
+                    <div class="navbar-item is-tab">
+                            <a class="navbar-item" href="#">
+                                Archivio
+                            </a>
                     </div>
                 </div>
             </nav>
@@ -48,9 +50,9 @@
             Inserimento dell'oggeto nell'archivio
             <strong>permanente</strong>, codifica Dublin Core
         </h2>
-        <div class="columns">
-            <div class="column object-insertion is-one-third">
-                <form id="addDC">
+        <div class="columns is-centered">
+            <div class="column object-insertion is-two-third">
+                <form>
                     <div class="field">
                         <label class="label">Titolo</label>
                         <div class="control">
@@ -104,20 +106,23 @@
                             <label class="label">Identificatore</label>
                             <div class="file has-name">
                                     <label class="file-label">
-                                    <input class="file-input" type="file" name="resume">
-                                    <span class="file-cta">
+                                        <img id="imagePreview" src="" alt="" style="display: block">
+                                      <input id="captureFileUpload" class="file-input" type="file" name="resume" multiple>
+                                      <span class="file-cta">
                                         <span class="file-icon">
-                                        <i class="fas fa-upload"></i>
+                                          <i class="fas fa-upload"></i>
                                         </span>
                                         <span class="file-label">
-                                        Choose a file…
+                                          Choose a file…
                                         </span>
-                                    </span>
-                                    <span class="file-name">
+                                      </span>
+                                      <span class="file-name">
                                         Screen Shot 2017-07-29 at 15.54.25.png
+                                      </span>
+                                  </div>
+                                  <span id="filePreview">
                                     </span>
-                                    </label>
-                                </div>
+                                  </label>
                                 <p class="help">Un riferimento univoco alla risorsa nell’ambito di un dato contesto</p>  
                         </div>
                         <div class="field">
@@ -149,14 +154,67 @@
                                 </div>
                         </div>
                     <div class="control">
-                        <button id="sendToDC" type="submit" class="" onclick="App.generateDC(); return false;">Send Form</button>
+                        <button id="sendToDC" type="submit" class="" onclick="App.uploadData(); return false;">Send Form</button>
                     </div>
                 </form>
             </div>
-            <div class="column is-two-third">
+            <div class="column is-one-third">
                 <div id="column-test-content">
-                    
+                        <div id="loader" class="sk-folding-cube" style="display: none;"> <!-- Credits: http://tobiasahlin.com/spinkit/ -->
+                            <div class="sk-cube1 sk-cube"></div>
+                            <div class="sk-cube2 sk-cube"></div>
+                            <div class="sk-cube4 sk-cube"></div>
+                            <div class="sk-cube3 sk-cube"></div>
+                            <h3>Loading...</h3>
+                            <p class="text-center">Uploading your input data to IPFS via Infura</p>
+                        </div>
+                        <ul id="receiptRow"></ul>
                 </div>
+                <div id="archiviesTemplate" style="display: none;">
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                          <div class="panel panel-default panel-pet">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">Scrappy</h3>
+                            </div>
+                            <div class="panel-body">
+                              <br/><br/>
+                              <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
+                              <strong>id</strong>: <span class="art-id">Golden Retriever</span><br/>
+                              <strong>name</strong>: <span class="art-name">3</span><br/>
+                              <strong>author</strong>: <span class="art-author">3</span><br/>
+                              <strong>desc</strong>: <span class="art-description">Warren, MI</span><br/><br/>
+                              <div class="panel-validity">
+                                <strong>Validation</strong>: <span class="art-validity">Warren, MI</span><br/><br/>
+                                <!--<div class="alert alert-warning" role="alert">
+                                    This artwork has not been checked yet!
+                                </div>
+                                <div class="alert alert-success" role="alert" style="display: none;">
+                                  <strong>Well done!</strong> This artwork has been succesfuly validated.
+                                </div>-->
+                                <span class="art-validation"></span><br/>
+                                <button id="checkValidate" class="btn btn-default btn-adopt" type="button" data-id="0" onclick="App.ValidateArtwork(event); return false;">Approva(solo artwork checker)</button>
+                            </div>
+                            <button class="button is-primary is-large modal-button" data-target="modal-ter" aria-haspopup="true">Launch card modal</button>
+                            <div class="modal">
+                                    <div class="modal-background"></div>
+                                    <div class="modal-card">
+                                      <header class="modal-card-head">
+                                        <p class="modal-card-title">Modal title</p>
+                                        <button class="delete" aria-label="close"></button>
+                                      </header>
+                                      <section class="modal-card-body">
+                                        <!-- Content ... -->
+                                      </section>
+                                      <footer class="modal-card-foot">
+                                        <button class="button is-success">Save changes</button>
+                                        <button class="button">Cancel</button>
+                                      </footer>
+                                    </div>
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
             </div>
         </div>
     </section>
@@ -285,7 +343,12 @@
         </div>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script> 
     <script src="js/bundle.js"></script> 
+  </body>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 require('buffer');
 const IPFS = require('ipfs-api');
-let json = require('../../src/example.json');
+const ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }); // leaving out the arguments will default to these values
 
 App = {
   web3Provider: null,
@@ -8,6 +8,9 @@ App = {
   account: 0x0,
   loading: false,
   ipfsHash: '',
+  ipfsHashStore: [],
+  store: [],
+  data: {},
 
   init: function () {
     return App.initWeb3();
@@ -48,66 +51,11 @@ App = {
       App.contracts.Archives = TruffleContract(archivesArtifact);
       // set the provider for our contracts
       App.contracts.Archives.setProvider(App.web3Provider);
-      //setup data
-      //App.loadData();
       //listen to events
       App.bindEvents();
       //retrieve the article from the contract
       return App.reloadArtworks();
     })
-  },
-
-  loadData: async function () {
-    /*fetch('http://github.com/lukasd2/Drukarnia-Format/blob/master/mergedDataset.json', {mode: 'no-cors'})
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(myJson) {
-      console.log(JSON.stringify(myJson));
-    });*/
-    var ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }); 
-    console.log(json);
-    const finaldata = JSON.stringify(json);
-    console.log(finaldata);
-    console.log("prova2");
-    for(var key in json) {
-      console.log(key, json[key]);
-      var buf = Buffer.from(JSON.stringify(json[key]));
-      const files = [
-        {
-          //path: '/src/example.json',
-          content: buf
-        }
-      ]
-      await ipfs.files.add(files, function (err, files) {
-        // 'files' will be an array of objects containing paths and the multihashes of the files added
-        if(err) {
-          console.log(err);
-        return;
-        };
-        console.log(files);
-      })
-    }
-    /*var buf = Buffer.from(JSON.stringify(json));
-    var temp = JSON.parse(buf.toString());
-    console.log(buf);
-    console.log(temp);
-    const files = [
-      {
-        path: '../example.json',
-        content: buf
-      }
-    ]*/
-    
-    /*ipfs.files.add(files, function (err, files) {
-      // 'files' will be an array of objects containing paths and the multihashes of the files added
-      if(err) {
-        console.log(err);
-      return;
-      };
-      console.log(files);
-    })*/
-      
   },
 
   reloadArtworks: function () {
@@ -121,13 +69,13 @@ App = {
     var contractInstance;
     App.contracts.Archives.deployed().then(function (instance) {
       contractInstance = instance;
-      return contractInstance.getArtworks(); //async again -- returns an array of ids all artwks available
+      return contractInstance.getArtworks(); //async again -- returns an array of ids all artworks available
     }).then(function (artworksIds) {
       //retrieve the placeholder and clear it
       $('#archivesRow').empty();
       for (var i = 0; i < artworksIds.length; i++) {
         var artworkId = artworksIds[i];
-        //take artwks from the mapping
+        //take artworks from the mapping
         contractInstance.artworks(artworkId.toNumber()).then(function (artwork) {
           App.displayArtworks(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
         });
@@ -139,7 +87,7 @@ App = {
     });
   },
 
-  displayArtworks: function (id, author, name, description, dataHash, validation) {
+  displayArtworks: function (id, author, name, descriptionHash, dataHash, validation) {
     var artRow = $('#archivesRow');
     var archiviesTemplate = $('#archiviesTemplate');
     archiviesTemplate.find('.panel-title').text("Title: "+name);
@@ -147,7 +95,10 @@ App = {
     archiviesTemplate.find('.art-id').text(id);
     archiviesTemplate.find('.art-author').text(author);
     archiviesTemplate.find('.art-name').text(name);
-    archiviesTemplate.find('.art-description').text(description);
+    archiviesTemplate.find('.art-description').text(`https://ipfs.io/ipfs/${descriptionHash}`);
+    if(id == 5) {
+      App.testing(descriptionHash);
+    }
     archiviesTemplate.find('.art-validity').text(validation);
     archiviesTemplate.find('.art-validity').attr('data-id', id);
     archiviesTemplate.find('.alert').attr('data-id', id);
@@ -155,35 +106,32 @@ App = {
     archiviesTemplate.find('.btn-adopt').attr('data-id', id);
     artRow.append(archiviesTemplate.html());
   },
-  /* TODO, not implemented with app.ValidateArtwork function 
-  updateArtworkState: function () {
-    console.log("updateArtworkState");
-    var takeTheBox = document.querySelectorAll(".panel-body");
-    var takeVal = document.querySelector("art-validity");
-    takeTheBox.forEach(function(key) {
-      console.log(takeVal.prev());
-    });
-    console.log(takeTheBox);
-    var contractInstance;
-    App.contracts.Archives.deployed().then(function (instance) {
-      contractInstance = instance;
-      return contractInstance.getArtworks(); //async again -- returns an array of ids all artwks available
-    }).then(function (artworksIds) {
-      //retrieve the placeholder and clear it
-      $('#archivesRow').empty();
-      for (var i = 0; i < artworksIds.length; i++) {
-        var artworkId = artworksIds[i];
-        //take artwks from the mapping
-        contractInstance.artworks(artworkId.toNumber()).then(function (artwork) {
-        });
-      }
-    });
-  },*/
 
-  generateDC: function () {
+  testing: (desc) => {
+    let contentRow = $('#column-test-content');
+    ipfs.files.cat(desc, function (err, file) {
+      if (err) {
+        throw err
+      }
+      //console.log(file.toString('utf8'));
+      let test =  file.toString('utf8');
+      contentRow.text(test);
+      //console.log("heey", test);
+      return test;
+    });
+  },
+
+  uploadData: () => {
+    App.filesToIPFS(App.store);
+  },
+
+  generateMetadata: function (hash) {
     if(App.loading) {
       return;
     }
+    console.log("test", hash)
+    App.loading = true;
+    console.log("step start generateMetadata");
     let contentRow = $('#column-test-content');
     let generatedXMLCode = '';
   	let generatedHTMLCode = '';
@@ -226,24 +174,57 @@ App = {
     contentRow.text(generatedHTMLCode);
     contentRow.append(generatedHTMLCode);
     contentRow.append(generatedXMLCode);
-
+    /*
+    const data = [
+      {
+        title: `<meta name="DC.Title" content="${title.val()}">`,
+        creator: `<meta name="DC.Creator" content="${creator.val()}">`
+        
+      },
+      {test: `${hash}`},
+      {test2: `${App.ipfsHashStore}`}
+  ]*//*
+  const data = 
+    {
+      description: generatedXMLCode,
+      test: hash,
+      test2: App.ipfsHashStore
+    };*/
+    const data = 
+    {
+      name: title.val(),
+      description: generatedXMLCode,
+      objectPreview: hash,
+      objectFiles: App.ipfsHashStore
+    };
+  App.data = data;
+  console.log(App.ipfsHash);
+  console.log("step end generateMetadata");
+  App.descriptionToIPFS(data);
+  App.loading = false;
+  return;
   },
 
-  uploadArtw: function () {
+  uploadArtw: function (hash, objectDesc) {
     if(App.loading) {
       return;
     }
+    /*
     var artwName = $('#artw_name').val();
     var artwDescription = $('#artw_name').val();
     if ((artwName.trim() == "") || (artwDescription.trim() == "")) {
       //nothing to send exit from the function
       return false;
-    }
+    }*/
      //retrieve details of the artw
-    console.log("JUST BEFORE THE EVENT", App.ipfsHash);
-    console.log(artwName, artwDescription, App.ipfsHash);
+    console.log("JUST BEFORE THE EVENT App.ipfsHash", App.ipfsHash);
+    console.log("JUST BEFORE THE EVENT hash", hash);
+    console.log("blob", objectDesc);
+    console.log(objectDesc.description)
+    //console.log(artwName, artwDescription, App.ipfsHash);
+    console.log(objectDesc.name, hash, App.ipfsHash);
     App.contracts.Archives.deployed().then(function (instance) {
-      return instance.publishArtwork(artwName, artwDescription, App.ipfsHash, {
+      return instance.publishArtwork(objectDesc.name, hash, App.ipfsHash, {
         from: App.account
         //gas: 500000
       });
@@ -262,60 +243,144 @@ App = {
     });
   },
 
-  AddFile: async function (res) {
-    var ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }); // leaving out the arguments will default to these values
-    console.log("addfile", res);
-    App.Loading(true);
-    await ipfs.files.add(res, (err, result) => {
-      App.Loading(false);
+  filesToIPFS: async function (fileSequence) {
+    console.log("filesToIPFS", fileSequence);
+    App.loading = true;
+    await ipfs.files.add(fileSequence, (err, result) => {
       if (err) {
         console.error(err);
         return
       }
-      console.log(App.ipfsHash);
-      App.ipfsHash = result[0].hash;
-      console.log("ipfshash", App.ipfsHash);
-      //imagePreview.src = `https://ipfs.io/ipfs/${App.ipfsHash}`;URL.createObjectURL
-    });
+      for(let key in result) {
+        console.log("keys", key);
+        App.ipfsHashStore.push(result[key].hash);
+      }
+      console.log("ipfs result", result);
+      const hash = result[0].hash;
+      App.ipfsHash = hash;
+      App.loading = false;
+      console.log('added data hash:', hash);
+      App.generateMetadata(hash);
+
+      /*ipfs.files.cat(hash, function (err, file) {
+        if (err) {
+          throw err
+        }
+        //console.log(file.toString('utf8'));
+        let test =  file.toString('utf8');
+        //console.log("heey", test);
+      });*/
+  });
+  /*;*/
+  //console.log(`https://ipfs.io/ipfs/${await App.ipfsHash}`);
+  },
+  descriptionToIPFS: async function (objectDescription) {
+    console.log("descriptionToIPFS", objectDescription);
+    let uploadDesc = Buffer.from(JSON.stringify(objectDescription));
+    App.loading = true;
+    await ipfs.files.add(uploadDesc, (err, result) => {
+      App.loading = false;
+      if (err) {
+        console.error(err);
+        return
+      }
+      console.log("ipfs result", result);
+      const hash = result[0].hash;
+      console.log('added data hash:', hash);
+      App.uploadArtw(hash, objectDescription);
+      ipfs.files.cat(hash, function (err, file) {
+        if (err) {
+          throw err
+        }
+        //console.log(file.toString('utf8'));
+        let test =  file.toString('utf8');
+        console.log("heey", test);
+      });
+      return hash;
+    })
   },
 
   Loading: function (val) {
     const loader = document.getElementById("loader");
     const btnSendArt = document.getElementById("sendToChain");
     if (val == true) {
-      btnSendArt.classList.add("disabled");
+      //btnSendArt.classList.add("disabled");
       loader.style.display = "block";
     } else {
-      btnSendArt.classList.remove("disabled");
+      //btnSendArt.classList.remove("disabled");
       loader.style.display = "none";
     }
   },
+
   //listen for events global
   bindEvents: function () {
-    var res = null;
     var imagePreview = document.getElementById("imagePreview");
-    imagePreview.src = "http://place-hold.it/400x300";
-    //console.log(ipfs);
+    imagePreview.src = "http://place-hold.it/150x150";
     //event listeners
     var uploadFile = document.getElementById("captureFileUpload");
-    //var submitFile = document.getElementById("addFile");
     uploadFile.addEventListener("change", fileUpload);
-    //submitFile.addEventListener("submit", addFile);
     function fileUpload(ev) {
-      console.log("fileupl");
-      ev.preventDefault();
-      console.log("change");
-      const file = ev.target.files[0];
-      const reader = new window.FileReader();
-      reader.readAsArrayBuffer(file);
-      reader.onloadend = () => {
-        res = Buffer(reader.result);
-        console.log(Buffer(reader.result));
-        imagePreview.src = URL.createObjectURL(ev.target.files[0]);
-        //console.log("this is it", res);
-        return App.AddFile(res);;
+      console.log(ev);
+      const files = ev.target.files;
+      let fileResult = document.getElementById("filePreview");
+      //let store = [];
+      let sessionIndex = App.store.length;
+      let eventIndex = 0;
+      console.log("sessionIndex",sessionIndex);
+      for(let i = sessionIndex; i < (sessionIndex+files.length); i++) {
+        let file = files[eventIndex];
+        if(!file.type.match('image')) continue;
+        let readerIndex = eventIndex; //looks like there is some problem with chaining events
+        eventIndex++;
+        const reader = new window.FileReader();
+        console.log(file);
+        reader.readAsArrayBuffer(file);
+        reader.onloadend = () => {
+          App.store.push(Buffer(reader.result));
+          console.log(Buffer(reader.result));
+          let preview = document.createElement('img');
+          let deleteBtn = document.createElement('button');
+          deleteBtn.classList = 'delete is-small';
+          deleteBtn.setAttribute('data-id', i);
+          preview.setAttribute('data-id', i);
+          preview.src = URL.createObjectURL(ev.target.files[readerIndex]);
+          preview.addEventListener('click', choose);
+          //imagePreview.src = URL.createObjectURL(ev.target.files[i]);
+          let test = document.createElement('span'); //TODO testing purposes
+          test.append(preview);
+          test.append(deleteBtn);
+          fileResult.append(test);
+          //console.log("this is it", res);
+        }
       }
-    };
+    function choose (ev) {
+      let fileResult = document.getElementById("filePreview");
+      let imgList = fileResult.querySelectorAll('img');
+      for(let element of imgList) {
+        element.classList = '';
+      }
+      let selectedElementId = ev.target.getAttribute('data-id')
+      console.log("before", App.store);
+      console.log("selectedElementId",selectedElementId);
+      if(selectedElementId == App.store[0]) {
+        ev.target.classList.toggle("mainPreview");
+        return;
+      }
+      let temp = App.store[0];
+      App.store[0] = App.store[selectedElementId];
+      App.store[selectedElementId] = temp;
+      console.log("after", App.store);
+      console.log(ev);
+      console.log(ev.target);
+      ev.target.classList.toggle("mainPreview");
+      console.log("num", selectedElementId);
+      //App.store.splice(ev.target.id, 1);
+      //console.log("this", this);
+      //this.parentNode.removeChild(this);
+
+      //console.log(App.store);
+    }
+    }
 
     App.contracts.Archives.deployed().then(function (instance) {
       instance.LogSendArtw({}, {}).watch(function (error, event) {
@@ -375,7 +440,6 @@ App = {
       console.log(target.append(infoBox));/*
       //App.updateArtworkState();
       App.reloadArtworks();*/
-
     });
   }
 };

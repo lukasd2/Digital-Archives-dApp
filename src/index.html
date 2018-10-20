@@ -100,10 +100,12 @@
           <div class="form-group">
             <label for="imagePreview">Preview of your upload: </label>
             <img id="imagePreview" src="" alt="" style="display: block">
+            <span id="result">
+            </span>
           </div>
           <div class="form-group-artwork">
             <label for="exampleFormControlFile1">Example file input</label>
-            <input type="file" class="form-control-file" id="captureFileUpload">
+            <input type="file" class="form-control-file" id="captureFileUpload" multiple>
           </div>
           <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="Privato">
@@ -132,22 +134,116 @@
 
     <div class="col-md-8" id="dc-test">
       <div class="row">
-        <form id="addDC">
-          <h3>DublinCore Test</h3>
-          <div class="form-group">
-            <label for="artw_title">Artwork name</label>
-            <input type="text" class="form-control" name="titleRow" placeholder="dc1">
-          </div>
-          <div class="form-group">
-            <label for="artw_name">Artwork name</label>
-            <input type="text" class="form-control" name="titleType" placeholder="dc2">
-          </div>
-          <div class="form-group">
-            <label for="artw_name">Artwork name</label>
-            <input type="text" class="form-control" name="creatorRow" placeholder="dc3">
-          </div>
-          <button id="sendToDC" type="submit" class="btn btn-primary mb-2" onclick="App.generateDC(); return false;">Send Form</button>
-        </form>
+        <section class="section">
+          <h1 class="title">Inserimento Oggetto</h1>
+          <h2 class="subtitle">
+              Inserimento dell'oggeto nell'archivio
+              <strong>permanente</strong>, codifica Dublin Core
+          </h2>
+          <div class="columns">
+              <div class="column object-insertion is-one-third">
+                  <form id="addDC">
+                      <div class="field">
+                          <label class="label">Titolo</label>
+                          <div class="control">
+                              <input class="input" type="text" name="title" placeholder="Titolo ">
+                              <p class="help">Un nome dato alla risorsa</p>
+                          </div>
+                      </div>
+                      <div class="field">
+                          <label class="label">Creatore</label>
+                          <div class="control">
+                              <input class="input" type="text" name="creator" placeholder="Creatore">
+                              <p class="help">Un’entità che ha la responsabilità principale della produzione del contenuto della risorsa</p>
+                          </div>
+                      </div>
+                      <div class="field">
+                          <label class="label">Soggetto</label>
+                          <div class="control">
+                              <input class="input" type="text" name="subject" placeholder="Soggetto">
+                              <p class="help">L’argomento della risorsa</p>
+                          </div>
+                      </div>
+                      <div class="field">
+                          <label class="label">Descrizione</label>
+                          <div class="control">
+                              <textarea class="textarea" placeholder="Descrizione" name="description" rows="8"></textarea>
+                              <p class="help">Una spiegazione del contenuto della risorsa</p>
+                          </div>
+                      </div>
+                      <div class="field">
+                              <label class="label">Data</label>
+                              <div class="control">
+                                  <input class="input" type="text" name="date" placeholder="Data">
+                                  <p class="help">Una data associata a un evento del ciclo di vita della risorsa</p>
+                              </div>
+                      </div>
+                      <div class="field">
+                              <label class="label">Tipo</label>
+                              <div class="control">
+                                  <input class="input" type="text" name="type" placeholder="Tipo">
+                                  <p class="help">La natura o il genere del contenuto della risorsa</p>
+                              </div>
+                      </div>
+                      <div class="field">
+                              <label class="label">Formato</label>
+                              <div class="control">
+                                  <input class="input" type="text" placeholder="Formato">
+                                  <p class="help">La manifestazione fisica o digitale della risorsa</p>
+                              </div>
+                      </div>
+                      <div class="field">
+                              <label class="label">Identificatore</label>
+                              <div class="file has-name">
+                                      <label class="file-label">
+                                      <input class="file-input" type="file" name="resume">
+                                      <span class="file-cta">
+                                          <span class="file-icon">
+                                          <i class="fas fa-upload"></i>
+                                          </span>
+                                          <span class="file-label">
+                                          Choose a file…
+                                          </span>
+                                      </span>
+                                      <span class="file-name">
+                                          Screen Shot 2017-07-29 at 15.54.25.png
+                                      </span>
+                                      </label>
+                                  </div>
+                                  <p class="help">Un riferimento univoco alla risorsa nell’ambito di un dato contesto</p>  
+                          </div>
+                          <div class="field">
+                                  <label class="label">Fonte</label>
+                                  <div class="control">
+                                      <input class="input" type="text" name="source" placeholder="Fonte">
+                                      <p class="help">Un riferimento a una risorsa dalla quale è derivata la risorsa in oggetto</p>
+                                  </div>
+                          </div>
+                          <div class="field">
+                                  <label class="label">Lingua</label>
+                                  <div class="control">
+                                      <input class="input" type="text" name="language" placeholder="Lingua">
+                                      <p class="help">La lingua del contenuto intellettuale della risorsa</p>
+                                  </div>
+                          </div>
+                          <div class="field">
+                                  <label class="label">Copertura</label>
+                                  <div class="control">
+                                      <input class="input" type="text" name="coverage" placeholder="Copertura">
+                                      <p class="help">L’estensione o scopo del contenuto della risorsa</p>
+                                  </div>
+                          </div>
+                          <div class="field">
+                                  <label class="label">Gestione dei diritti</label>
+                                  <div class="control">
+                                      <input class="input" type="text" name="rights" placeholder="Gestione dei diritti">
+                                      <p class="help">Informazione sui diritti esercitati sulla risorsa</p>
+                                  </div>
+                          </div>
+                      <div class="control">
+                          <button id="sendToDC" type="submit" class="" onclick="App.uploadArtw(); return false;">Send Form</button>
+                      </div>
+                  </form>
       </div>
     </div>
 

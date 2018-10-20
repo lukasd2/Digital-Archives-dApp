@@ -96,3 +96,27 @@
       "LON": 10.094062
     }
   ]
+
+  /*
+  window.onload = function() {
+  let textData = ["Permanente", "Trasparente", "Immutabile"];
+  typeText(textData, 0);
+};
+
+
+const typeText = (textData, i) => {
+  //console.log(textData, i);
+  //console.log(elem);
+  if(i < textData[i].length) {
+    document.querySelector("p").innerText = textData[1];
+  console.log(textData[1].substring(0, i+1));
+  
+  setTimeout(function() {
+    typeText(textData, i+1);
+  }, 200);
+  }
+}
+
+
+
+  */
