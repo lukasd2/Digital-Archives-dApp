@@ -93,6 +93,7 @@ App = {
     archiviesTemplate.find('.panel-title').text("Title: "+name);
     //archiviesTemplate.find('img').attr('src', data[i].picture);
     archiviesTemplate.find('.art-id').text(id);
+    archiviesTemplate.find('.card-object').attr('data-id', id);
     archiviesTemplate.find('.art-author').text(author);
     archiviesTemplate.find('.art-name').text(name);
     archiviesTemplate.find('.art-description').text(`https://ipfs.io/ipfs/${descriptionHash}`);
@@ -314,6 +315,13 @@ App = {
 
   //listen for events global
   bindEvents: function () {
+    let modalOpen = document.getElementById("archivesRow");
+    modalOpen.addEventListener("click", function(ev) {
+        if(ev.target.classList.contains('modal-button')) {
+          var openModal = document.getElementById("openModal");
+          App.dataToModal(ev, openModal);
+        }
+      }, false);
     var imagePreview = document.getElementById("imagePreview");
     imagePreview.src = "http://place-hold.it/150x150";
     //event listeners
@@ -353,33 +361,33 @@ App = {
           //console.log("this is it", res);
         }
       }
-    function choose (ev) {
-      let fileResult = document.getElementById("filePreview");
-      let imgList = fileResult.querySelectorAll('img');
-      for(let element of imgList) {
-        element.classList = '';
-      }
-      let selectedElementId = ev.target.getAttribute('data-id')
-      console.log("before", App.store);
-      console.log("selectedElementId",selectedElementId);
-      if(selectedElementId == App.store[0]) {
+      function choose (ev) {
+        let fileResult = document.getElementById("filePreview");
+        let imgList = fileResult.querySelectorAll('img');
+        for(let element of imgList) {
+          element.classList = '';
+        }
+        let selectedElementId = ev.target.getAttribute('data-id')
+        console.log("before", App.store);
+        console.log("selectedElementId",selectedElementId);
+        if(selectedElementId == App.store[0]) {
+          ev.target.classList.toggle("mainPreview");
+          return;
+        }
+        let temp = App.store[0];
+        App.store[0] = App.store[selectedElementId];
+        App.store[selectedElementId] = temp;
+        console.log("after", App.store);
+        console.log(ev);
+        console.log(ev.target);
         ev.target.classList.toggle("mainPreview");
-        return;
-      }
-      let temp = App.store[0];
-      App.store[0] = App.store[selectedElementId];
-      App.store[selectedElementId] = temp;
-      console.log("after", App.store);
-      console.log(ev);
-      console.log(ev.target);
-      ev.target.classList.toggle("mainPreview");
-      console.log("num", selectedElementId);
-      //App.store.splice(ev.target.id, 1);
-      //console.log("this", this);
-      //this.parentNode.removeChild(this);
+        console.log("num", selectedElementId);
+        //App.store.splice(ev.target.id, 1);
+        //console.log("this", this);
+        //this.parentNode.removeChild(this);
 
-      //console.log(App.store);
-    }
+        //console.log(App.store);
+      }
     }
 
     App.contracts.Archives.deployed().then(function (instance) {
@@ -421,27 +429,66 @@ App = {
     });
   },
 
-  ValidateArtwork: function (ev) {
-    //console.log($(ev.target).data('id'));
-    var infoBox = document.createElement('div');
-    infoBox.className = "alert alert-success";
-    const idToApprove = $(ev.target).data('id');
-    console.log(idToApprove);
+  dataToModal: function(ev, openModal) {
+    console.log(ev); //pass id of element to populate modal !!
+    openModal.classList.add("is-active");
+    let closeModal = openModal.querySelector('.delete');
+    closeModal.addEventListener('click', () => 
+      openModal.classList.remove('is-active'), false);
+    App.contracts.Archives.deployed().then(function (instance) {
+      contractInstance = instance;
+    }).then(function () {
+        var artworkId = 3; //TODO temporary then select from ev target!
+        //take artworks from the mapping
+        contractInstance.artworks(artworkId).then(function (artwork) {
+          console.log(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
+          App.loadModalData(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
+        });
+      });
+  },
+
+  loadModalData: function (id, author, name, descriptionHash, dataHash, validation) {
+    const title = document.querySelector(".modal-card-title");
+    const content = document.querySelector(".modal-card-body");
+    const footer = document.querySelector(".modal-card-foot");
+    ipfs.files.cat(descriptionHash, function (err, file) {
+      if (err) { throw err; }
+      let ipfsResult =  file.toString('utf8');
+      var objectResult = JSON.parse(ipfsResult);
+      console.log(objectResult);
+      content.append(objectResult);
+      content.textContent = objectResult.description;
+      title.textContent = name;
+      if(App.account === author) {
+        const btnAprove =  footer.querySelector('.btn-adopt');
+        btnAprove.setAttribute('data-id', id);
+        btnAprove.classList.remove('hidden');
+        btnAprove.addEventListener('click', () => App.validateArtwork(id), false);
+      }
+      for(key of objectResult.objectFiles) {
+        console.log(key);
+        let objectFilePreview = document.createElement('img');
+        objectFilePreview.setAttribute('src', `https://ipfs.io/ipfs/${key}`);
+        console.log(objectFilePreview);
+        content.append(objectFilePreview);
+      }
+    });
+  },
+
+  validateArtwork: function (id) {
+    const idToApprove = id.toNumber();
+    console.log("validateArtwork id to Approve", idToApprove);
     App.contracts.Archives.deployed().then(function (instance) {
       return instance.approveArtwork(idToApprove, {
         from: App.account
         //gas: 500000
       });
     }).then(function (result) {
-      //
-      /* TODO - alert for each panel indicating its status
-      var target = $('span[data-id="'+idToApprove+'"]');
-      target.append(infoBox);
-      console.log(target.append(infoBox));/*
       //App.updateArtworkState();
-      App.reloadArtworks();*/
+      console.log("ValidateArtworkresult", result);
+      App.reloadArtworks();
     });
-  }
+}
 };
 
 $(function () {

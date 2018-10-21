@@ -87,7 +87,7 @@ $input-shadow: none;
 				position: absolute;
 				content: "Permanente";
 				bottom: 12%;
-				font-style: italic;
+				font-objectResult: italic;
 				font-weight: 400;
 				right: 40px;
 				font-size: 2em;
@@ -210,6 +210,12 @@ $input-shadow: none;
 		.mainPreview {
 			border: 4px solid green;
 		}
+	}
+}
+
+.page-archive {
+	.hidden {
+		display: none;
 	}
 }
 

@@ -1,6 +1,5 @@
 pragma solidity ^0.4.24;
 
-
 import "./Whitelist.sol";
 //Top level contract inherits the implementation of "user permissions"
 contract Archives is Whitelist {
@@ -72,8 +71,8 @@ contract Archives is Whitelist {
     //adding examples articles when deploying contract, just an example 
     //can be extended to insert inital dataset
     constructor() public  {
-        addArtwork(1, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte minore 1", "Descrizione dell'opera", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false, 0);
-        addArtwork(2, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Immagine creata da Tizio", "Voglio preservare questa immagine sulla blockchain...", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false, 0);
+        addArtwork(1, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte minore approvata", "QmYMUzyum9zVKRmEeGTjFX2ZQNSHNZ7hJeANfGU6mDWpZf", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", true, 2);
+        addArtwork(2, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte scultura", "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false, 0);
     }
     //testing artworkchecker permissions (not relevant)
     /*function test() onlyIfWhitelisted(msg.sender) public {
