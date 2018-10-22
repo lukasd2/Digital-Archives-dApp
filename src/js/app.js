@@ -97,14 +97,13 @@ App = {
     archiviesTemplate.find('.art-author').text(author);
     archiviesTemplate.find('.art-name').text(name);
     archiviesTemplate.find('.art-description').text(`https://ipfs.io/ipfs/${descriptionHash}`);
-    if(id == 5) {
-      App.testing(descriptionHash);
-    }
     archiviesTemplate.find('.art-validity').text(validation);
     archiviesTemplate.find('.art-validity').attr('data-id', id);
     archiviesTemplate.find('.alert').attr('data-id', id);
     archiviesTemplate.find('img').attr('src', `https://ipfs.io/ipfs/${dataHash}`);
+    archiviesTemplate.find('.modal-button').attr('data-id', id);
     archiviesTemplate.find('.btn-adopt').attr('data-id', id);
+    console.log("check", id);
     artRow.append(archiviesTemplate.html());
   },
 
@@ -222,6 +221,7 @@ App = {
     console.log("JUST BEFORE THE EVENT hash", hash);
     console.log("blob", objectDesc);
     console.log(objectDesc.description)
+    console.log("...Uploading your object to blockchain...");
     //console.log(artwName, artwDescription, App.ipfsHash);
     console.log(objectDesc.name, hash, App.ipfsHash);
     App.contracts.Archives.deployed().then(function (instance) {
@@ -238,6 +238,7 @@ App = {
         var x = document.createElement("li");
         x.innerHTML =  key + ": " + value; 
         receiptRow.append(x);
+        console.log("...Done Uploading your object to blockchain...");
       });
     }).catch(function (error) {
       console.error(error);
@@ -247,6 +248,8 @@ App = {
   filesToIPFS: async function (fileSequence) {
     console.log("filesToIPFS", fileSequence);
     App.loading = true;
+    App.loadingProgress(1);
+    console.log("...Uploading your files to IPFS...");
     await ipfs.files.add(fileSequence, (err, result) => {
       if (err) {
         console.error(err);
@@ -261,6 +264,7 @@ App = {
       App.ipfsHash = hash;
       App.loading = false;
       console.log('added data hash:', hash);
+      console.log("...DONE Uploading your files to IPFS...");
       App.generateMetadata(hash);
 
       /*ipfs.files.cat(hash, function (err, file) {
@@ -277,6 +281,7 @@ App = {
   },
   descriptionToIPFS: async function (objectDescription) {
     console.log("descriptionToIPFS", objectDescription);
+    console.log("...Uploading your metadata description to IPFS...");
     let uploadDesc = Buffer.from(JSON.stringify(objectDescription));
     App.loading = true;
     await ipfs.files.add(uploadDesc, (err, result) => {
@@ -288,6 +293,7 @@ App = {
       console.log("ipfs result", result);
       const hash = result[0].hash;
       console.log('added data hash:', hash);
+      console.log("...Done Uploading your metadata description to IPFS...");
       App.uploadArtw(hash, objectDescription);
       ipfs.files.cat(hash, function (err, file) {
         if (err) {
@@ -295,22 +301,26 @@ App = {
         }
         //console.log(file.toString('utf8'));
         let test =  file.toString('utf8');
-        console.log("heey", test);
+        //console.log("heey", test);
       });
       return hash;
     })
   },
 
-  Loading: function (val) {
+  loadingProgress: function (step) {
+    switch (step) {
+      case 1:
+      console.log("loadingProgress");
+    }
     const loader = document.getElementById("loader");
     const btnSendArt = document.getElementById("sendToChain");
-    if (val == true) {
+    /*if (val == true) {
       //btnSendArt.classList.add("disabled");
       loader.style.display = "block";
     } else {
       //btnSendArt.classList.remove("disabled");
       loader.style.display = "none";
-    }
+    }*/
   },
 
   //listen for events global
@@ -430,15 +440,19 @@ App = {
   },
 
   dataToModal: function(ev, openModal) {
-    console.log(ev); //pass id of element to populate modal !!
+    //console.log(ev); //pass id of element to populate modal !!
+    console.log("data to modal", ev.target.getAttribute('data-id'));
     openModal.classList.add("is-active");
+    const artId = ev.target.getAttribute('data-id');
     let closeModal = openModal.querySelector('.delete');
     closeModal.addEventListener('click', () => 
       openModal.classList.remove('is-active'), false);
     App.contracts.Archives.deployed().then(function (instance) {
       contractInstance = instance;
-    }).then(function () {
-        var artworkId = 3; //TODO temporary then select from ev target!
+      return ev.target.getAttribute('data-id');
+    }).then(function (artId) {
+        console.log("inside", artId);
+        const artworkId = artId; //TODO temporary then select from ev target!
         //take artworks from the mapping
         contractInstance.artworks(artworkId).then(function (artwork) {
           console.log(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);

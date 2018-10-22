@@ -22,6 +22,7 @@
     "browserify": "^16.2.2",
     "buffer": "^5.2.0",
     "bulma": "^0.7.1",
+    "chai": "^4.2.0",
     "dotenv": "^6.1.0",
     "ipfs-api": "^24.0.0",
     "ipfs-mini": "^1.1.2",

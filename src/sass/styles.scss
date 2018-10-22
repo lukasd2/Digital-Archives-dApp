@@ -87,7 +87,6 @@ $input-shadow: none;
 				position: absolute;
 				content: "Permanente";
 				bottom: 12%;
-				font-objectResult: italic;
 				font-weight: 400;
 				right: 40px;
 				font-size: 2em;
@@ -213,10 +212,16 @@ $input-shadow: none;
 	}
 }
 
-.page-archive {
-	.hidden {
-		display: none;
+.modal-card-body {
+	display: flex;
+	img {
+		max-height: 150px;
 	}
+	
+}
+
+.object-loader {
+	@include loader;
 }
 
 @media (max-width: 769px) {

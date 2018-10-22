@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Digital Archives Site Mockup</title>
+    <link rel='stylesheet prefetch' href='https://use.fontawesome.com/releases/v5.0.10/css/all.css'>
+    <link rel="stylesheet" href="css/concept.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <h1 style="display: none;">PAGE TITLE</h1>
+        <div class="column">
+            <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+                <h2 style="display: none;">PAGE Navigation</h2>
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="#">
+                        <img src="img/logoPlaceholder2.png" alt="logo placeholder" height="100">
+                    </a>
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div class="navbar-start is-tab">
+                    <a class="navbar-item" href="bulma.html">
+                        Home
+                    </a>
+                    <div class="navbar-item is-tab">
+                        <a class="navbar-item" href="#">
+                            Inserimento
+                        </a>
+                    </div>
+                    <div class="navbar-item is-tab">
+                        <a class="navbar-item" href="#">
+                            Archivio
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="columns" id="mail-app">
+        <aside class="column is-2 aside hero is-fullheight">
+            <div>
+                <div class="compose has-text-centered">
+                    <a class="button is-danger is-block is-bold">
+                        <span class="compose">Compose</span>
+                    </a>
+                </div>
+                <div class="main">
+                    <a href="#" class="item active"><span class="icon"><i class="fa fa-inbox"></i></span><span class="name">Inbox</span></a>
+                    <a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span class="name">Starred</span></a>
+                    <a href="#" class="item"><span class="icon"><i class="fa fa-envelope-o"></i></span><span class="name">Sent
+                            Mail</span></a>
+                    <a href="#" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">Folders</span></a>
+                </div>
+            </div>
+        </aside>
+        <div class="column is-4 messages is-fullheight" id="message-feed">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        User Search
+                    </p>
+                    <a href="#" class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input is-large" type="text" placeholder="">
+                            <span class="icon is-medium is-left">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <span class="icon is-medium is-right">
+                                <i class="fa fa-check"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="msg-card-0" data-id="0" class="card">
+                <div class="inbox-messages" id="inbox-messages">
+                    <div class="card-content">
+                        <div class="msg-header">
+                            <span class="msg-from"><small>Autore</small></span>
+                            <span class="msg-timestamp">Timestam</span>
+                            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>
+                        </div>
+                        <div class="msg-subject">
+                            <span class="msg-subject"><strong id="fake-subject-1">Subject</strong></span>
+                        </div>
+                        <div class="msg-snippet">
+                            <p id="fake-snippet-1">Description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-6 message hero is-fullheight is-hidden" id="message-panel">
+            <div class="action-buttons">
+                <div class="control is-grouped">
+                    <a class="button is-small"><i class="fa fa-inbox"></i></a>
+                    <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                    <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+                </div>
+                <div class="control is-grouped">
+                    <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                    <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+                </div>
+                <div class="control is-grouped">
+                    <a class="button is-small"><i class="fa fa-folder"></i></a>
+                    <a class="button is-small"><i class="fa fa-tag"></i></a>
+                </div>
+            </div>
+            <div class="box message-preview">
+                <div class="top">
+                    <div class="avatar">
+                        <img src="https://placehold.it/128x128">
+                    </div>
+                    <div class="address">
+                        <div class="name">John Smith</div>
+                        <div class="email">someone@gmail.com</div>
+                    </div>
+                    <hr>
+                    <div class="content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Bulma Templates</strong> by <a href="https://github.com/dansup">Daniel Supernault</a>. The
+                    source code is licensed
+                    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

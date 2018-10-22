@@ -45,13 +45,21 @@
     </header>
 
     <section class="section">
-        <h1 class="title">Inserimento Oggetto</h1>
+        <div class="container is-fluid">
+            <h1 class="title">Inserimento Oggetto</h1>
         <h2 class="subtitle">
             Inserimento dell'oggeto nell'archivio
             <strong>permanente</strong>, codifica Dublin Core
         </h2>
         <div class="columns is-centered">
             <div class="column object-insertion is-two-third">
+                    <div class="tabs is-centered">
+                            <ul>
+                              <li class="is-active"><a>Dublin Core</a></li>
+                              <li><a>Dublin Core Esteso</a></li>
+                              <li><a>Frbr</a></li>
+                            </ul>
+                          </div>
                 <form>
                     <div class="field">
                         <label class="label">Titolo</label>
@@ -158,20 +166,23 @@
                     </div>
                 </form>
             </div>
-            <div class="column is-one-third">
-                <div id="column-test-content">
-                        <div id="loader" class="sk-folding-cube" style="display: none;"> <!-- Credits: http://tobiasahlin.com/spinkit/ -->
-                            <div class="sk-cube1 sk-cube"></div>
-                            <div class="sk-cube2 sk-cube"></div>
-                            <div class="sk-cube4 sk-cube"></div>
-                            <div class="sk-cube3 sk-cube"></div>
-                            <h3>Loading...</h3>
-                            <p class="text-center">Uploading your input data to IPFS via Infura</p>
+            <div class="column is-one-third object-loader">
+                <div id="section-loader">
+                    <!-- Credits: http://tobiasahlin.com/spinkit/ -->
+                    <div class="" style="display: flex;">    
+                        <p>test</p>              
+                        <div id="loader" class="spinner">
+                                <div class="rect1"></div>
+                                <div class="rect2"></div>
+                                <div class="rect3"></div>
+                                <div class="rect4"></div>
+                                <div class="rect5"></div>
                         </div>
-                        <ul id="receiptRow"></ul>
+                    </div>  
                 </div>
             </div>
         </div>
+    </div>
     </section>
     <section class="section page-archive">
             <div class="tabs is-toggle is-fullwidth is-large">
@@ -257,39 +268,12 @@
                                 <br>
                                 <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
                                 <br>
-                                <button class="button is-info is-outlined is-medium is-centered modal-button" data-target="modal-ter" aria-haspopup="true">Descrizione</button>
+                                <button class="modal-button button is-info is-outlined is-medium is-centered" data-target="modal-ter" aria-haspopup="true">Descrizione</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-                    <div class="column is-one-quarter"></div>
-                        <div class="panel-heading">
-                          <h3 class="panel-title">Scrappy</h3>
-                        </div>
-                        <div class="panel-body">
-                          <br/><br/>
-                          <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
-                          <strong>id</strong>: <span class="art-id">Golden Retriever</span><br/>
-                          <strong>name</strong>: <span class="art-name">3</span><br/>
-                          <strong>author</strong>: <span class="art-author">3</span><br/>
-                          <strong>desc</strong>: <span class="art-description">Warren, MI</span><br/><br/>
-                          <div class="panel-validity">
-                            <strong>Validation</strong>: <span class="art-validity">Warren, MI</span><br/><br/>
-                            <!--<div class="alert alert-warning" role="alert">
-                                This artwork has not been checked yet!
-                            </div>
-                            <div class="alert alert-success" role="alert" style="display: none;">
-                              <strong>Well done!</strong> This artwork has been succesfuly validated.
-                            </div>-->
-                            <span class="art-validation"></span><br/>
-                            <button id="checkValidate" class="btn btn-default btn-adopt" type="button" data-id="0" onclick="App.ValidateArtwork(event); return false;">Approva(solo artwork checker)</button>
-                        </div>
-                        <button class="button is-primary is-large modal-button" data-target="modal-ter" aria-haspopup="true">Launch card modal</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
     </section>
 
     <footer class="footer page-footer">

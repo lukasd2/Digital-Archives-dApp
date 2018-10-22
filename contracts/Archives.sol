@@ -43,6 +43,11 @@ contract Archives is Whitelist {
         address indexed _author
     );
 
+    event artworkModify(
+        uint indexed _id,
+        address indexed _author
+    );
+
     //Modifiers
     //Checks if the artwork has not yet been validate, if it has there is no point on voting that id
     modifier checkValidation(uint _id) {
@@ -71,7 +76,7 @@ contract Archives is Whitelist {
     //adding examples articles when deploying contract, just an example 
     //can be extended to insert inital dataset
     constructor() public  {
-        addArtwork(1, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte minore approvata", "QmYMUzyum9zVKRmEeGTjFX2ZQNSHNZ7hJeANfGU6mDWpZf", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", true, 2);
+        addArtwork(1, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte minore approvata", "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", true, 2);
         addArtwork(2, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte scultura", "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false, 0);
     }
     //testing artworkchecker permissions (not relevant)
@@ -123,12 +128,20 @@ contract Archives is Whitelist {
         artworks[_id].votesNum++;
         completeValidation(_id);
     }
-    //checks if the "quorum" number has been met, static example of "2", can be i.e 1/3 of total artworkCheckers
+    //checks if the "quorum" number has been met, static example of "2", can be e.g 1/3 of total artworkCheckers
     function completeValidation(uint _id) internal {
         if (artworks[_id].votesNum > 2 ) {
             artworks[_id].validation = true;
             emit ValidateArtw(_id, msg.sender);
         }
+    }
+    
+    function modifyArtworkDescription (uint _id, string _newDescriptionHash) public {
+        require(msg.sender == artworks[_id].author);
+        artworks[_id].descriptionHash = _newDescriptionHash;
+        artworks[_id].votesNum = 0; 
+        artworks[_id].validation = false;
+        emit artworkModify(_id, msg.sender);
     }
 
     //returns votes made by given artworkChecker and shows the length of array containg all artworkCheckers
