@@ -93,7 +93,7 @@ App = {
     archiviesTemplate.find('.panel-title').text("Title: "+name);
     //archiviesTemplate.find('img').attr('src', data[i].picture);
     archiviesTemplate.find('.art-id').text(id);
-    archiviesTemplate.find('.card-object').attr('data-id', id);
+    archiviesTemplate.find('.artwork-object').attr('data-id', id);
     archiviesTemplate.find('.art-author').text(author);
     archiviesTemplate.find('.art-name').text(name);
     archiviesTemplate.find('.art-description').text(`https://ipfs.io/ipfs/${descriptionHash}`);
@@ -101,24 +101,16 @@ App = {
     archiviesTemplate.find('.art-validity').attr('data-id', id);
     archiviesTemplate.find('.alert').attr('data-id', id);
     archiviesTemplate.find('img').attr('src', `https://ipfs.io/ipfs/${dataHash}`);
-    archiviesTemplate.find('.modal-button').attr('data-id', id);
+    archiviesTemplate.find('.object-button').attr('data-id', id);
     archiviesTemplate.find('.btn-adopt').attr('data-id', id);
     console.log("check", id);
     artRow.append(archiviesTemplate.html());
   },
 
-  testing: (desc) => {
-    let contentRow = $('#column-test-content');
-    ipfs.files.cat(desc, function (err, file) {
-      if (err) {
-        throw err
-      }
-      //console.log(file.toString('utf8'));
-      let test =  file.toString('utf8');
-      contentRow.text(test);
-      //console.log("heey", test);
-      return test;
-    });
+  modalDescriptionForm: (ev) => {
+    console.log(window.event);
+    console.log(ev);
+    //openModal.classList.add("is-active");
   },
 
   uploadData: () => {
@@ -310,10 +302,10 @@ App = {
   loadingProgress: function (step) {
     switch (step) {
       case 1:
-      console.log("loadingProgress");
+      console.log('loadingProgress');
     }
-    const loader = document.getElementById("loader");
-    const btnSendArt = document.getElementById("sendToChain");
+    const loader = document.getElementById('loader');
+    const btnSendArt = document.getElementById('sendToChain');
     /*if (val == true) {
       //btnSendArt.classList.add("disabled");
       loader.style.display = "block";
@@ -325,17 +317,28 @@ App = {
 
   //listen for events global
   bindEvents: function () {
-    let modalOpen = document.getElementById("archivesRow");
-    modalOpen.addEventListener("click", function(ev) {
-        if(ev.target.classList.contains('modal-button')) {
-          var openModal = document.getElementById("openModal");
-          App.dataToModal(ev, openModal);
+    //New Artwork Insertion Modal Open
+    const newArtworkBtn = document.getElementById('newArtwork');
+    newArtworkBtn.addEventListener('click', () => {
+      const openModal = document.getElementById("openModal");
+      openModal.classList.add("is-active");
+    }); //New Artwork Insertion Modal Close
+    const closeModal = openModal.querySelector('.delete');
+    closeModal.addEventListener('click', () => 
+      openModal.classList.remove('is-active'), false); 
+    //Binding of artwork object to IPFS preview by data-id 
+    const artworkContainer = document.getElementById('archivesRow');
+    artworkContainer.addEventListener('click', (ev) => {
+      console.log(ev.currentTarget.getAttribute('data-id'));
+        if(ev.target.classList.contains('object-button')) {
+          const artworkPreview = document.getElementById("artwork-preview");
+          App.dataToModal(ev, artworkPreview);
         }
       }, false);
-    var imagePreview = document.getElementById("imagePreview");
+    let imagePreview = document.getElementById("imagePreview");
     imagePreview.src = "http://place-hold.it/150x150";
-    //event listeners
-    var uploadFile = document.getElementById("captureFileUpload");
+    //Event listeners
+    let uploadFile = document.getElementById("captureFileUpload");
     uploadFile.addEventListener("change", fileUpload);
     function fileUpload(ev) {
       console.log(ev);
@@ -439,14 +442,14 @@ App = {
     });
   },
 
-  dataToModal: function(ev, openModal) {
+  dataToModal: function(ev, artworkPreview) {
     //console.log(ev); //pass id of element to populate modal !!
     console.log("data to modal", ev.target.getAttribute('data-id'));
-    openModal.classList.add("is-active");
+    artworkPreview.classList.add("is-active"); //TODO
     const artId = ev.target.getAttribute('data-id');
-    let closeModal = openModal.querySelector('.delete');
-    closeModal.addEventListener('click', () => 
-      openModal.classList.remove('is-active'), false);
+    //let closeModal = openModal.querySelector('.delete');
+    //closeModal.addEventListener('click', () => 
+      //openModal.classList.remove('is-active'), false);
     App.contracts.Archives.deployed().then(function (instance) {
       contractInstance = instance;
       return ev.target.getAttribute('data-id');
@@ -462,9 +465,9 @@ App = {
   },
 
   loadModalData: function (id, author, name, descriptionHash, dataHash, validation) {
-    const title = document.querySelector(".modal-card-title");
-    const content = document.querySelector(".modal-card-body");
-    const footer = document.querySelector(".modal-card-foot");
+    const title = document.querySelector(".description-title");
+    const content = document.querySelector(".description-content");
+    const footer = document.querySelector(".description-footer");
     ipfs.files.cat(descriptionHash, function (err, file) {
       if (err) { throw err; }
       let ipfsResult =  file.toString('utf8');

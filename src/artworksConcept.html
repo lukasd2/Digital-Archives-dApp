@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Digital Archives Site Mockup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet prefetch' href='https://use.fontawesome.com/releases/v5.0.10/css/all.css'>
-    <link rel="stylesheet" href="css/concept.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -45,111 +45,265 @@
             </nav>
         </div>
     </header>
-    <div class="columns" id="mail-app">
-        <aside class="column is-2 aside hero is-fullheight">
-            <div>
-                <div class="compose has-text-centered">
-                    <a class="button is-danger is-block is-bold">
-                        <span class="compose">Compose</span>
-                    </a>
-                </div>
-                <div class="main">
-                    <a href="#" class="item active"><span class="icon"><i class="fa fa-inbox"></i></span><span class="name">Inbox</span></a>
-                    <a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span class="name">Starred</span></a>
-                    <a href="#" class="item"><span class="icon"><i class="fa fa-envelope-o"></i></span><span class="name">Sent
-                            Mail</span></a>
-                    <a href="#" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span class="name">Folders</span></a>
-                </div>
-            </div>
-        </aside>
-        <div class="column is-4 messages is-fullheight" id="message-feed">
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">
-                        User Search
-                    </p>
-                    <a href="#" class="card-header-icon" aria-label="more options">
-                        <span class="icon">
-                            <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                </header>
-                <div class="card-content">
-                    <div class="content">
-                        <div class="control has-icons-left has-icons-right">
-                            <input class="input is-large" type="text" placeholder="">
-                            <span class="icon is-medium is-left">
-                                <i class="fa fa-search"></i>
-                            </span>
-                            <span class="icon is-medium is-right">
-                                <i class="fa fa-check"></i>
-                            </span>
-                        </div>
+    <main class="page-content">
+        <div class="columns ">
+            <section class="artwork-creation column is-2 hero is-fullheight">
+                <div class="creation-status">
+                    <div class="creation-new has-text-centered">
+                        <a id="newArtwork" class="button is-link is-block is-bold">
+                            <span class="creation-new">Inserisci Oggetto</span>
+                        </a>
+                    </div>
+                    <div id="openModal" class="modal"> <!-- START MODAL -->
+                            <div class="modal-background"></div>
+                            <div class="modal-card">
+                              <header class="modal-card-head">
+                                <p class="modal-card-title">Modal title</p>
+                                <button class="delete" aria-label="close"></button>
+                              </header>
+                              <section class="modal-card-body">
+                                <!-- Content ... -->
+                                <div class="column object-insertion is-two-third">
+                                        <div class="tabs is-centered">
+                                                <ul>
+                                                  <li class="is-active"><a>Dublin Core</a></li>
+                                                  <li><a>Dublin Core Esteso</a></li>
+                                                  <li><a>Frbr</a></li>
+                                                </ul>
+                                              </div>
+                                    <form>
+                                        <div class="field">
+                                            <label class="label">Titolo</label>
+                                            <div class="control">
+                                                <input class="input" type="text" name="title" placeholder="Titolo ">
+                                                <p class="help">Un nome dato alla risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Creatore</label>
+                                            <div class="control">
+                                                <input class="input" type="text" name="creator" placeholder="Creatore">
+                                                <p class="help">Un’entità che ha la responsabilità principale della produzione del contenuto della risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Soggetto</label>
+                                            <div class="control">
+                                                <input class="input" type="text" name="subject" placeholder="Soggetto">
+                                                <p class="help">L’argomento della risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Descrizione</label>
+                                            <div class="control">
+                                                <textarea class="textarea" placeholder="Descrizione" name="description" rows="8"></textarea>
+                                                <p class="help">Una spiegazione del contenuto della risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Data</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" name="date" placeholder="Data">
+                                                    <p class="help">Una data associata a un evento del ciclo di vita della risorsa</p>
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Tipo</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" name="type" placeholder="Tipo">
+                                                    <p class="help">La natura o il genere del contenuto della risorsa</p>
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Formato</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" placeholder="Formato">
+                                                    <p class="help">La manifestazione fisica o digitale della risorsa</p>
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Identificatore</label>
+                                                <div class="file has-name">
+                                                        <label class="file-label">
+                                                            <img id="imagePreview" src="" alt="" style="display: block">
+                                                          <input id="captureFileUpload" class="file-input" type="file" name="resume" multiple>
+                                                          <span class="file-cta">
+                                                            <span class="file-icon">
+                                                              <i class="fas fa-upload"></i>
+                                                            </span>
+                                                            <span class="file-label">
+                                                              Choose a file…
+                                                            </span>
+                                                          </span>
+                                                          <span class="file-name">
+                                                            Screen Shot 2017-07-29 at 15.54.25.png
+                                                          </span>
+                                                      </div>
+                                                      <span id="filePreview">
+                                                        </span>
+                                                      </label>
+                                                    <p class="help">Un riferimento univoco alla risorsa nell’ambito di un dato contesto</p>  
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Fonte</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="source" placeholder="Fonte">
+                                                        <p class="help">Un riferimento a una risorsa dalla quale è derivata la risorsa in oggetto</p>
+                                                    </div>
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Lingua</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="language" placeholder="Lingua">
+                                                        <p class="help">La lingua del contenuto intellettuale della risorsa</p>
+                                                    </div>
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Copertura</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="coverage" placeholder="Copertura">
+                                                        <p class="help">L’estensione o scopo del contenuto della risorsa</p>
+                                                    </div>
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Gestione dei diritti</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="rights" placeholder="Gestione dei diritti">
+                                                        <p class="help">Informazione sui diritti esercitati sulla risorsa</p>
+                                                    </div>
+                                            </div>
+                                        <div class="control">
+                                            <button id="sendToDC" type="submit" class="" onclick="App.uploadData(); return false;">Send Form</button>
+                                        </div>
+                                    </form>
+                                </div>
+                              </section>
+                              <footer class="modal-card-foot">
+                                    <a id="sendToDC" class="button is-link is-block is-bold" onclick="App.uploadData(); return false;">
+                                            <span class="creation-new">Inserisci Oggetto</span>
+                                        </a>
+                                <button class="button is-success">Save changes</button>
+                                <button class="button">Cancel</button>
+                                <button class="button btn-adopt hidden">Approva</button>
+                              </footer>
+                            </div>
+                    </div> <!-- END MODAL -->
+                    <div class="creation-status">
+                        <a href="#" class="item active has-text-centered"><span class="name">Inbox</span></a>
+                        <a href="#" class="item has-text-centered"><span class="name">Starred</span></a>
+                        <a href="#" class="item has-text-centered"><span class="name">Sent
+                                Mail</span></a>
+                        <a href="#" class="item has-text-centered"><span class="name">Folders</span></a>
                     </div>
                 </div>
-            </div>
-            <div id="msg-card-0" data-id="0" class="card">
-                <div class="inbox-messages" id="inbox-messages">
+            </section>
+            <section class="artwork-overview column is-5 is-fullheight" id="message-feed">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            User Search
+                        </p>
+                        <a href="#" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
                     <div class="card-content">
-                        <div class="msg-header">
-                            <span class="msg-from"><small>Autore</small></span>
-                            <span class="msg-timestamp">Timestam</span>
-                            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>
-                        </div>
-                        <div class="msg-subject">
-                            <span class="msg-subject"><strong id="fake-subject-1">Subject</strong></span>
-                        </div>
-                        <div class="msg-snippet">
-                            <p id="fake-snippet-1">Description</p>
+                        <div class="content">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-large" type="text" placeholder="">
+                                <span class="icon is-medium is-left">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                <span class="icon is-medium is-right">
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div id="archivesRow" class="">
+                    <!-- Works load HERE -->
+                </div>
+
+                <div id="archiviesTemplate" class="artwork-object" style="display: none;">
+                    <article class="media artwork-object">
+                        <figure class="media-left">
+                            <img class="image" src="https://bulma.io/images/placeholders/128x128.png">
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p class="art-name title is-4">John Smith</p>
+                                <p class="art-author subtitle is-6">@johnsmith</p>
+                                <br>
+                                <p class="art-description is-6"></p>
+                                <div class="panel-validity">
+                                    <strong>Validation</strong>: <span class="art-validity">Warren, MI</span><br /><br />
+                                    <span class="art-validation"></span><br />
+                                </div>
+                            </div>
+                            <div class="buttons is-right">
+                                <a class="object-button button is-info is-medium">Entra nell'archivio
+                                </a>
+                            </div>
+                        </div>
+                        <div class="media-right">
+                            <button class="delete"></button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            <section class="artwork-description column hero is-5 is-fullheight">
+                <div class="action-buttons">
+                    <div class="control is-grouped">
+                        <a class="button is-small"><i class="fa fa-inbox"></i></a>
+                        <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                        <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                    <div class="control is-grouped">
+                        <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                        <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                    <div class="control is-grouped">
+                        <a class="button is-small"><i class="fa fa-folder"></i></a>
+                        <a class="button is-small"><i class="fa fa-tag"></i></a>
+                    </div>
+                </div>
+                <div id="artwork-preview" class="box description-preview">
+                    <div class="top">
+                        <div class="avatar">
+                            <img src="https://placehold.it/128x128">
+                        </div>
+                        <div class="address">
+                            <div class="name">John Smith</div>
+                            <div class="email">someone@gmail.com</div>
+                        </div>
+                        <hr>
+                        <div class="description-title">
+                        </div>
+                        <div class="description-content">
+                        </div>
+                        <div class="description-footer">
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        <div class="column is-6 message hero is-fullheight is-hidden" id="message-panel">
-            <div class="action-buttons">
-                <div class="control is-grouped">
-                    <a class="button is-small"><i class="fa fa-inbox"></i></a>
-                    <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
-                    <a class="button is-small"><i class="fa fa-trash-o"></i></a>
-                </div>
-                <div class="control is-grouped">
-                    <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
-                    <a class="button is-small"><i class="fa fa-trash-o"></i></a>
-                </div>
-                <div class="control is-grouped">
-                    <a class="button is-small"><i class="fa fa-folder"></i></a>
-                    <a class="button is-small"><i class="fa fa-tag"></i></a>
-                </div>
-            </div>
-            <div class="box message-preview">
-                <div class="top">
-                    <div class="avatar">
-                        <img src="https://placehold.it/128x128">
-                    </div>
-                    <div class="address">
-                        <div class="name">John Smith</div>
-                        <div class="email">someone@gmail.com</div>
-                    </div>
-                    <hr>
-                    <div class="content">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer class="footer">
-        <div class="container">
-            <div class="content has-text-centered">
-                <p>
-                    <strong>Bulma Templates</strong> by <a href="https://github.com/dansup">Daniel Supernault</a>. The
-                    source code is licensed
-                    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
-                </p>
-            </div>
+    </main>
+    <footer class="footer page-footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>&COPY; Lukasz Szczygiel 2018</strong>
+            </p>
         </div>
     </footer>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/bundle.js"></script>
 </body>
 
 </html>

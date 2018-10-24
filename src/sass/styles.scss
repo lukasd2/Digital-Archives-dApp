@@ -35,6 +35,11 @@ $input-shadow: none;
 @import "../../node_modules/bulma/sass/components/tabs.sass";
 */
 
+html,body {
+	margin: 0;
+	padding: 0;
+}
+
 .page-header {
 	.navbar {
 		z-index: 0 !important;
@@ -222,6 +227,229 @@ $input-shadow: none;
 
 .object-loader {
 	@include loader;
+}
+
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+
+
+  .messages .action-buttons {
+    padding: 0;
+    margin-top: -20px;
+  }
+  .message .action-buttons {
+    padding: 0;
+    margin-top: -5px;
+  }
+  .action-buttons .control.is-grouped {
+    display: inline-block;
+    margin-right: 30px;
+  }
+  .action-buttons .control.is-grouped:last-child {
+    margin-right: 0;
+  }
+  .action-buttons .control.is-grouped .button:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+  .action-buttons .control.is-grouped .button:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+  .action-buttons .control.is-grouped .button {
+    margin-right: -5px;
+    border-radius: 0;
+  }
+  .pg {
+    display: inline-block;
+    top:10px;
+  }
+  .action-buttons .pg .title {
+    display: block;
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 3px;
+    font-size:12px;
+    color: #AAAAAA;
+  }
+  .action-buttons .pg a{
+    font-size:12px;
+    color: #AAAAAA;
+    text-decoration: none;
+  }
+  .is-grouped .button {
+    background-image: linear-gradient(#F8F8F8, #F1F1F1);
+  }
+  .is-grouped .button .fa {
+    font-size: 15px;
+    color: #AAAAAA;
+  }
+  .inbox-messages {
+    margin-top:60px;
+  }
+  .message-preview {
+    margin-top: 60px;
+  }
+  .inbox-messages .card {
+    width: 100%;
+  }
+  .inbox-messages strong {
+    color: #5D5D5D;
+  }
+  .inbox-messages .msg-check {
+    padding: 0 20px;
+  }
+  .inbox-messages .msg-subject {
+    padding: 10px 0;
+    color: #5D5D5D;
+  }
+  .inbox-messages .msg-attachment {
+    float:right;
+  }
+  .inbox-messages .msg-snippet {
+    padding: 5px 20px 0px 5px;
+  }
+  .inbox-messages .msg-subject .fa {
+    font-size: 14px;
+    padding:3px 0;
+  }
+  .inbox-messages .msg-timestamp {
+    float: right;
+    padding: 0 20px;
+    color: #5D5D5D;
+  }
+  .message-preview .avatar {
+    display: inline-block;
+  }
+  .message-preview .top .address {
+    display: inline-block;
+    padding: 0 20px;
+  }
+  .avatar img {
+    width: 40px;
+    border-radius: 50px;
+    border: 2px solid #999;
+    padding: 2px;
+  }
+  .address .name {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .address .email {
+    font-weight: bold;
+    color: #B6C7D1;
+  }
+  .card.active {
+    background-color:#F5F5F5;
+  }
+
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------
+
+  //REFACTOR 
+
+.page-content {
+	/*&::before {
+		position: absolute;
+		content: "";
+		width: 100%;
+		height: 100%;
+		left: 0;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='344' height='344' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23c2c8cf' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23427aa1'%3E%3Ccircle cx='769' cy='229' r='8'/%3E%3Ccircle cx='539' cy='269' r='8'/%3E%3Ccircle cx='603' cy='493' r='8'/%3E%3Ccircle cx='731' cy='737' r='8'/%3E%3Ccircle cx='520' cy='660' r='8'/%3E%3Ccircle cx='309' cy='538' r='8'/%3E%3Ccircle cx='295' cy='764' r='8'/%3E%3Ccircle cx='40' cy='599' r='8'/%3E%3Ccircle cx='102' cy='382' r='8'/%3E%3Ccircle cx='127' cy='80' r='8'/%3E%3Ccircle cx='370' cy='105' r='8'/%3E%3Ccircle cx='578' cy='42' r='8'/%3E%3Ccircle cx='237' cy='261' r='8'/%3E%3Ccircle cx='390' cy='382' r='8' /%3E%3C/g%3E%3C/svg%3E");		
+		z-index: -1000;
+		opacity: 0.45;
+	}*/
+}
+  
+.artwork-creation {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	position: relative;
+	border-right: 1px solid #DEDEDE;
+	box-shadow: 2px 0 0 0 #f5f5f5;
+	&::before {
+		position: absolute;
+		content: "";
+		width: 100%;
+		height: 100%;
+		left: 0;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='344' height='344' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23c2c8cf' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23427aa1'%3E%3Ccircle cx='769' cy='229' r='8'/%3E%3Ccircle cx='539' cy='269' r='8'/%3E%3Ccircle cx='603' cy='493' r='8'/%3E%3Ccircle cx='731' cy='737' r='8'/%3E%3Ccircle cx='520' cy='660' r='8'/%3E%3Ccircle cx='309' cy='538' r='8'/%3E%3Ccircle cx='295' cy='764' r='8'/%3E%3Ccircle cx='40' cy='599' r='8'/%3E%3Ccircle cx='102' cy='382' r='8'/%3E%3Ccircle cx='127' cy='80' r='8'/%3E%3Ccircle cx='370' cy='105' r='8'/%3E%3Ccircle cx='578' cy='42' r='8'/%3E%3Ccircle cx='237' cy='261' r='8'/%3E%3Ccircle cx='390' cy='382' r='8' /%3E%3C/g%3E%3C/svg%3E");		
+		z-index: -1;
+		opacity: 0.45;
+	}
+	.creation-new {
+		height: 95px;
+		padding: 50px 40px;
+	}
+
+	.creation-status {
+		color: #6F7B7E;
+		padding: 25px 0;
+		.item {
+			display: block;
+			padding: 10px 0;
+			color: #6F7B7E;
+			&:hover {
+				background-color: #F2F2F2;
+			}
+		}
+		.item.active {
+			background-color: #F1F1F1;
+		}
+		.icon {
+			font-size: 19px;
+			padding-right: 30px;
+			color: #A0A0A0;
+		}
+		.name {
+			font-size: 15px;
+			color: #5D5D5D;
+			font-weight: 500;
+		}
+	}
+} //Section 1
+
+.media {
+	margin-top: 45px;
+	box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+	min-height: 225px;
+	&:hover {
+		//cursor: pointer;
+		background-color: #F2F2F2;
+	}
+	.media-left {
+		align-self: center;
+	}
+	.image {
+		height: auto;
+		max-height: 225px;
+		max-width: 200px;
+	}
+} //section 2
+
+.artwork-description {
+	.description-preview {
+		margin-top: 35px;
+	}
+	.box {
+		height: 100%;
+	}
+	.description-content img {
+		max-width: 300px;
+		max-height: 300px;
+	}
+}
+
+.modal-card {
+	width: 1024px;
 }
 
 @media (max-width: 769px) {
