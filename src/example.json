@@ -1,0 +1,122 @@
+[
+    {
+      "IMG": "http://www.sigecweb.beniculturali.it/images/fullsize/ICCD12500/ICCD6917450_mb005834.jpg",
+      "BENE_CULTURALE": "incisione",
+      "TITOLO": "",
+      "SOGGETTO": "Battesimo di Cristo",
+      "TIPO_SCHEDA": "OA_2.00",
+      "CODICE_UNIVOCO": "09 00390354",
+      "LOCALIZZAZIONE": "MS, Carrara",
+      "CONTENITORE": "palazzo, accademia, Accademia di Belle Arti, magazzini",
+      "DATAZIONE": "sec. XIX metà",
+      "AMBITO_CULTURALE": "incisore francese",
+      "AUTORE": "",
+      "MATERIA_TECNICA": "incisione",
+      "MISURE": "alt. 71, largh. 100,",
+      "CONDIZIONE_GIURIDICA": "proprietà Stato, Ministero Pubblica Istruzione - Accademia di Belle Arti di Carrara",
+      "DATI_ANALITICI": "Cornice in legno.",
+      "ISCRIZIONE": "Classe di appartenenza: documentaria;  Posizione: sul retro del telaio; 493 - 486",
+      "NOTIZIE_STORICO-CRITICHE": "Sia il nome del pittore che quello dell'incisore non sono leggibili.",
+      "ALTRA_LOCALIZZAZIONE": "",
+      "REPERIMENTO": "",
+      "ALTRE_ATTRIBUZIONI": "",
+      "COMMITTENZA": "",
+      "DATI_CATASTALI": "",
+      "GEOREFERENZIAZIONE": "",
+      "BIBLIOGRAFIA": "",
+      "DEFINIZIONE": "incisione",
+      "DENOMINAZIONE": "",
+      "CLASSIFICAZIONE": "",
+      "REGIONE": "",
+      "PROVINCIA": "MS",
+      "COMUNE": "Carrara",
+      "LOCALITA": "",
+      "TOPONIMO": "",
+      "DIOCESI": "",
+      "INDIRIZZO": "",
+      "PROVVEDIMENTI_TUTELA": "",
+      "INVENTARIO": "",
+      "STIMA": "",
+      "RAPPORTO": "",
+      "ALTRI_CODICI": "",
+      "ENTE_SCHEDATORE": "S39",
+      "ENTE_COMPETENTE": "S39",
+      "AUTORI": "Compilatore scheda: Sisti B.; Funzionario responsabile: Russo S.",
+      "ANNO_CREAZIONE": 1995,
+      "ANNO_MODIFICA": "",
+      "LAT": 44.082117,
+      "LON": 10.094062
+    },
+    {
+      "IMG": "http://www.sigecweb.beniculturali.it/images/fullsize/ICCD12500/ICCD7102168_ma001405.jpg",
+      "BENE_CULTURALE": "stampa",
+      "TITOLO": "",
+      "SOGGETTO": "cartina dello stato di Lucca",
+      "TIPO_SCHEDA": "OA_2.00",
+      "CODICE_UNIVOCO": "09 00390338",
+      "LOCALIZZAZIONE": "MS, Carrara",
+      "CONTENITORE": "palazzo, accademia, Accademia di Belle Arti, presidenza (ripostiglio)",
+      "DATAZIONE": "",
+      "AMBITO_CULTURALE": "",
+      "AUTORE": "",
+      "MATERIA_TECNICA": "incisione, a colori, carta",
+      "MISURE": "alt. 54, largh. 63,",
+      "CONDIZIONE_GIURIDICA": "proprietà Stato, Ministero Pubblica Istruzione - Accademia di Belle Arti di Carrara",
+      "DATI_ANALITICI": "cornice in legno.",
+      "ISCRIZIONE": "",
+      "NOTIZIE_STORICO-CRITICHE": "",
+      "ALTRA_LOCALIZZAZIONE": "",
+      "REPERIMENTO": "",
+      "ALTRE_ATTRIBUZIONI": "",
+      "COMMITTENZA": "",
+      "DATI_CATASTALI": "",
+      "GEOREFERENZIAZIONE": "",
+      "BIBLIOGRAFIA": "",
+      "DEFINIZIONE": "stampa",
+      "DENOMINAZIONE": "",
+      "CLASSIFICAZIONE": "",
+      "REGIONE": "",
+      "PROVINCIA": "MS",
+      "COMUNE": "Carrara",
+      "LOCALITA": "",
+      "TOPONIMO": "",
+      "DIOCESI": "",
+      "INDIRIZZO": "",
+      "PROVVEDIMENTI_TUTELA": "",
+      "INVENTARIO": "",
+      "STIMA": "",
+      "RAPPORTO": "",
+      "ALTRI_CODICI": "",
+      "ENTE_SCHEDATORE": "S39",
+      "ENTE_COMPETENTE": "S39",
+      "AUTORI": "Compilatore scheda: Sisti B.; Funzionario responsabile: Russo S.",
+      "ANNO_CREAZIONE": 1995,
+      "ANNO_MODIFICA": "",
+      "LAT": 44.082117,
+      "LON": 10.094062
+    }
+  ]
+
+  /*
+  window.onload = function() {
+  let textData = ["Permanente", "Trasparente", "Immutabile"];
+  typeText(textData, 0);
+};
+
+
+const typeText = (textData, i) => {
+  //console.log(textData, i);
+  //console.log(elem);
+  if(i < textData[i].length) {
+    document.querySelector("p").innerText = textData[1];
+  console.log(textData[1].substring(0, i+1));
+  
+  setTimeout(function() {
+    typeText(textData, i+1);
+  }, 200);
+  }
+}
+
+
+
+  */
