@@ -382,24 +382,64 @@ html, body {
       color: #5D5D5D;
       font-weight: 500; }
 
+.artwork-object[data-val='true'] {
+  /* Styles */
+  border: 3px solid #679436;
+  position: relative; }
+  .artwork-object[data-val='true']::before {
+    content: "";
+    display: block;
+    height: 80px;
+    width: 80px;
+    background-size: cover;
+    background-image: url(../img/valid-document.svg);
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 10px;
+    right: 0; }
+
 .media {
   margin-top: 45px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-  min-height: 225px; }
+  height: 200px;
+  padding: 0 !important; }
   .media:hover {
     background-color: #F2F2F2; }
   .media .media-left {
-    align-self: center; }
+    align-self: center;
+    width: 200px;
+    padding: 0; }
   .media .image {
     height: auto;
-    max-height: 225px;
-    max-width: 200px; }
+    max-height: 180px;
+    max-width: 200px;
+    margin: 0 auto; }
+  .media .content {
+    font-size: 0.9em; }
+  .media .bottom-content {
+    justify-content: space-between;
+    display: flex; }
 
 .artwork-description .description-preview {
-  margin-top: 35px; }
+  height: 100%;
+  margin-top: 40px;
+  margin-right: 20px; }
 
-.artwork-description .box {
-  height: 100%; }
+.artwork-description .artwork-info {
+  text-align: center;
+  align-items: center; }
+  .artwork-description .artwork-info .avatar {
+    height: 100px;
+    width: 100px;
+    margin: 0 auto; }
+    .artwork-description .artwork-info .avatar img {
+      height: 100%;
+      width: 100%; }
+
+.artwork-description .artwork-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; }
 
 .artwork-description .description-content img {
   max-width: 300px;

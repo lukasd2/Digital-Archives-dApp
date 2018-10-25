@@ -121,7 +121,7 @@ contract Archives is Whitelist {
     //artwork checkers can vote on artwork propriety "votesNum" and store their votes in storage
     function approveArtwork(uint _id) onlyIfWhitelisted(msg.sender) checkValidation(_id) public {
         VoteRegister storage validator = validators[msg.sender];
-        for (uint i = 0; i< validators[msg.sender].myVotes.length;i++){
+        for (uint i = 0; i < validators[msg.sender].myVotes.length;i++){
             require(!(validators[msg.sender].myVotes[i] == _id));
         }
         validator.myVotes.push(_id);

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Digital Archives Site Mockup</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet prefetch' href='https://use.fontawesome.com/releases/v5.0.10/css/all.css'>
-    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
     <header class="page-header">
         <h1 style="display: none;">PAGE TITLE</h1>
         <div class="column">
-            <nav class="navbar" role="navigation" aria-label="main navigation">
+            <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
                 <h2 style="display: none;">PAGE Navigation</h2>
                 <div class="navbar-brand">
                     <a class="navbar-item" href="#">
@@ -35,247 +37,272 @@
                         </a>
                     </div>
                     <div class="navbar-item is-tab">
-                            <a class="navbar-item" href="#">
-                                Archivio
-                            </a>
+                        <a class="navbar-item" href="#">
+                            Archivio
+                        </a>
                     </div>
+                </div>
+                <div class="navbar-end">
+                        <div class="navbar-item">
+                            <p>Account: </p>
+                            <p id="account" class="welcome"></p>
+                        </div>
                 </div>
             </nav>
         </div>
     </header>
+    <main class="page-content">
+        <div class="columns ">
+            <section class="artwork-creation column is-2 hero is-fullheight">
+                <div class="creation-status">
+                    <div class="creation-new has-text-centered">
+                        <a id="newArtwork" class="button is-link is-block is-bold">
+                            <span class="creation-new">Inserisci Oggetto</span>
+                        </a>
+                    </div>
+                    <div id="openModal" class="modal"> <!-- START MODAL -->
+                            <div class="modal-background"></div>
+                            <div class="modal-card">
+                              <header class="modal-card-head">
+                                <p class="modal-card-title">Modal title</p>
+                                <button class="delete" aria-label="close"></button>
+                              </header>
+                              <section class="modal-card-body">
+                                <!-- Content ... -->
+                                <div class="column object-insertion is-two-third">
+                                        <div class="tabs is-centered">
+                                                <ul>
+                                                  <li class="is-active"><a>Dublin Core</a></li>
+                                                  <li><a>Dublin Core Esteso</a></li>
+                                                  <li><a>Frbr</a></li>
+                                                </ul>
+                                              </div>
+                                    <form>
+                                        <div class="field">
+                                            <label class="label">Titolo</label>
+                                            <div class="control">
+                                                <input class="input" type="text" name="title" placeholder="Titolo ">
+                                                <p class="help">Un nome dato alla risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Creatore</label>
+                                            <div class="control">
+                                                <input class="input" type="text" name="creator" placeholder="Creatore">
+                                                <p class="help">Un’entità che ha la responsabilità principale della produzione del contenuto della risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Soggetto</label>
+                                            <div class="control">
+                                                <input class="input" type="text" name="subject" placeholder="Soggetto">
+                                                <p class="help">L’argomento della risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Descrizione</label>
+                                            <div class="control">
+                                                <textarea class="textarea" placeholder="Descrizione" name="description" rows="8"></textarea>
+                                                <p class="help">Una spiegazione del contenuto della risorsa</p>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Data</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" name="date" placeholder="Data">
+                                                    <p class="help">Una data associata a un evento del ciclo di vita della risorsa</p>
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Tipo</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" name="type" placeholder="Tipo">
+                                                    <p class="help">La natura o il genere del contenuto della risorsa</p>
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Formato</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" placeholder="Formato">
+                                                    <p class="help">La manifestazione fisica o digitale della risorsa</p>
+                                                </div>
+                                        </div>
+                                        <div class="field">
+                                                <label class="label">Identificatore</label>
+                                                <div class="file has-name">
+                                                        <label class="file-label">
+                                                            <img id="imagePreview" src="" alt="" style="display: block">
+                                                          <input id="captureFileUpload" class="file-input" type="file" name="resume" multiple>
+                                                          <span class="file-cta">
+                                                            <span class="file-icon">
+                                                              <i class="fas fa-upload"></i>
+                                                            </span>
+                                                            <span class="file-label">
+                                                              Choose a file…
+                                                            </span>
+                                                          </span>
+                                                          <span class="file-name">
+                                                            Screen Shot 2017-07-29 at 15.54.25.png
+                                                          </span>
+                                                      </div>
+                                                      <span id="filePreview">
+                                                        </span>
+                                                      </label>
+                                                    <p class="help">Un riferimento univoco alla risorsa nell’ambito di un dato contesto</p>  
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Fonte</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="source" placeholder="Fonte">
+                                                        <p class="help">Un riferimento a una risorsa dalla quale è derivata la risorsa in oggetto</p>
+                                                    </div>
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Lingua</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="language" placeholder="Lingua">
+                                                        <p class="help">La lingua del contenuto intellettuale della risorsa</p>
+                                                    </div>
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Copertura</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="coverage" placeholder="Copertura">
+                                                        <p class="help">L’estensione o scopo del contenuto della risorsa</p>
+                                                    </div>
+                                            </div>
+                                            <div class="field">
+                                                    <label class="label">Gestione dei diritti</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="rights" placeholder="Gestione dei diritti">
+                                                        <p class="help">Informazione sui diritti esercitati sulla risorsa</p>
+                                                    </div>
+                                            </div>
+                                    </form>
+                                </div>
+                              </section>
+                              <footer class="modal-card-foot">
+                                    <a id="sendToDC" class="button is-link is-block is-bold" onclick="App.uploadData(); return false;">
+                                            <span class="create-metadata">Inserisci Oggetto</span>
+                                        </a>
+                                <button class="button is-success">Save changes</button>
+                              </footer>
+                            </div>
+                    </div> <!-- END MODAL -->
+                    <div class="creation-status">
+                        
+                        <a href="#" class="item active has-text-centered"><span class="name">Inbox</span></a>
+                        <a href="#" class="item has-text-centered"><span class="name">Starred</span></a>
+                        <a href="#" class="item has-text-centered"><span class="name">Sent
+                                Mail</span></a>
+                        <a href="#" class="item has-text-centered"><span class="name">Folders</span></a>
+                    </div>
+                </div>
+            </section>
+            <section class="artwork-overview column is-5 is-fullheight" id="message-feed">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            User Search
+                        </p>
+                        <a href="#" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-large" type="text" placeholder="">
+                                <span class="icon is-medium is-left">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                                <span class="icon is-medium is-right">
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="archivesRow" class="">
+                    <!-- Works load HERE -->
+                </div>
 
-    <section class="section">
-        <div class="container is-fluid">
-            <h1 class="title">Inserimento Oggetto</h1>
-        <h2 class="subtitle">
-            Inserimento dell'oggeto nell'archivio
-            <strong>permanente</strong>, codifica Dublin Core
-        </h2>
-        <div class="columns is-centered">
-            <div class="column object-insertion is-two-third">
-                    <div class="tabs is-centered">
-                            <ul>
-                              <li class="is-active"><a>Dublin Core</a></li>
-                              <li><a>Dublin Core Esteso</a></li>
-                              <li><a>Frbr</a></li>
-                            </ul>
-                          </div>
-                <form>
-                    <div class="field">
-                        <label class="label">Titolo</label>
-                        <div class="control">
-                            <input class="input" type="text" name="title" placeholder="Titolo ">
-                            <p class="help">Un nome dato alla risorsa</p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Creatore</label>
-                        <div class="control">
-                            <input class="input" type="text" name="creator" placeholder="Creatore">
-                            <p class="help">Un’entità che ha la responsabilità principale della produzione del contenuto della risorsa</p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Soggetto</label>
-                        <div class="control">
-                            <input class="input" type="text" name="subject" placeholder="Soggetto">
-                            <p class="help">L’argomento della risorsa</p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Descrizione</label>
-                        <div class="control">
-                            <textarea class="textarea" placeholder="Descrizione" name="description" rows="8"></textarea>
-                            <p class="help">Una spiegazione del contenuto della risorsa</p>
-                        </div>
-                    </div>
-                    <div class="field">
-                            <label class="label">Data</label>
-                            <div class="control">
-                                <input class="input" type="text" name="date" placeholder="Data">
-                                <p class="help">Una data associata a un evento del ciclo di vita della risorsa</p>
-                            </div>
-                    </div>
-                    <div class="field">
-                            <label class="label">Tipo</label>
-                            <div class="control">
-                                <input class="input" type="text" name="type" placeholder="Tipo">
-                                <p class="help">La natura o il genere del contenuto della risorsa</p>
-                            </div>
-                    </div>
-                    <div class="field">
-                            <label class="label">Formato</label>
-                            <div class="control">
-                                <input class="input" type="text" placeholder="Formato">
-                                <p class="help">La manifestazione fisica o digitale della risorsa</p>
-                            </div>
-                    </div>
-                    <div class="field">
-                            <label class="label">Identificatore</label>
-                            <div class="file has-name">
-                                    <label class="file-label">
-                                        <img id="imagePreview" src="" alt="" style="display: block">
-                                      <input id="captureFileUpload" class="file-input" type="file" name="resume" multiple>
-                                      <span class="file-cta">
-                                        <span class="file-icon">
-                                          <i class="fas fa-upload"></i>
-                                        </span>
-                                        <span class="file-label">
-                                          Choose a file…
-                                        </span>
-                                      </span>
-                                      <span class="file-name">
-                                        Screen Shot 2017-07-29 at 15.54.25.png
-                                      </span>
-                                  </div>
-                                  <span id="filePreview">
-                                    </span>
-                                  </label>
-                                <p class="help">Un riferimento univoco alla risorsa nell’ambito di un dato contesto</p>  
-                        </div>
-                        <div class="field">
-                                <label class="label">Fonte</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="source" placeholder="Fonte">
-                                    <p class="help">Un riferimento a una risorsa dalla quale è derivata la risorsa in oggetto</p>
-                                </div>
-                        </div>
-                        <div class="field">
-                                <label class="label">Lingua</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="language" placeholder="Lingua">
-                                    <p class="help">La lingua del contenuto intellettuale della risorsa</p>
-                                </div>
-                        </div>
-                        <div class="field">
-                                <label class="label">Copertura</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="coverage" placeholder="Copertura">
-                                    <p class="help">L’estensione o scopo del contenuto della risorsa</p>
-                                </div>
-                        </div>
-                        <div class="field">
-                                <label class="label">Gestione dei diritti</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="rights" placeholder="Gestione dei diritti">
-                                    <p class="help">Informazione sui diritti esercitati sulla risorsa</p>
-                                </div>
-                        </div>
-                    <div class="control">
-                        <button id="sendToDC" type="submit" class="" onclick="App.uploadData(); return false;">Send Form</button>
-                    </div>
-                </form>
-            </div>
-            <div class="column is-one-third object-loader">
-                <div id="section-loader">
-                    <!-- Credits: http://tobiasahlin.com/spinkit/ -->
-                    <div class="" style="display: flex;">    
-                        <p>test</p>              
-                        <div id="loader" class="spinner">
-                                <div class="rect1"></div>
-                                <div class="rect2"></div>
-                                <div class="rect3"></div>
-                                <div class="rect4"></div>
-                                <div class="rect5"></div>
-                        </div>
-                    </div>  
-                </div>
-            </div>
-        </div>
-    </div>
-    </section>
-    <section class="section page-archive">
-            <div class="tabs is-toggle is-fullwidth is-large">
-                    <ul>
-                      <li class="is-active">
-                        <a>
-                          <span class="icon"><i class="fas fa-image" aria-hidden="true"></i></span>
-                          <span>Pictures</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a>
-                          <span class="icon"><i class="fas fa-music" aria-hidden="true"></i></span>
-                          <span>Music</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a>
-                          <span class="icon"><i class="fas fa-film" aria-hidden="true"></i></span>
-                          <span>Videos</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a>
-                          <span class="icon"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                          <span>Documents</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-            <h2>Public showcase of minor artworks</h2>
-                <div id="archivesRow" class="columns">
-                <!-- Works load HERE -->
-                </div>
-                <div id="openModal" class="modal">
-                        <div class="modal-background"></div>
-                        <div class="modal-card">
-                          <header class="modal-card-head">
-                            <p class="modal-card-title">Modal title</p>
-                            <button class="delete" aria-label="close"></button>
-                          </header>
-                          <section class="modal-card-body">
-                            <!-- Content ... -->
-                          </section>
-                          <footer class="modal-card-foot">
-                            <button class="button is-success">Save changes</button>
-                            <button class="button">Cancel</button>
-                            <button class="button btn-adopt hidden">Approva</button>
-                          </footer>
-                        </div>
-                </div>
-            <div id="archiviesTemplate" style="display: none;">
-                <div class="column is-2-desktop is-4-tablet">
-                    <div class="card card-object">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img alt="140x140" data-src="holder.js/140x140" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg"
-                                    data-holder-rendered="true">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <p class="art-name title is-4">John Smith</p>
-                                    <p class="art-author subtitle is-6">@johnsmith</p>
-                                </div>
-                            </div>
-            
+                <div id="archiviesTemplate" class="artwork-object" style="display: none;">
+                    <article class="media artwork-object">
+                        <figure class="media-left">
+                            <img class="image" src="https://bulma.io/images/placeholders/128x128.png">
+                        </figure>
+                        <div class="media-content">
                             <div class="content">
+                                <p class="art-name title is-4">John Smith</p>
+                                <p class="art-author subtitle is-6">@johnsmith</p>
+                                <br>
                                 <p class="art-description is-6"></p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                                <a href="#">#css</a> <a href="#">#responsive</a>
-                                <div class="panel-validity">
-                                        <strong>Validation</strong>: <span class="art-validity">Warren, MI</span><br/><br/>
-                                        <span class="art-validation"></span><br/>
+                                <div class="bottom-content">
+                                <div class="panel-validity is-6">
+                                    <strong>Validation</strong>: <span class="art-validity">Warren, MI</span><br /><br />
+                                    <span class="art-validation"></span><br />
                                 </div>
-                                <br>
-                                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-                                <br>
-                                <button class="modal-button button is-info is-outlined is-medium is-centered" data-target="modal-ter" aria-haspopup="true">Descrizione</button>
+                                <div class="buttons is-right">
+                                        <a class="object-button button is-info is-medium">Visualizza
+                                        </a>
+                                </div>
                             </div>
+                            </div>
+
+                        </div>
+                        <!--<div class="media-right">
+                            <button class="delete"></button>
+                        </div>-->
+                    </article>
+                </div>
+            </section>
+            <section class="artwork-description column hero is-5 is-fullheight">
+                <div class="action-buttons">
+                    <div class="control is-grouped">
+                        <a class="button is-small"><i class="fa fa-inbox"></i></a>
+                        <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                        <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                    <div class="control is-grouped">
+                        <a class="button is-small"><i class="fa fa-exclamation-circle"></i></a>
+                        <a class="button is-small"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                    <div class="control is-grouped">
+                        <a class="button is-small"><i class="fa fa-folder"></i></a>
+                        <a class="button is-small"><i class="fa fa-tag"></i></a>
+                    </div>
+                </div>
+                <div id="artwork-preview" class="box description-preview">
+                    <div class="columns">
+                    <div class="artwork-info column is-6">
+                        <div class="avatar">
+                            <img id="previewPreamble" src="https://placehold.it/128x128">
+                        </div>
+                        <div class="address">
+                            <div id="artworkNamePreamble" class="name">John Smith</div>
+                            <div id="authorAddressPreamble" class="email">someone@gmail.com</div>
+                        </div>
+                    </div>
+                    <div class="artwork-actions column is-6">
+                            <button class="button btn-adopt hidden">Approva</button>
+                            <button class="button btn-modify-metadata hidden">Modifica</button>
+                        </div>
+                    </div>
+                        <hr>
+                        <div class="description-title">
+                        </div>
+                        <div class="description-content"> <!--  contenteditable='true' -->
+                        </div>
+                        <div class="description-footer">
                         </div>
                     </div>
                 </div>
-            </div>
-    </section>
-
+            </section>
+        </div>
+    </main>
     <footer class="footer page-footer">
         <div class="content has-text-centered">
             <p>
@@ -287,9 +314,8 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.js"></script> 
-    <script src="js/bundle.js"></script> 
-  </body>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/bundle.js"></script>
 </body>
 
 </html>
