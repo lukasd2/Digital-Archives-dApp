@@ -121,7 +121,6 @@ App = {
     if(App.loading) {
       return;
     }
-    console.log('test', hash)
     App.loading = true;
     console.log('step start generateMetadata');
     let contentRow = $('#column-test-content');
@@ -159,11 +158,11 @@ App = {
     <meta name='DC.Subject' content='${subject.val()}'>
     <meta name='DC.Description' content='${description.val()}'>
     `
-
     console.log(generatedXMLCode);
     console.log(generatedHTMLCode);
     contentRow.text(generatedHTMLCode);
     contentRow.text(generatedHTMLCode);
+    if(hash === false) {return generatedXMLCode}
     contentRow.append(generatedHTMLCode);
     contentRow.append(generatedXMLCode);
     /*
@@ -230,7 +229,7 @@ App = {
     });
   },
 
-  filesToIPFS: async function (fileSequence) {
+  filesToIPFS: async function (fileSequence, firstTime) {
     console.log('filesToIPFS', fileSequence);
     App.loading = true;
     App.loadingProgress(1);
@@ -297,8 +296,12 @@ App = {
       openModal.classList.add('is-active');
     }); //New Artwork Insertion Modal Close
     const closeModal = openModal.querySelector('.delete');
-    closeModal.addEventListener('click', () => 
-      openModal.classList.remove('is-active'), false); 
+    closeModal.addEventListener('click', () => { 
+      openModal.classList.remove('is-active');
+      /*const modalFooter = document.querySelector('.modal-card-foot');
+      const modifyBtn = modalFooter.querySelector('.is-success');
+        modifyBtn.remove();*/ 
+    });
     //Binding of artwork object to IPFS preview by data-id 
     const artworkContainer = document.getElementById('archivesRow');
     artworkContainer.addEventListener('click', (ev) => {
@@ -407,12 +410,14 @@ App = {
   },
 
   dataToModal: function(ev, artworkPreview) {
-    console.log('data to modal', ev.target.getAttribute('data-id'));
+    //console.log('data to modal', ev.target.getAttribute('data-id'));
     artworkPreview.classList.add('is-active'); //TODO
-    const artId = ev.target.getAttribute('data-id');
+    let artId;
+    if (isNaN(ev)) artId =  ev.target.getAttribute('data-id');
+    else artId = ev ;
     App.contracts.Archives.deployed().then(function (instance) {
       contractInstance = instance;
-      return ev.target.getAttribute('data-id');
+      return artId;
     }).then(function (artId) {
         console.log('inside', artId);
         const artworkId = artId; //TODO temporary then select from ev target!
@@ -430,6 +435,7 @@ App = {
     const previewPreamble = document.getElementById('previewPreamble');
     const title = document.querySelector('.description-title');
     const content = document.querySelector('.description-content');
+    const mediaContent = document.querySelector('.description-footer');
     const artworkActions = document.querySelector('.artwork-actions');
     const btnAprove = artworkActions.querySelector('.btn-adopt');
     const btnModify = artworkActions.querySelector('.btn-modify-metadata');
@@ -437,7 +443,6 @@ App = {
       if (err) { throw err; }
       let ipfsResult =  file.toString('utf8');
       var objectResult = JSON.parse(ipfsResult);
-      console.log(objectResult);
       content.append(objectResult);
       content.textContent = objectResult.description;
       previewPreamble.src = `https://ipfs.io/ipfs/${objectResult.objectPreview}`;
@@ -448,35 +453,73 @@ App = {
         btnAprove.disabled = false;
         btnAprove.setAttribute('data-id', id);
         btnAprove.classList.remove('hidden');
-        btnAprove.addEventListener('click', () => App.validateArtwork(id), false);
+        btnAprove.onclick =  () => App.validateArtwork(id); //old style solution same reason as btnModify.onclick. Also removingEventListener at each function call should fix it
       } else {
         btnAprove.removeAttribute('data-id');
         btnAprove.disabled = true;
       }
       if(App.account === author) {
         btnModify.disabled = false;
-        btnModify.addEventListener('click', () => App.modifyMetadata(id), false);
+        btnModify.setAttribute('data-id', id);
+        btnModify.onclick = () => {App.modifyMetadata(id, objectResult)}; //ad-hoc solution since an addEventListener would take into account all functions calls, possibliy to be fixed with currying or bind
       };
-      //
       for(key of objectResult.objectFiles) {
-        console.log(key);
         let objectFilePreview = document.createElement('img');
         objectFilePreview.setAttribute('src', `https://ipfs.io/ipfs/${key}`);
-        console.log(objectFilePreview);
         content.append(objectFilePreview);
       }
     });
   },
 
-  modifyMetadata: (id) => {
+  modifyMetadata: (id, objectResult) => {
     console.log('event modifyMetadata', id);
-    let newDescription = App.generateNewDesc();
-    console.log(newDescription);
+    console.log("modifyMETADAT", objectResult);
+    const openModal = document.getElementById('openModal');
+    openModal.classList.add('is-active');
+    const modalFooter = document.querySelector('.modal-card-foot');
+    //const modifyArtworkBtn = modalFooter.querySelector('.confirm-modify');
+      const modifyArtworkBtn = document.createElement('button');
+      modifyArtworkBtn.appendChild(document.createTextNode("Modifica la descrizione"));
+      modifyArtworkBtn.classList = 'button is-success';
+      modifyArtworkBtn.id = 'modifyBtn';
+      modalFooter.append(modifyArtworkBtn);
+    modifyArtworkBtn.addEventListener('click', async ()  => {
+      const newMetadata = App.generateMetadata(false);
+      objectResult.description = newMetadata;
+      console.log("P2P", objectResult);
+      let uploadDesc = Buffer.from(JSON.stringify(objectResult));
+      App.loading = true;
+      await ipfs.files.add(uploadDesc, (err, result) => {
+      App.loading = false;
+      if (err) {
+        console.error(err);
+        return
+      }
+      console.log('ipfs result', result);
+      const hash = result[0].hash;
+      console.log('added data hash:', hash);
+      console.log('...Done Uploading your metadata description to IPFS...');
+      App.modifyArtwork(id, hash);
+      });
+    });
   },
 
-  generateNewDesc: () => {
-    return 'abc';
-  },
+  modifyArtwork: (id, hash) => {
+    const idToApprove = id.toNumber();
+    console.log('modifyArtwork id to Modifyt', idToApprove);
+    App.contracts.Archives.deployed().then(function (instance) {
+      return instance.modifyArtworkDescription(idToApprove, hash, {
+        from: App.account,
+        gas: 500000
+      });
+    }).then(function (result) {
+      //App.updateArtworkState();
+      console.log('modifyArtworkDescription', result);
+      const artworkPreview = document.getElementById('artwork-preview');
+      App.reloadArtworks();
+      App.dataToModal(id, artworkPreview);
+    });
+},
 
   validateArtwork: (id) => {
     const idToApprove = id.toNumber();
@@ -491,12 +534,7 @@ App = {
       console.log('ValidateArtworkresult', result);
       //App.reloadArtworks();
     });
-},
-
-modMetadata: () => {
-  console.log('kk'); //TODO: better to show the insertionModalForm directly instead of modifying
-}
-//function modifyArtworkDescription (uint _id, string _newDescriptionHash) public {
+  }
 };
 
 $(function () {

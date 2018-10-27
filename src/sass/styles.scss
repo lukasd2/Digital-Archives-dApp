@@ -321,19 +321,6 @@ html,body {
     padding: 0 20px;
     color: #5D5D5D;
   }
-  .message-preview .avatar {
-    display: inline-block;
-  }
-  .message-preview .top .address {
-    display: inline-block;
-    padding: 0 20px;
-  }
-  .avatar img {
-    width: 40px;
-    border-radius: 50px;
-    border: 2px solid #999;
-    padding: 2px;
-  }
   .address .name {
     font-size: 16px;
     font-weight: bold;
@@ -465,6 +452,7 @@ html,body {
 } //section 2
 
 .artwork-description {
+	display: flex;
 	.description-preview {
 		height: 100%;
 		margin-top: 40px;
@@ -477,9 +465,19 @@ html,body {
 			height: 100px;
 			width: 100px;
 			margin: 0 auto;
+			border-radius: 50px;
+    	border: 2px solid #999;
+			padding: 2px;
+			overflow: hidden;
+			position: relative;
 			img {
-				height: 100%;
-				width: 100%;
+				display: block;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				min-height: 100%;
+				min-width: 100%;
+				transform: translate(-50%, -50%);
 			}
 		}
 		.address {
@@ -491,11 +489,27 @@ html,body {
 		flex-direction: column;
 		justify-content: space-evenly;
 	}
-	.description-content img {
-		max-width: 300px;
-		max-height: 300px;
+	.description-content {
+		img {
+			display: flex;
+			flex-direction: row;
+			max-width: 250px;
+			max-height: 300px;
+			border: 1px solid $blue-light;
+			margin-right: 10px;
+		}
+	}
+	.description-footer {
+		margin-top: 25px;
+		img {
+			max-width: 250px;
+			max-height: 300px;
+			border: 1px solid $blue-light;
+			margin-right: 10px;
+		}
 	}
 }
+
 
 .modal-card {
 	width: 1024px;

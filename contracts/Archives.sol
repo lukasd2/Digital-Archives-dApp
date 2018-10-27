@@ -51,8 +51,14 @@ contract Archives is Whitelist {
     //Modifiers
     //Checks if the artwork has not yet been validate, if it has there is no point on voting that id
     modifier checkValidation(uint _id) {
-        require(artworks[_id].validation == false); //check if the artwork is not already "valid"
-        require(artworkCounter >= _id); //doesn't allow to vote on non existent Artwork ids, also tested for negatives
+        require(
+            artworks[_id].validation == false,
+            "Impossibile to validate an artwork which is already valid"
+        ); //check if the artwork is not already "valid"
+        require(
+            artworkCounter >= _id,
+            "Impossibile to approve (validate) non existent artwork id"
+        ); //doesn't allow to vote on non existent Artwork ids, also tested for negatives
         _;
     }
 
@@ -119,10 +125,13 @@ contract Archives is Whitelist {
         return displayArt;
     }
     //artwork checkers can vote on artwork propriety "votesNum" and store their votes in storage
-    function approveArtwork(uint _id) onlyIfWhitelisted(msg.sender) checkValidation(_id) public {
+    function approveArtwork(uint _id) public onlyIfWhitelisted(msg.sender) checkValidation(_id) {
         VoteRegister storage validator = validators[msg.sender];
         for (uint i = 0; i < validators[msg.sender].myVotes.length;i++){
-            require(!(validators[msg.sender].myVotes[i] == _id));
+            require(
+                !(validators[msg.sender].myVotes[i] == _id),
+                "Error, Msg.sender already voted this artwork id in the past"
+            );
         }
         validator.myVotes.push(_id);
         artworks[_id].votesNum++;
@@ -137,7 +146,10 @@ contract Archives is Whitelist {
     }
     
     function modifyArtworkDescription (uint _id, string _newDescriptionHash) public {
-        require(msg.sender == artworks[_id].author);
+        require(
+            msg.sender == artworks[_id].author,
+            "Msg.sender address doesn't correspond to artwork author address resulting in unauthorized attempt to modify artwork description"
+        );
         artworks[_id].descriptionHash = _newDescriptionHash;
         artworks[_id].votesNum = 0; 
         artworks[_id].validation = false;
@@ -146,10 +158,10 @@ contract Archives is Whitelist {
 
     //returns votes made by given artworkChecker and shows the length of array containg all artworkCheckers
     //for debug purposes
-    function quorum() view public returns (uint[], uint) {
+    /*function quorum() view public returns (uint[], uint) {
         return (
             validators[msg.sender].myVotes,
             artworkCheckersAccount.length
             );
-    }
+    }*/
 }

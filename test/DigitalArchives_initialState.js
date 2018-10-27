@@ -31,4 +31,22 @@ contract('Archives', (accounts) => {
           assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains the correct votes count");
         });
       });
+
+      it("it should contain exactly two artworks at first deployment (from constructor)", () => {
+        return Archives.deployed().then((instance) => {
+            artworkInstance = instance;
+            return artworkInstance.getNumberOfArtworks();
+        }).then((number) => {
+            assert.equal(number, 2, "Two artworks are initialized at deployment");
+        });
+      });
+
+      it("it should have one role on whitelist named artworkChecker", () => {
+        return Archives.deployed().then((instance) => {
+            artworkInstance = instance;
+            return artworkInstance.ROLE_WHITELISTED();
+        }).then((name) => {
+            assert.equal(name, "artworkChecker", "One role (artworkChecker) is implemented on the contract whitelist");
+        });
+      });
 });
