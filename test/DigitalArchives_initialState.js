@@ -21,14 +21,20 @@ contract('Archives', (accounts) => {
         }).then((artwork) => {
           assert.equal(artwork[0], 1, "Contains the correct id");
           assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
-          assert.equal(artwork[2], "Opera d'arte minore approvata", "contains the correct name");
-          assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains the correct votes count");
+          assert.equal(artwork[2], "Opera d'arte minore approvata", "contains correct name");
+          assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains correct descriptionHash");
+          assert.equal(artwork[4], "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", "contains correct dataHash");
+          assert.equal(artwork[6], true, "contains validation field set to true");
+          assert.equal(artwork[7], 2, "contains 2 votes count");
           return artworkInstance.artworks(2);
         }).then((artwork) => {
           assert.equal(artwork[0], 2, "contains the correct id");
           assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
           assert.equal(artwork[2], "Opera d'arte scultura", "contains the correct name");
-          assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains the correct votes count");
+          assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains correct descriptionHash");
+          assert.equal(artwork[4], "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", "contains correct dataHash");
+          assert.equal(artwork[6], false, "contains validation field set to false");
+          assert.equal(artwork[7], 0, "contains 0 votes count");
         });
       });
 
@@ -49,4 +55,14 @@ contract('Archives', (accounts) => {
             assert.equal(name, "artworkChecker", "One role (artworkChecker) is implemented on the contract whitelist");
         });
       });
+
+      it("it should have one role on whitelist named artworkChecker", () => {
+        return Archives.deployed().then((instance) => {
+            artworkInstance = instance;
+            return artworkInstance.ROLE_WHITELISTED();
+        }).then((name) => {
+            assert.equal(name, "artworkChecker", "One role (artworkChecker) is implemented on the contract whitelist");
+        });
+      });
+
 });

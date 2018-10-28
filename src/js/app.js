@@ -84,7 +84,7 @@ App = {
         var artworkId = artworksIds[i];
         //take artworks from the mapping
         contractInstance.artworks(artworkId.toNumber()).then(function (artwork) {
-          App.displayArtworks(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
+          App.displayArtworks(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5], artwork[6]);
         });
       }
       App.loading = false;
@@ -94,7 +94,7 @@ App = {
     });
   },
 
-  displayArtworks: function (id, author, name, descriptionHash, dataHash, validation) {
+  displayArtworks: function (id, author, name, descriptionHash, dataHash, validation, voteNum) {
     const artRow = $('#archivesRow');
     const archiviesTemplate = $('#archiviesTemplate');
     archiviesTemplate.find('.panel-title').text('Title: '+name);
@@ -102,6 +102,7 @@ App = {
     archiviesTemplate.find('.artwork-object').attr('data-id', id);
     archiviesTemplate.find('.artwork-object').attr('data-val', validation);
     archiviesTemplate.find('.art-author').text(author);
+    archiviesTemplate.find('.progress').attr('value', voteNum);
     archiviesTemplate.find('.art-name').text(name);
     archiviesTemplate.find('.art-description').text(`https://ipfs.io/ipfs/${descriptionHash}`);
     archiviesTemplate.find('.art-validity').text(validation);
@@ -134,22 +135,30 @@ App = {
     subject = $('input[name="subject"]');
     let description  = '';
     description = $('textarea[name="description"]');
-    /*let date  = '';
-    date = $('input[name='date']');
+    let date  = '';
+    date = $('input[name="date"]');
     let type   = '';
-    type = $('input[name='type']');
+    type = $('input[name="type"]');
     let source  = '';
-    source = $('input[name='source']');
+    source = $('input[name="source"]');
     let language  = '';
-    language = $('input[name='language']');
+    language = $('input[name="language"]');
     let coverage  = '';
-    coverage = $('input[name='coverage']');*/
+    coverage = $('input[name="coverage"]');
+    let rights  = '';
+    rights = $('input[name="rights"]');
     console.log(title);
     generatedXMLCode = `
     <dc:title> ${title.val()} </dc:title>
     <dc:creator> ${creator.val()} </dc:creator>
     <dc:subject> ${subject.val()} </dc:subject>
     <dc:description> ${description.val()} </dc:description>
+    <dc:date>${date.val()}</dc:date>
+    <dc:type>${type.val()}</dc:type>
+    <dc:source>${source.val()}</dc:source>
+    <dc:language>${language.val()}</dc:language>
+    <dc:coverage>${coverage.val()}</dc:coverage>
+    <dc:rights>${rights.val()}</dc:rights>
     `
 
     generatedHTMLCode = `
@@ -289,19 +298,50 @@ App = {
 
   //listen for events global
   bindEvents: function () {
-    //New Artwork Insertion Modal Open
+    //New Artwork Insertion Modal Open @dev 
     const newArtworkBtn = document.getElementById('newArtwork');
     newArtworkBtn.addEventListener('click', () => {
       const openModal = document.getElementById('openModal');
       openModal.classList.add('is-active');
-    }); //New Artwork Insertion Modal Close
+    }); 
+    //New Artwork Insertion Modal Close
     const closeModal = openModal.querySelector('.delete');
     closeModal.addEventListener('click', () => { 
       openModal.classList.remove('is-active');
-      /*const modalFooter = document.querySelector('.modal-card-foot');
-      const modifyBtn = modalFooter.querySelector('.is-success');
-        modifyBtn.remove();*/ 
     });
+
+    const dublinCoreBtn = document.getElementById('dublinCoreBtn');
+    const dublinExtBtn = document.getElementById('dublinExtBtn');
+    const frbrMetadataBtn = document.getElementById('frbrMetadataBtn');
+    dublinCoreBtn.addEventListener('click', dublinCoreSimple, false);
+    dublinExtBtn.addEventListener('click', dublinCoreExtended, false);
+    frbrMetadataBtn.addEventListener('click', frbrMetadataAdvanced, false);
+
+    function dublinCoreSimple () {
+      setMetadataVisibility();
+      dublinCoreBtn.classList.add('is-active');
+      const metadata = document.getElementById('dublinCoreMetadata');
+      metadata.classList.remove('is-hidden');
+    }
+
+    function dublinCoreExtended () {
+      setMetadataVisibility();
+      dublinExtBtn.classList.add('is-active');
+      const metadata = document.getElementById('dublinCoreExt');
+      metadata.classList.remove('is-hidden');
+    }
+
+    function frbrMetadataAdvanced () {
+      setMetadataVisibility();
+      frbrMetadataBtn.classList.add('is-active');
+      const metadata = document.getElementById('frbrMetadata');
+      metadata.classList.remove('is-hidden');
+    }
+    
+    function setMetadataVisibility () {
+      $("#metadataOptions > li.is-active").removeClass("is-active");
+      $(".object-insertion > form").addClass("is-hidden");
+    }
     //Binding of artwork object to IPFS preview by data-id 
     const artworkContainer = document.getElementById('archivesRow');
     artworkContainer.addEventListener('click', (ev) => {
@@ -444,7 +484,7 @@ App = {
       let ipfsResult =  file.toString('utf8');
       var objectResult = JSON.parse(ipfsResult);
       content.append(objectResult);
-      content.textContent = objectResult.description;
+      content.innerHTML = objectResult.description;
       previewPreamble.src = `https://ipfs.io/ipfs/${objectResult.objectPreview}`;
       titlePreamble.textContent = name;
       authorPreamble.textContent = author;
@@ -453,7 +493,8 @@ App = {
         btnAprove.disabled = false;
         btnAprove.setAttribute('data-id', id);
         btnAprove.classList.remove('hidden');
-        btnAprove.onclick =  () => App.validateArtwork(id); //old style solution same reason as btnModify.onclick. Also removingEventListener at each function call should fix it
+        btnAprove.onclick =  () => App.validateArtwork(id); //old style solution same reason as btnModify.onclick. Also removingEventListener at each function call should fix it.
+        //addEventListener was assigned on each function call  
       } else {
         btnAprove.removeAttribute('data-id');
         btnAprove.disabled = true;
@@ -532,7 +573,7 @@ App = {
     }).then(function (result) {
       //App.updateArtworkState();
       console.log('ValidateArtworkresult', result);
-      //App.reloadArtworks();
+      App.reloadArtworks();
     });
   }
 };
