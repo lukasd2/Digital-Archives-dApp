@@ -110,7 +110,6 @@ App = {
     archiviesTemplate.find('.alert').attr('data-id', id);
     archiviesTemplate.find('img').attr('src', `https://ipfs.io/ipfs/${dataHash}`);
     archiviesTemplate.find('.object-button').attr('data-id', id);
-
     artRow.append(archiviesTemplate.html());
   },
 
@@ -147,26 +146,35 @@ App = {
     coverage = $('input[name="coverage"]');
     let rights  = '';
     rights = $('input[name="rights"]');
-    console.log(title);
-    generatedXMLCode = `
-    <dc:title> ${title.val()} </dc:title>
-    <dc:creator> ${creator.val()} </dc:creator>
-    <dc:subject> ${subject.val()} </dc:subject>
-    <dc:description> ${description.val()} </dc:description>
-    <dc:date>${date.val()}</dc:date>
-    <dc:type>${type.val()}</dc:type>
-    <dc:source>${source.val()}</dc:source>
-    <dc:language>${language.val()}</dc:language>
-    <dc:coverage>${coverage.val()}</dc:coverage>
-    <dc:rights>${rights.val()}</dc:rights>
-    `
-
-    generatedHTMLCode = `
+    const optionSimpleDC = document.getElementById('dublinCoreBtn');
+    const optionExtendedDC = document.getElementById('dublinExtBtn');
+    const optionFrbrMetadata = document.getElementById('frbrMetadataBtn');
+    if(optionSimpleDC.classList.contains('is-active')) {
+      generatedXMLCode = `
+        <dc:title>${title.val()}</dc:title>
+        <dc:creator>${creator.val()}</dc:creator>
+        <dc:subject>${subject.val()}</dc:subject>
+        <dc:description>${description.val()}</dc:description>
+        <dc:date>${date.val()}</dc:date>
+        <dc:type>${type.val()}</dc:type>
+        <dc:source>${source.val()}</dc:source>
+        <dc:language>${language.val()}</dc:language>
+        <dc:coverage>${coverage.val()}</dc:coverage>
+        <dc:rights>${rights.val()}</dc:rights>
+      `
+    } else if (optionExtendedDC.classList.contains('is-active')) {
+      generatedXMLCode = `extended dc option`;
+    } else if (optionFrbrMetadata.classList.contains('is-active')) {
+      generatedXMLCode = `FBRBR  RBR option`
+    } else {
+      return; 
+    }
+    /*generatedHTMLCode = `
     <meta name='DC.Title' content='${title.val()}'> 
     <meta name='DC.Creator' content='${creator.val()}'> 
     <meta name='DC.Subject' content='${subject.val()}'>
     <meta name='DC.Description' content='${description.val()}'>
-    `
+    `*/
     console.log(generatedXMLCode);
     console.log(generatedHTMLCode);
     contentRow.text(generatedHTMLCode);
@@ -238,7 +246,7 @@ App = {
     });
   },
 
-  filesToIPFS: async function (fileSequence, firstTime) {
+  filesToIPFS: async function (fileSequence) {
     console.log('filesToIPFS', fileSequence);
     App.loading = true;
     App.loadingProgress(1);
