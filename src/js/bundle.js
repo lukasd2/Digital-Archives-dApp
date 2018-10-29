@@ -120802,7 +120802,7 @@ App = {
     
     function setMetadataVisibility () {
       $("#metadataOptions > li.is-active").removeClass("is-active");
-      $(".object-insertion > form").addClass("is-hidden");
+      $(".insertionForm > #dublinCoreMetadata, #dublinCoreExt, #frbrMetadata").addClass("is-hidden");
     }
     //Binding of artwork object to IPFS preview by data-id 
     const artworkContainer = document.getElementById('archivesRow');
@@ -120812,8 +120812,8 @@ App = {
           App.dataToModal(ev, artworkPreview);
         }
       }, false);
-    let imagePreview = document.getElementById('imagePreview');
-    imagePreview.src = 'http://place-hold.it/150x150';
+    //let imagePreview = document.getElementById('imagePreview');
+    //imagePreview.src = 'http://place-hold.it/150x150';
     //Event listeners
     let uploadFile = document.getElementById('captureFileUpload');
     uploadFile.addEventListener('change', fileUploadForm);
@@ -120821,7 +120821,6 @@ App = {
       console.log(ev);
       const files = ev.target.files;
       let fileResult = document.getElementById('filePreview');
-      //let store = [];
       let sessionIndex = App.store.length;
       let eventIndex = 0;
       console.log('sessionIndex',sessionIndex);
@@ -120846,7 +120845,8 @@ App = {
           let test = document.createElement('span'); //TODO testing purposes
           test.append(preview);
           test.append(deleteBtn);
-          fileResult.append(test);        }
+          fileResult.append(test);       
+         }
       }
       function chooseMainThumbnail (ev) {
         let fileResult = document.getElementById('filePreview');
@@ -120921,7 +120921,6 @@ App = {
       contractInstance = instance;
       return artId;
     }).then(function (artId) {
-        console.log('inside', artId);
         const artworkId = artId; //TODO temporary then select from ev target!
         //take artworks from the mapping
         contractInstance.artworks(artworkId).then(function (artwork) {
@@ -120980,7 +120979,6 @@ App = {
     const openModal = document.getElementById('openModal');
     openModal.classList.add('is-active');
     const modalFooter = document.querySelector('.modal-card-foot');
-    //const modifyArtworkBtn = modalFooter.querySelector('.confirm-modify');
       const modifyArtworkBtn = document.createElement('button');
       modifyArtworkBtn.appendChild(document.createTextNode("Modifica la descrizione"));
       modifyArtworkBtn.classList = 'button is-success';
@@ -120989,7 +120987,6 @@ App = {
     modifyArtworkBtn.addEventListener('click', async ()  => {
       const newMetadata = App.generateMetadata(false);
       objectResult.description = newMetadata;
-      console.log("P2P", objectResult);
       let uploadDesc = Buffer.from(JSON.stringify(objectResult));
       App.loading = true;
       await ipfs.files.add(uploadDesc, (err, result) => {
@@ -121016,7 +121013,6 @@ App = {
         gas: 500000
       });
     }).then(function (result) {
-      //App.updateArtworkState();
       console.log('modifyArtworkDescription', result);
       const artworkPreview = document.getElementById('artwork-preview');
       App.reloadArtworks();
@@ -121033,7 +121029,6 @@ App = {
         //gas: 500000
       });
     }).then(function (result) {
-      //App.updateArtworkState();
       console.log('ValidateArtworkresult', result);
       App.reloadArtworks();
     });
