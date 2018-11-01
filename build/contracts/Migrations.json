@@ -1387,6 +1387,12 @@
       "address": "0x8cdaf0cd259887258bc13a92c0a6da92698644c0",
       "transactionHash": "0x1d926a217fecec30ac2683cd98918eea17cb5545a59022a562e70af7d7eff972"
     },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x0c9c15cbd73f4620cb1e93372ef3b63cc5fdb225",
+      "transactionHash": "0x1d926a217fecec30ac2683cd98918eea17cb5545a59022a562e70af7d7eff972"
+    },
     "5779": {
       "events": {},
       "links": {},
@@ -1395,5 +1401,5 @@
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-29T18:26:44.604Z"
+  "updatedAt": "2018-11-01T20:35:18.773Z"
 }

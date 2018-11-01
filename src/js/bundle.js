@@ -120481,10 +120481,11 @@ App = {
     }
     web3 = new Web3(App.web3Provider);
     App.displayAccountInfo();
+    App.displayPermissionInfo();
     return App.initContract();
   },
 
-  permissionCheck: () => {
+  displayPermissionInfo: () => {
     console.log('perma', App.account);
   },
 
@@ -121031,6 +121032,26 @@ App = {
     }).then(function (result) {
       console.log('ValidateArtworkresult', result);
       App.reloadArtworks();
+    });
+  },
+
+  filterValidObjects: () => {
+    const objectRow = document.getElementById('archivesRow');
+    const button = document.getElementById('filterValidObjects');
+    const objects = objectRow.querySelectorAll('.artwork-object[data-val=false]');
+    objects.forEach((object) => {
+      button.classList.toggle('is-active');
+      object.classList.toggle('is-hidden');
+    });
+  },
+
+  filterPendingObjects: () => {
+    const objectRow = document.getElementById('archivesRow');
+    const button = document.getElementById('filterPendingObjects');
+    const objects = objectRow.querySelectorAll('.artwork-object[data-val=true]');
+    objects.forEach((object) => {
+      button.classList.toggle('is-active');
+      object.classList.toggle('is-hidden');
     });
   }
 };

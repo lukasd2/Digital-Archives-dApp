@@ -196,6 +196,10 @@ html,body {
 	min-height: 30vh;
 }
 
+.modal-card-title {
+	text-align: center;
+}
+
 .modal-card-body {
 	display: flex;
 	background-color: $light;
@@ -301,8 +305,9 @@ html,body {
 	}
 } //Section 1
 
-.artwork-object[data-val='true'] {
+.artwork-object {
 	/* Styles */
+	&[data-val='true'] {
 	border: 3px solid $green-light;
 	position: relative;
 	&::before {
@@ -316,6 +321,22 @@ html,body {
 		position: absolute;
 		top: 10px;
 		right: 0;
+	}
+	}
+	&[data-val='false'] {
+		position: relative;
+		&::before {
+			content: "";
+			display:block;
+			height:55px;
+			width:55px;
+			background-size: cover;
+			background-image: url(../img/awaitForApproval.svg);
+			background-repeat: no-repeat;
+			position: absolute;
+			top: 10px;
+			right: 0;
+		}
 	}
 }
 

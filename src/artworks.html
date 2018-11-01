@@ -45,7 +45,7 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <p>Account: </p>
-                        <p id="account" class="welcome"></p>
+                        <!--<p id="account" class="welcome"></p>-->
                     </div>
                 </div>
             </nav>
@@ -65,7 +65,7 @@
                         <div class="modal-background"></div>
                         <div class="modal-card">
                             <header class="modal-card-head">
-                                <p class="modal-card-title">Modal title</p>
+                                <p class="modal-card-title">Inserimento oggetto nell'archivio</p>
                                 <button class="delete" aria-label="close"></button>
                             </header>
                             <section class="modal-card-body">
@@ -75,7 +75,7 @@
                                         <ul id="metadataOptions">
                                             <li id="dublinCoreBtn"class="is-active"><a>Dublin Core</a></li>
                                             <li id="dublinExtBtn"><a>Dublin Core Esteso</a></li>
-                                            <li id="frbrMetadataBtn"><a>Frbr</a></li>
+                                            <li id="frbrMetadataBtn"><a>CIDOC (CRM)</a></li>
                                         </ul>
                                     </div>
                                     <hr>
@@ -246,7 +246,7 @@
                     </div> <!-- END MODAL -->
                     <div class="creation-status">
 
-                        <a href="#" class="item active has-text-centered"><span class="name">Inbox</span></a>
+                        <a href="#" class="item active has-text-centered"><span id="account" class="name">Inbox</span></a>
                         <a href="#" class="item has-text-centered"><span class="name">Starred</span></a>
                         <a href="#" class="item has-text-centered"><span class="name">Sent
                                 Mail</span></a>
@@ -266,19 +266,26 @@
                             </span>
                         </a>
                     </header>
-                    <div class="card-content">
-                        <div class="content">
-                            <div class="control has-icons-left has-icons-right">
-                                <input class="input is-large" type="text" placeholder="">
-                                <span class="icon is-medium is-left">
-                                    <i class="fa fa-search"></i>
-                                </span>
-                                <span class="icon is-medium is-right">
-                                    <i class="fa fa-check"></i>
-                                </span>
-                            </div>
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                          <input class="input" type="text" placeholder="Find a repository">
                         </div>
-                    </div>
+                        <div class="control">
+                          <a class="button is-info">
+                            Search
+                          </a>
+                        </div>
+                      </div>
+                      <a class="button is-large" id="filterValidObjects" onclick="App.filterValidObjects(); return false;">
+                        <span class="icon is-large">
+                          <img src="img/valid-document.svg"> 
+                        </span>
+                      </a>
+                      <a class="button is-large" id="filterPendingObjects" onclick="App.filterPendingObjects(); return false;">
+                        <span class="icon is-large">
+                          <img src="img/awaitForApproval.svg">
+                        </span>
+                      </a>
                 </div>
                 <div id="archivesRow" class="">
                     <!-- Works load HERE -->

@@ -159,6 +159,9 @@ html, body {
   padding-top: 100px;
   min-height: 30vh; }
 
+.modal-card-title {
+  text-align: center; }
+
 .modal-card-body {
   display: flex;
   background-color: #EBF2FA; }
@@ -280,21 +283,35 @@ html, body {
       color: #5D5D5D;
       font-weight: 500; }
 
-.artwork-object[data-val='true'] {
-  /* Styles */
-  border: 3px solid #679436;
-  position: relative; }
-  .artwork-object[data-val='true']::before {
-    content: "";
-    display: block;
-    height: 65px;
-    width: 65px;
-    background-size: cover;
-    background-image: url(../img/valid-document.svg);
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 10px;
-    right: 0; }
+.artwork-object {
+  /* Styles */ }
+  .artwork-object[data-val='true'] {
+    border: 3px solid #679436;
+    position: relative; }
+    .artwork-object[data-val='true']::before {
+      content: "";
+      display: block;
+      height: 65px;
+      width: 65px;
+      background-size: cover;
+      background-image: url(../img/valid-document.svg);
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 10px;
+      right: 0; }
+  .artwork-object[data-val='false'] {
+    position: relative; }
+    .artwork-object[data-val='false']::before {
+      content: "";
+      display: block;
+      height: 55px;
+      width: 55px;
+      background-size: cover;
+      background-image: url(../img/awaitForApproval.svg);
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 10px;
+      right: 0; }
 
 .media {
   border-radius: 15px;
@@ -373,14 +390,14 @@ html, body {
       flex-direction: row;
       max-width: 250px;
       max-height: 300px;
-      border: 1px solid #427AA1;
+      border: 1px solid #427aa1;
       margin-right: 10px; }
   .artwork-description .description-footer {
     margin-top: 25px; }
     .artwork-description .description-footer img {
       max-width: 250px;
       max-height: 300px;
-      border: 1px solid #427AA1;
+      border: 1px solid #427aa1;
       margin-right: 10px; }
 
 .modal-card {
