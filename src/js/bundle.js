@@ -120481,12 +120481,7 @@ App = {
     }
     web3 = new Web3(App.web3Provider);
     App.displayAccountInfo();
-    App.displayPermissionInfo();
     return App.initContract();
-  },
-
-  displayPermissionInfo: () => {
-    console.log('perma', App.account);
   },
 
   displayAccountInfo: function () {
@@ -120496,8 +120491,6 @@ App = {
         App.account = account;
       }
       $('#account').text(account);
-      console.log('times');
-      //App.permissionCheck();
       web3.eth.getBalance(account, function (err, balance) {
         if (err === null) {
           $('#accountBalance').text(web3.fromWei(balance, 'ether') + ' ETH');
@@ -120516,8 +120509,23 @@ App = {
       //listen to events
       App.bindEvents();
       //retrieve the article from the contract
+      App.showPermissions();
       return App.reloadArtworks();
     })
+  },
+
+  showPermissions: () => {
+    let contractInstance;
+    App.contracts.Archives.deployed().then(function (instance) {
+      contractInstance = instance;
+      return contractInstance.whitelist(App.account); //async again -- returns an array of ids all artworks available
+    }).then(function (bool) {
+      if(bool) {
+        $('#accountPermission').text("Artwork Checker");
+      } else {
+        $('#accountPermission').text("User");
+      }
+    });
   },
 
   reloadArtworks: function () {

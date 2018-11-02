@@ -321,6 +321,10 @@ html, body {
   padding: 0 !important; }
   .media:hover {
     background-color: #F2F2F2; }
+  .media .title, .media .subtitle {
+    font-size: 1.2em; }
+  .media .art-description {
+    font-size: 0.7em; }
   .media .media-left {
     align-self: center;
     width: 200px;
@@ -330,8 +334,18 @@ html, body {
     max-height: 180px;
     max-width: 200px;
     margin: 0 auto; }
-  .media .content {
-    font-size: 0.9em; }
+  .media .content .progress {
+    text-align: center;
+    position: relative; }
+    .media .content .progress::before {
+      content: "Voti: " attr(value) " su " attr(max);
+      position: absolute;
+      top: 0;
+      color: #ffffff;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      line-height: 1rem; }
   .media .bottom-content {
     justify-content: space-between;
     display: flex; }

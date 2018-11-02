@@ -139,7 +139,7 @@ contract Archives is Whitelist {
     }
     //checks if the "quorum" number has been met, static example of "2", can be e.g 1/3 of total artworkCheckers
     function completeValidation(uint _id) internal {
-        if (artworks[_id].votesNum > 2 ) {
+        if (artworks[_id].votesNum >= 2 ) {
             artworks[_id].validation = true;
             emit ValidateArtw(_id, msg.sender);
         }

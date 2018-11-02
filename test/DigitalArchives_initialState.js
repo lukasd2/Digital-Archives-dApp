@@ -9,7 +9,7 @@ or transaction took place (a part from constructor). This is the definition of s
 */
 
 contract('Archives', (accounts) => {
-    const contractOwner = accounts[0]; //since the constructor is called at the deployment, we suppose the author address equal to the first ganache account (0x9Fb867de1eD00990FCFFefC7925846068561ef3C)
+    const contractOwner = accounts[0]; //since the constructor is called at the deployment, we suppose the author address equal to the first ganache account (e.g. 0x9Fb867de1eD00990FCFFefC7925846068561ef3C)
     
     it('it should be initialized with two artworks from constructor (at first contract deployment)', () => {
         return Archives.deployed().then((instance) => {
@@ -63,7 +63,6 @@ contract('Archives', (accounts) => {
         });
       });
 
-      /* Whitelist contract tests */
       it("it should have one role on whitelist named artworkChecker", () => {
         return Archives.deployed().then((instance) => {
             artworkInstance = instance;
@@ -81,5 +80,4 @@ contract('Archives', (accounts) => {
             assert.equal(boolean, false, "Contract owner should not be on whitelist");
         });
       });
-      /* Whitelist contract tests end */
 });

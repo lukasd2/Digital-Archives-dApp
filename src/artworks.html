@@ -73,106 +73,14 @@
                                 <div class="column object-insertion">
                                     <div class="tabs is-centered">
                                         <ul id="metadataOptions">
-                                            <li id="dublinCoreBtn"class="is-active"><a>Dublin Core</a></li>
+                                            <li id="dublinCoreBtn" class="is-active"><a>Dublin Core</a></li>
                                             <li id="dublinExtBtn"><a>Dublin Core Esteso</a></li>
                                             <li id="frbrMetadataBtn"><a>CIDOC (CRM)</a></li>
                                         </ul>
                                     </div>
                                     <hr>
                                     <form class="insertionForm">
-                                    <div id="dublinCoreMetadata">
-                                        <div class="columns">
-                                            <div class="field column is-half">
-                                                <label class="label">Titolo</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="title" placeholder="Titolo ">
-                                                    <p class="help">Un nome dato alla risorsa</p>
-                                                </div>
-                                            </div>
-                                            <div class="field column is-half">
-                                                <label class="label">Creatore</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="creator" placeholder="Creatore">
-                                                    <p class="help">Un’entità che ha la responsabilità principale della
-                                                        produzione del contenuto della risorsa</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="columns">
-                                            <div class="field column">
-                                                <label class="label">Descrizione</label>
-                                                <div class="control">
-                                                    <textarea class="textarea" placeholder="Descrizione" name="description"
-                                                        rows="8"></textarea>
-                                                    <p class="help">Una spiegazione del contenuto della risorsa</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="columns">
-                                            <div class="field column is-half">
-                                                <label class="label">Data</label>
-                                                <div class="control">
-                                                    <input class="input" type="date" name="date" placeholder="Data"
-                                                        value="2018-11-20" min="0-01-01" max="2099-12-31">
-                                                    <p class="help">Una data associata a un evento del ciclo di vita
-                                                        della risorsa</p>
-                                                </div>
-                                            </div>
-                                            <div class="field column is-half">
-                                                <label class="label">Tipo</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="type" placeholder="Tipo">
-                                                    <p class="help">La natura o il genere del contenuto della risorsa</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="columns">
-                                            <div class="field column is-half">
-                                                <label class="label">Fonte</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="source" placeholder="Fonte">
-                                                    <p class="help">Un riferimento a una risorsa dalla quale è derivata
-                                                        la
-                                                        risorsa in oggetto</p>
-                                                </div>
-                                            </div>
-                                            <div class="field column is-half">
-                                                <label class="label">Lingua</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="language" placeholder="Lingua">
-                                                    <p class="help">La lingua del contenuto intellettuale della risorsa</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="columns">
-                                            <div class="field column is-half">
-                                                <label class="label">Copertura</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="coverage" placeholder="Copertura">
-                                                    <p class="help">L’estensione o scopo del contenuto della risorsa</p>
-                                                </div>
-                                            </div>
-                                            <div class="field column is-half">
-                                                <label class="label">Gestione dei diritti</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="rights" placeholder="Gestione dei diritti">
-                                                    <p class="help">Informazione sui diritti esercitati sulla risorsa</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="dublinCoreExt" class="is-hidden">
-                                        <div class="columns">
-                                            <div class="field column is-half">
-                                                <label class="label">Titolo</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="title" placeholder="Titolo ">
-                                                    <p class="help">Un nome dato alla risorsa</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="frbrMetadata" class="is-hidden">
+                                        <div id="dublinCoreMetadata">
                                             <div class="columns">
                                                 <div class="field column is-half">
                                                     <label class="label">Titolo</label>
@@ -182,30 +90,130 @@
                                                     </div>
                                                 </div>
                                                 <div class="field column is-half">
-                                                        <label class="label">Titolo</label>
-                                                        <div class="control">
-                                                            <input class="input" type="text" name="title" placeholder="Titolo ">
-                                                            <p class="help">Un nome dato alla risorsa</p>
-                                                        </div>
+                                                    <label class="label">Creatore</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="creator" placeholder="Creatore">
+                                                        <p class="help">Un’entità che ha la responsabilità principale
+                                                            della
+                                                            produzione del contenuto della risorsa</p>
                                                     </div>
-                                            </div>
-                                        <div class="columns">
-                                            <div class="field column is-half">
-                                                <label class="label">Soggetto</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" name="subject" placeholder="Soggetto">
-                                                    <p class="help">L’argomento della risorsa</p>
                                                 </div>
                                             </div>
-                                            <div class="field column is-half">
-                                                <label class="label">Formato</label>
-                                                <div class="control">
-                                                    <input class="input" type="text" placeholder="Formato">
-                                                    <p class="help">La manifestazione fisica o digitale della risorsa</p>
+                                            <div class="columns">
+                                                <div class="field column">
+                                                    <label class="label">Descrizione</label>
+                                                    <div class="control">
+                                                        <textarea class="textarea" placeholder="Descrizione" name="description"
+                                                            rows="8"></textarea>
+                                                        <p class="help">Una spiegazione del contenuto della risorsa</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="columns">
+                                                <div class="field column is-half">
+                                                    <label class="label">Data</label>
+                                                    <div class="control">
+                                                        <input class="input" type="date" name="date" placeholder="Data"
+                                                            value="2018-11-20" min="0-01-01" max="2099-12-31">
+                                                        <p class="help">Una data associata a un evento del ciclo di
+                                                            vita
+                                                            della risorsa</p>
+                                                    </div>
+                                                </div>
+                                                <div class="field column is-half">
+                                                    <label class="label">Tipo</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="type" placeholder="Tipo">
+                                                        <p class="help">La natura o il genere del contenuto della
+                                                            risorsa</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="columns">
+                                                <div class="field column is-half">
+                                                    <label class="label">Fonte</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="source" placeholder="Fonte">
+                                                        <p class="help">Un riferimento a una risorsa dalla quale è
+                                                            derivata
+                                                            la
+                                                            risorsa in oggetto</p>
+                                                    </div>
+                                                </div>
+                                                <div class="field column is-half">
+                                                    <label class="label">Lingua</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="language" placeholder="Lingua">
+                                                        <p class="help">La lingua del contenuto intellettuale della
+                                                            risorsa</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="columns">
+                                                <div class="field column is-half">
+                                                    <label class="label">Copertura</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="coverage" placeholder="Copertura">
+                                                        <p class="help">L’estensione o scopo del contenuto della
+                                                            risorsa</p>
+                                                    </div>
+                                                </div>
+                                                <div class="field column is-half">
+                                                    <label class="label">Gestione dei diritti</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="rights" placeholder="Gestione dei diritti">
+                                                        <p class="help">Informazione sui diritti esercitati sulla
+                                                            risorsa</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div id="dublinCoreExt" class="is-hidden">
+                                            <div class="columns">
+                                                <div class="field column is-half">
+                                                    <label class="label">Titolo</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="title" placeholder="Titolo ">
+                                                        <p class="help">Un nome dato alla risorsa</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="frbrMetadata" class="is-hidden">
+                                            <div class="columns">
+                                                <div class="field column is-half">
+                                                    <label class="label">Titolo</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="title" placeholder="Titolo ">
+                                                        <p class="help">Un nome dato alla risorsa</p>
+                                                    </div>
+                                                </div>
+                                                <div class="field column is-half">
+                                                    <label class="label">Titolo</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="title" placeholder="Titolo ">
+                                                        <p class="help">Un nome dato alla risorsa</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="columns">
+                                                <div class="field column is-half">
+                                                    <label class="label">Soggetto</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="subject" placeholder="Soggetto">
+                                                        <p class="help">L’argomento della risorsa</p>
+                                                    </div>
+                                                </div>
+                                                <div class="field column is-half">
+                                                    <label class="label">Formato</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" placeholder="Formato">
+                                                        <p class="help">La manifestazione fisica o digitale della
+                                                            risorsa</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="columns">
                                             <div class="field column">
                                                 <label class="label">Identificatore</label>
@@ -246,9 +254,11 @@
                     </div> <!-- END MODAL -->
                     <div class="creation-status">
 
-                        <a href="#" class="item active has-text-centered"><span id="account" class="name">Inbox</span></a>
-                        <a href="#" class="item has-text-centered"><span class="name">Starred</span></a>
-                        <a href="#" class="item has-text-centered"><span class="name">Sent
+                        <a href="#" class="item active has-text-centered"><span id="account" class="name">Account
+                                address</span></a>
+                        <a href="#" class="item has-text-centered"><span id="accountBalance" class="name">Account
+                                balance</span></a>
+                        <a href="#" class="item has-text-centered"><span id="accountPermission" class="name">Sent
                                 Mail</span></a>
                         <a href="#" class="item has-text-centered"><span class="name">Folders</span></a>
                     </div>
@@ -268,24 +278,24 @@
                     </header>
                     <div class="field has-addons">
                         <div class="control is-expanded">
-                          <input class="input" type="text" placeholder="Find a repository">
+                            <input class="input" type="text" placeholder="Find a repository">
                         </div>
                         <div class="control">
-                          <a class="button is-info">
-                            Search
-                          </a>
+                            <a class="button is-info">
+                                Search
+                            </a>
                         </div>
-                      </div>
-                      <a class="button is-large" id="filterValidObjects" onclick="App.filterValidObjects(); return false;">
+                    </div>
+                    <a class="button is-large" id="filterValidObjects" onclick="App.filterValidObjects(); return false;">
                         <span class="icon is-large">
-                          <img src="img/valid-document.svg"> 
+                            <img src="img/valid-document.svg">
                         </span>
-                      </a>
-                      <a class="button is-large" id="filterPendingObjects" onclick="App.filterPendingObjects(); return false;">
+                    </a>
+                    <a class="button is-large" id="filterPendingObjects" onclick="App.filterPendingObjects(); return false;">
                         <span class="icon is-large">
-                          <img src="img/awaitForApproval.svg">
+                            <img src="img/awaitForApproval.svg">
                         </span>
-                      </a>
+                    </a>
                 </div>
                 <div id="archivesRow" class="">
                     <!-- Works load HERE -->
@@ -293,6 +303,7 @@
 
                 <div id="archiviesTemplate" class="artwork-object" style="display: none;">
                     <article class="media artwork-object">
+
                         <figure class="media-left">
                             <img class="image" src="https://bulma.io/images/placeholders/128x128.png">
                         </figure>
@@ -301,7 +312,7 @@
                                 <p class="art-name title is-4">Titolo dell'oggetto</p>
                                 <p class="art-author subtitle is-6">Indirizzo dell'autore</p>
                                 <p class="art-description"></p>
-                                <progress class="progress is-link is-small" value="0" max="2">15%</progress>
+                                <progress class="progress is-link is-medium" value="0" max="2"></progress>
                                 <div class="bottom-content">
                                     <div class="panel-validity is-6">
                                         <strong>Validation</strong>: <span class="art-validity">Warren, MI</span>
@@ -342,7 +353,7 @@
                         <!--  contenteditable='true' -->
                     </div>
                     <div class="description-footer">
-                            <meta name='DC.Title' content='abvccd'>
+                        <meta name='DC.Title' content='abvccd'>
                     </div>
                 </div>
         </div>

@@ -1396,10 +1396,10 @@
     "5779": {
       "events": {},
       "links": {},
-      "address": "0x2ba622a7f5e5559479d39c05021056932dcf6fd9",
-      "transactionHash": "0xcc57d9d3b646998f35318ec597413ca1fb5cb2326359d180ceb22ac6a71187c2"
+      "address": "0x7b2df3d680cb2e82a4eaa66f2a8c384324ce2efa",
+      "transactionHash": "0x1439579d8356f94d7c5bcda243e8aa326baee2118d96ac9092b4c8eb376fc923"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-11-01T20:35:18.773Z"
+  "updatedAt": "2018-11-02T21:09:21.167Z"
 }
