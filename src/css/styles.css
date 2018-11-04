@@ -175,6 +175,8 @@ html, body {
     border-bottom: 2px solid #05668D;
     color: #05668D;
     font-weight: bold; }
+  .object-insertion .extension {
+    border: 2px dotted #05668D; }
   .object-insertion #filePreview {
     display: flex; }
     .object-insertion #filePreview img {
@@ -401,8 +403,10 @@ html, body {
     line-height: 1.5em;
     text-align: left;
     padding-left: 10px; }
-    .artwork-description .description-content *.item {
+    .artwork-description .description-content span {
       padding-bottom: 10px; }
+      .artwork-description .description-content span .item {
+        font-weight: bold; }
     .artwork-description .description-content img {
       display: flex;
       flex-direction: row;

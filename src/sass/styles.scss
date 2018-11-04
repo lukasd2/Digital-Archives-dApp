@@ -218,6 +218,9 @@ html,body {
 			font-weight: bold;
 	}
 	}
+	.extension {
+		border: 2px dotted $blue-dark;
+	}
 	#filePreview {
 		display: flex;
 		img {
@@ -448,8 +451,11 @@ html,body {
 		line-height: 1.5em;
 		text-align: left;
 		padding-left: 10px;
-		^.item {
+		span {
 			padding-bottom: 10px;
+			.item {
+				font-weight: bold;
+			}
 		}
 		img {
 			display: flex;

@@ -120617,7 +120617,7 @@ App = {
     rights = $('input[name="rights"]');
     const optionSimpleDC = document.getElementById('dublinCoreBtn');
     const optionExtendedDC = document.getElementById('dublinExtBtn');
-    const optionFrbrMetadata = document.getElementById('frbrMetadataBtn');
+    const optionCRMMetadata = document.getElementById('crmMetadataBtn');
     if(optionSimpleDC.classList.contains('is-active')) {
       generatedXMLCode = `
       <span class="item 1">Titolo: <dc:title>${title.val()}</dc:title></span>
@@ -120633,10 +120633,24 @@ App = {
       <span class="item 11">Lingua: <dc:language>${language.val()}</dc:language></span>
       <span class="item 12">Copertura: <dc:coverage>${coverage.val()}</dc:coverage></span>
       <span class="item 13">Gestione dei diritti: <dc:rights>${rights.val()}</dc:rights></span>
-      `
+      `;
     } else if (optionExtendedDC.classList.contains('is-active')) {
-      generatedXMLCode = `extended dc option`;
-    } else if (optionFrbrMetadata.classList.contains('is-active')) {
+      generatedXMLCode = `
+      <span class="item 1">Titolo: <dc:title>${title.val()}</dc:title></span>
+      <span class="item 2">Creatore: <dc:creator>${creator.val()}</dc:creator></span>
+      <span class="item 3">Soggetto: <dc:subject>${subject.val()}</dc:subject></span>
+      <span class="item 4">Editore: <dc:publisher>${publisher.val()}</dc:publisher></span>
+      <span class="item 5">Descrizione: <dc:description>${description.val()}</dc:description></span>
+      <span class="item 6">Data: <dc:date>${date.val()}</dc:date></span>
+      <span class="item 7">Tipo: <dc:type>${type.val()}</dc:type></span>
+      <span class="item 8">Formato: <dc:format>${format.val()}</dc:format></span>
+      <span class="item 9">Relazione: <dc:relation>${relation.val()}</dc:relation></span>
+      <span class="item 10">Fonte: <dc:source>${source.val()}</dc:source></span>
+      <span class="item 11">Lingua: <dc:language>${language.val()}</dc:language></span>
+      <span class="item 12">Copertura: <dc:coverage>${coverage.val()}</dc:coverage></span>
+      <span class="item 13">Gestione dei diritti: <dc:rights>${rights.val()}</dc:rights></span>
+      `;
+    } else if (optionCRMMetadata.classList.contains('is-active')) {
       generatedXMLCode = `CIDOC option`
     } else {
       return; 
@@ -120792,10 +120806,10 @@ App = {
 
     const dublinCoreBtn = document.getElementById('dublinCoreBtn');
     const dublinExtBtn = document.getElementById('dublinExtBtn');
-    const frbrMetadataBtn = document.getElementById('frbrMetadataBtn');
+    const crmMetadataBtn = document.getElementById('crmMetadataBtn');
     dublinCoreBtn.addEventListener('click', dublinCoreSimple, false);
     dublinExtBtn.addEventListener('click', dublinCoreExtended, false);
-    frbrMetadataBtn.addEventListener('click', frbrMetadataAdvanced, false);
+    crmMetadataBtn.addEventListener('click', crmMetadataAdvanced, false);
 
     function dublinCoreSimple () {
       setMetadataVisibility();
@@ -120811,16 +120825,16 @@ App = {
       metadata.classList.remove('is-hidden');
     }
 
-    function frbrMetadataAdvanced () {
+    function crmMetadataAdvanced () {
       setMetadataVisibility();
-      frbrMetadataBtn.classList.add('is-active');
-      const metadata = document.getElementById('frbrMetadata');
+      crmMetadataBtn.classList.add('is-active');
+      const metadata = document.getElementById('crnMetadata');
       metadata.classList.remove('is-hidden');
     }
     
     function setMetadataVisibility () {
       $("#metadataOptions > li.is-active").removeClass("is-active");
-      $(".insertionForm > #dublinCoreMetadata, #dublinCoreExt, #frbrMetadata").addClass("is-hidden");
+      $(".insertionForm > #dublinCoreMetadata, #dublinCoreExt, #crmMetadata").addClass("is-hidden");
     }
     //Binding of artwork object to IPFS preview by data-id 
     const artworkContainer = document.getElementById('archivesRow');
@@ -120830,8 +120844,6 @@ App = {
           App.dataToModal(ev, artworkPreview);
         }
       }, false);
-    //let imagePreview = document.getElementById('imagePreview');
-    //imagePreview.src = 'http://place-hold.it/150x150';
     //Event listeners
     let uploadFile = document.getElementById('captureFileUpload');
     uploadFile.addEventListener('change', fileUploadForm);
@@ -120845,7 +120857,7 @@ App = {
       for(let i = sessionIndex; i < (sessionIndex+files.length); i++) {
         let file = files[eventIndex];
         if(!file.type.match('image')) continue;
-        let readerIndex = eventIndex; //looks like there is some problem with chaining events
+        let readerIndex = eventIndex; //looks like there is some problem with chaining events, seems like reassing solves the issue
         eventIndex++;
         const reader = new window.FileReader();
         console.log(file);
