@@ -20,6 +20,7 @@ contract('Archives', (accounts) => {
  //constructor sets two artworks starting from index 0. Therefore, artwork at index 2 should not exist
         });
     });
+    
     //Testing for unauthorized edits
     it('it should throw an exception if you try to modify the description of an artwork you do not own', () => {
         return Archives.deployed().then((instance) => {

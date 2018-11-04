@@ -85,17 +85,42 @@
                                                 <div class="field column is-half">
                                                     <label class="label">Titolo</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="title" placeholder="Titolo ">
-                                                        <p class="help">Un nome dato alla risorsa</p>
+                                                        <input class="input" type="text" name="title" placeholder='Esempio: "La Divina Commedia"'>
+                                                        <p class="help">Un nome dato alla risorsa, un nome con il quale
+                                                            la risorsa è formalmente conosciuta.</p>
                                                     </div>
                                                 </div>
                                                 <div class="field column is-half">
                                                     <label class="label">Creatore</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="creator" placeholder="Creatore">
+                                                        <input class="input" type="text" name="creator" placeholder='Esempio: "Dante Alighieri"'>
                                                         <p class="help">Un’entità che ha la responsabilità principale
                                                             della
-                                                            produzione del contenuto della risorsa</p>
+                                                            produzione del contenuto della risorsa, ad esempio: una
+                                                            persona, un’organizzazione o un servizio.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="columns">
+                                                <div class="field column is-half">
+                                                    <label class="label">Soggetto</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="subject" placeholder='Esempio: "Poema"'>
+                                                        <p class="help">L’argomento della risorsa. Può essere espresso
+                                                            da parole chiave o
+                                                            frasi chiave o codici di classificazione che descrivono
+                                                            l’argomento della risorsa</p>
+                                                    </div>
+                                                </div>
+                                                <div class="field column is-half">
+                                                    <label class="label">Editore</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="publisher" placeholder='Esempio: "Mondadori"'>
+                                                        <p class="help">Un’entità responsabile della produzione della
+                                                            risorsa, disponibile nella sua forma presente.
+                                                            Potrebbe essere una persona, un’organizzazione o un
+                                                            servizio.
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -103,9 +128,13 @@
                                                 <div class="field column">
                                                     <label class="label">Descrizione</label>
                                                     <div class="control">
-                                                        <textarea class="textarea" placeholder="Descrizione" name="description"
-                                                            rows="8"></textarea>
-                                                        <p class="help">Una spiegazione del contenuto della risorsa</p>
+                                                        <textarea class="textarea" placeholder='"La Divina Commedia manoscritta da Boccaccio. Antiporta incisa con la raffigurazione di Dante, Petrarca e Boccaccio, graziosa marca tipografica che rappresenta un elefantino. Brossura originale con cornici e titoli a stampa. Qualche leggero alone limitato alle brossure, peraltro esemplare genuino e marginoso, ben conservato ed a fogli chiusi. Edizione eseguita sul celebre manoscritto autografo del Boccaccio e postillato dal Petrarca..."'
+                                                            name="description" rows="8"></textarea>
+                                                        <p class="help">Una spiegazione del contenuto della risorsa.
+                                                            Può includere un riassunto analitico, un indice, un
+                                                            riferimento al contenuto di una rappresentazione grafica o
+                                                            un testo libero del contenuto.
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,35 +146,54 @@
                                                             value="2018-11-20" min="0-01-01" max="2099-12-31">
                                                         <p class="help">Una data associata a un evento del ciclo di
                                                             vita
-                                                            della risorsa</p>
+                                                            della risorsa. Normalmente la data è associata alla creazione o alla disponibilità della risorsa.</p>
                                                     </div>
                                                 </div>
                                                 <div class="field column is-half">
                                                     <label class="label">Tipo</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="type" placeholder="Tipo">
+                                                        <input class="input" type="text" name="type" placeholder="Esempio: Manoscritto">
                                                         <p class="help">La natura o il genere del contenuto della
                                                             risorsa</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="columns">
+                                                    <div class="field column is-half">
+                                                        <label class="label">Formato</label>
+                                                        <div class="control">
+                                                            <input class="input" type="text" name="format" placeholder="Esempio: 25cm (altezza) x 20cm (larghezza)">
+                                                            <p class="help">La manifestazione fisica o digitale della risorsa. 
+                                                                Può includere il tipo di supporto o le dimensioni della risorsa</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field column is-half">
+                                                        <label class="label">Relazione</label>
+                                                        <div class="control">
+                                                            <input class="input" type="text" name="relation" placeholder="Esempio: 3 parti su 3 (Inferno, Paradiso e Purgatorio)">
+                                                            <p class="help">Un riferimento alla risorsa correlata. Può indicare
+                                                                    relazioni di tipo Parte/Tutto, Versioni, Formato derivato,
+                                                                    citazioni, ecc.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div class="columns">
                                                 <div class="field column is-half">
                                                     <label class="label">Fonte</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="source" placeholder="Fonte">
+                                                        <input class="input" type="text" name="source" placeholder="Esempio: 1ª ed. originale del 1472, editio princeps di Dante Alighieri">
                                                         <p class="help">Un riferimento a una risorsa dalla quale è
                                                             derivata
                                                             la
-                                                            risorsa in oggetto</p>
+                                                            risorsa in oggetto. La risorsa può essere derivata dalla risorsa Source in tutto o in parte.</p>
                                                     </div>
                                                 </div>
                                                 <div class="field column is-half">
                                                     <label class="label">Lingua</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="language" placeholder="Lingua">
+                                                        <input class="input" type="text" name="language" placeholder="Esempio: italiano">
                                                         <p class="help">La lingua del contenuto intellettuale della
-                                                            risorsa</p>
+                                                            risorsa.</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -153,21 +201,23 @@
                                                 <div class="field column is-half">
                                                     <label class="label">Copertura</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="coverage" placeholder="Copertura">
+                                                        <input class="input" type="text" name="coverage" placeholder="Esempio: Pisa, IT, 2010-2018, Museo Nazionale di San Matteo">
                                                         <p class="help">L’estensione o scopo del contenuto della
-                                                            risorsa</p>
+                                                            risorsa. Include la localizzazione spaziale (il nome di un luogo o le coordinate geografiche), il periodo temporale (l’indicazione di un periodo, una data o un range di date) o una giurisdizione (ad esempio il nome di un’entità amministrativa).
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="field column is-half">
                                                     <label class="label">Gestione dei diritti</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="rights" placeholder="Gestione dei diritti">
+                                                        <input class="input" type="text" name="rights" placeholder="Esempio: Libero, senza restrizioni">
                                                         <p class="help">Informazione sui diritti esercitati sulla
-                                                            risorsa</p>
+                                                            risorsa. Un’indicazione di gestione dei diritti sulla risorsa, o un riferimento ad un servizio che fornisce questa informazione.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- DUBLIN CORE EXTENDED -->
                                         <div id="dublinCoreExt" class="is-hidden">
                                             <div class="columns">
                                                 <div class="field column is-half">
@@ -179,6 +229,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- CIDOC -->
                                         <div id="frbrMetadata" class="is-hidden">
                                             <div class="columns">
                                                 <div class="field column is-half">
@@ -200,8 +251,11 @@
                                                 <div class="field column is-half">
                                                     <label class="label">Soggetto</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="subject" placeholder="Soggetto">
-                                                        <p class="help">L’argomento della risorsa</p>
+                                                        <input class="input" type="text" name="subject" placeholder='Esempio: "Poema"'>>
+                                                        <p class="help">L’argomento della risorsa. Può essere espresso
+                                                            da parole chiave o
+                                                            frasi chiave o codici di classificazione che descrivono
+                                                            l’argomento della risorsa</p>
                                                     </div>
                                                 </div>
                                                 <div class="field column is-half">
@@ -231,7 +285,7 @@
                                                             </span>
                                                         </span>
                                                         <span class="file-name">
-                                                            Screen Shot 2017-07-29 at 15.54.25.png
+                                                            Rappresentazione grafica
                                                         </span>
                                                 </div>
                                                 <span id="filePreview">
@@ -253,7 +307,6 @@
                         </div>
                     </div> <!-- END MODAL -->
                     <div class="creation-status">
-
                         <a href="#" class="item active has-text-centered"><span id="account" class="name">Account
                                 address</span></a>
                         <a href="#" class="item has-text-centered"><span id="accountBalance" class="name">Account
@@ -363,7 +416,7 @@
     <footer class="footer page-footer">
         <div class="content has-text-centered">
             <p>
-                <strong>&COPY; Lukasz Szczygiel 2018</strong>
+                <strong> Lukasz Szczygiel 2018, Digital Archives &COPY; MIT license</strong>
             </p>
         </div>
     </footer>

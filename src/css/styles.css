@@ -398,7 +398,11 @@ html, body {
     display: flex;
     flex-direction: column;
     font-size: 1em;
-    text-align: center; }
+    line-height: 1.5em;
+    text-align: left;
+    padding-left: 10px; }
+    .artwork-description .description-content *.item {
+      padding-bottom: 10px; }
     .artwork-description .description-content img {
       display: flex;
       flex-direction: row;

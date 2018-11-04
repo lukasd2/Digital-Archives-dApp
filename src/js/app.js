@@ -132,7 +132,7 @@ App = {
     }
     App.loading = true;
     console.log('step start generateMetadata');
-    let contentRow = $('#column-test-content');
+    const contentRow = $('#column-test-content');
     let generatedXMLCode = '';
   	let generatedHTMLCode = '';
     let title = '';
@@ -141,12 +141,18 @@ App = {
     creator = $('input[name="creator"]');
     let subject  = '';
     subject = $('input[name="subject"]');
+    let publisher = [];
+	  publisher = $('input[name="publisher"]');
     let description  = '';
     description = $('textarea[name="description"]');
     let date  = '';
     date = $('input[name="date"]');
     let type   = '';
     type = $('input[name="type"]');
+    let format = [];
+    format = $('input[name="format"]');
+    let relation = [];
+	  relation = $('input[name="relation"]');
     let source  = '';
     source = $('input[name="source"]');
     let language  = '';
@@ -160,21 +166,24 @@ App = {
     const optionFrbrMetadata = document.getElementById('frbrMetadataBtn');
     if(optionSimpleDC.classList.contains('is-active')) {
       generatedXMLCode = `
-        <dc:title>${title.val()}</dc:title>
-        <dc:creator>${creator.val()}</dc:creator>
-        <dc:subject>${subject.val()}</dc:subject>
-        <dc:description>${description.val()}</dc:description>
-        <dc:date>${date.val()}</dc:date>
-        <dc:type>${type.val()}</dc:type>
-        <dc:source>${source.val()}</dc:source>
-        <dc:language>${language.val()}</dc:language>
-        <dc:coverage>${coverage.val()}</dc:coverage>
-        <dc:rights>${rights.val()}</dc:rights>
+      <span class="item 1">Titolo: <dc:title>${title.val()}</dc:title></span>
+      <span class="item 2">Creatore: <dc:creator>${creator.val()}</dc:creator></span>
+      <span class="item 3">Soggetto: <dc:subject>${subject.val()}</dc:subject></span>
+      <span class="item 4">Editore: <dc:publisher>${publisher.val()}</dc:publisher></span>
+      <span class="item 5">Descrizione: <dc:description>${description.val()}</dc:description></span>
+      <span class="item 6">Data: <dc:date>${date.val()}</dc:date></span>
+      <span class="item 7">Tipo: <dc:type>${type.val()}</dc:type></span>
+      <span class="item 8">Formato: <dc:format>${format.val()}</dc:format></span>
+      <span class="item 9">Relazione: <dc:relation>${relation.val()}</dc:relation></span>
+      <span class="item 10">Fonte: <dc:source>${source.val()}</dc:source></span>
+      <span class="item 11">Lingua: <dc:language>${language.val()}</dc:language></span>
+      <span class="item 12">Copertura: <dc:coverage>${coverage.val()}</dc:coverage></span>
+      <span class="item 13">Gestione dei diritti: <dc:rights>${rights.val()}</dc:rights></span>
       `
     } else if (optionExtendedDC.classList.contains('is-active')) {
       generatedXMLCode = `extended dc option`;
     } else if (optionFrbrMetadata.classList.contains('is-active')) {
-      generatedXMLCode = `FBRBR  RBR option`
+      generatedXMLCode = `CIDOC option`
     } else {
       return; 
     }

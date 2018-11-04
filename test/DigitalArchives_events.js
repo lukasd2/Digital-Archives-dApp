@@ -37,7 +37,7 @@ contract('Archives', (accounts) => {
             assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
             assert.equal(artwork[2], artworkName, "contains correct name");
             assert.equal(artwork[3], descriptionHash, "contains correct descriptionHash");
-            assert.equal(artwork[4], mainPreviewHash, "contains correct dataHash");
+            assert.equal(artwork[4], mainPreviewHash, "contains correct mainPreviewHash");
             assert.equal(artwork[5], false, "contains validation field set to true");
             assert.equal(artwork[6], 0, "contains 0 votes count");
         });
@@ -62,7 +62,7 @@ contract('Archives', (accounts) => {
             assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
             assert.equal(artwork[2], artworkName, "contains correct name");
             assert.equal(artwork[3], newDescriptionHash, "contains correct descriptionHash");
-            assert.equal(artwork[4], mainPreviewHash, "contains correct dataHash");
+            assert.equal(artwork[4], mainPreviewHash, "contains correct mainPreviewHash");
             assert.equal(artwork[5], false, "contains validation field set to true");
             assert.equal(artwork[6], 0, "contains 0 votes count");
             return artworkInstance.getArtworks();
