@@ -404,9 +404,9 @@ html, body {
     text-align: left;
     padding-left: 10px; }
     .artwork-description .description-content span {
-      padding-bottom: 10px; }
-      .artwork-description .description-content span .item {
-        font-weight: bold; }
+      display: flex;
+      padding-bottom: 2px;
+      font-weight: bold; }
     .artwork-description .description-content img {
       display: flex;
       flex-direction: row;

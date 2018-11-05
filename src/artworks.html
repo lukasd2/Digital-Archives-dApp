@@ -183,25 +183,6 @@
                                                 </div>
                                             </div>
                                             <div class="columns">
-                                                    <div class="field column is-half">
-                                                        <label class="label">Versione di</label>
-                                                        <div class="control">
-                                                            <input class="input" type="text" name="isVersionOf" placeholder="Esempio: 25cm (altezza) x 20cm (larghezza)">
-                                                            <p class="help">Indica se la risorsa è</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="field column is-half">
-                                                        <label class="label">Parte di</label>
-                                                        <div class="control">
-                                                            <input class="input" type="text" name="IsPartOf" placeholder="Esempio: 3 parti su 3 (Inferno, Paradiso e Purgatorio)">
-                                                            <p class="help">Un riferimento alla risorsa correlata. Può
-                                                                indicare
-                                                                relazioni di tipo Parte/Tutto, Versioni, Formato derivato,
-                                                                citazioni, ecc.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <div class="columns">
                                                 <div class="field column is-half">
                                                     <label class="label">Fonte</label>
                                                     <div class="control">
@@ -386,6 +367,22 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="columns extension">
+                                                <div class="field column is-half">
+                                                    <label class="label">Versione di</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="isVersionOf" placeholder="Esempio: Terza edizione commentata della Divina Commedia">
+                                                        <p class="help">Indica se la risorsa si riferisce a una versione o collezione di risorse antecedenti.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="field column is-half">
+                                                    <label class="label">Parte di</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="IsPartOf" placeholder="Esempio: Parte introduttiva della Divina Commedia">
+                                                        <p class="help">Indica se la risorsa costituisce parte integrale di un'altra risorsa.</p>
+                                                    </div>
+                                                </div>
+                                        </div>
                                             <div class="columns">
                                                 <div class="field column is-half">
                                                     <label class="label">Fonte</label>
@@ -407,21 +404,29 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="columns">
-                                                <div class="field column is-half">
-                                                    <label class="label">Copertura</label>
+                                            <div class="columns extension">
+                                                <div class="field column is-one-third">
+                                                    <label class="label">Copertura spaziale</label>
                                                     <div class="control">
-                                                        <input class="input" type="text" name="coverage" placeholder="Esempio: Pisa, IT, 2010-2018, Museo Nazionale di San Matteo">
+                                                        <input class="input" type="text" name="spatial" placeholder="Esempio: Pisa, IT, 2010-2018, Museo Nazionale di San Matteo">
                                                         <p class="help">L’estensione o scopo del contenuto della
                                                             risorsa. Include la localizzazione spaziale (il nome di un
-                                                            luogo o le coordinate geografiche), il periodo temporale
-                                                            (l’indicazione di un periodo, una data o un range di date)
-                                                            o una giurisdizione (ad esempio il nome di un’entità
+                                                            luogo o le coordinate geografiche),o una giurisdizione (ad esempio il nome di un’entità
                                                             amministrativa).
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div class="field column is-half">
+                                                <div class="field column is-one-third">
+                                                    <label class="label">Copertura temporale</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="temporal" placeholder="Esempio: Pisa, IT, 2010-2018, Museo Nazionale di San Matteo">
+                                                        <p class="help">L’estensione o scopo del contenuto della
+                                                            risorsa. Include il periodo temporale
+                                                            (l’indicazione di un periodo, una data o un range di date).
+                                                        </p>
+                                                    </div>
+                                            </div>
+                                                <div class="field column is-one-third">
                                                     <label class="label">Gestione dei diritti</label>
                                                     <div class="control">
                                                         <input class="input" type="text" name="rights" placeholder="Esempio: Libero, senza restrizioni">

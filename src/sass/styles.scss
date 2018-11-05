@@ -452,10 +452,9 @@ html,body {
 		text-align: left;
 		padding-left: 10px;
 		span {
-			padding-bottom: 10px;
-			.item {
-				font-weight: bold;
-			}
+			display: flex;
+			padding-bottom: 2px;
+			font-weight: bold;
 		}
 		img {
 			display: flex;

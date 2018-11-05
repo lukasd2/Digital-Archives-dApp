@@ -120586,88 +120586,104 @@ App = {
     }
     App.loading = true;
     console.log('step start generateMetadata');
-    const contentRow = $('#column-test-content');
-    let generatedXMLCode = '';
-  	let generatedHTMLCode = '';
-    let title = '';
-    title = $('input[name="title"]');
-    let creator = '';
-    creator = $('input[name="creator"]');
-    let subject  = '';
-    subject = $('input[name="subject"]');
-    let publisher = [];
-	  publisher = $('input[name="publisher"]');
-    let description  = '';
-    description = $('textarea[name="description"]');
-    let date  = '';
-    date = $('input[name="date"]');
-    let type   = '';
-    type = $('input[name="type"]');
-    let format = [];
-    format = $('input[name="format"]');
-    let relation = [];
-	  relation = $('input[name="relation"]');
-    let source  = '';
-    source = $('input[name="source"]');
-    let language  = '';
-    language = $('input[name="language"]');
-    let coverage  = '';
-    coverage = $('input[name="coverage"]');
-    let rights  = '';
-    rights = $('input[name="rights"]');
+    let generatedXMLCode;
+    let data;
     const optionSimpleDC = document.getElementById('dublinCoreBtn');
     const optionExtendedDC = document.getElementById('dublinExtBtn');
     const optionCRMMetadata = document.getElementById('crmMetadataBtn');
     if(optionSimpleDC.classList.contains('is-active')) {
-      generatedXMLCode = `
-      <span class="item 1">Titolo: <dc:title>${title.val()}</dc:title></span>
-      <span class="item 2">Creatore: <dc:creator>${creator.val()}</dc:creator></span>
-      <span class="item 3">Soggetto: <dc:subject>${subject.val()}</dc:subject></span>
-      <span class="item 4">Editore: <dc:publisher>${publisher.val()}</dc:publisher></span>
-      <span class="item 5">Descrizione: <dc:description>${description.val()}</dc:description></span>
-      <span class="item 6">Data: <dc:date>${date.val()}</dc:date></span>
-      <span class="item 7">Tipo: <dc:type>${type.val()}</dc:type></span>
-      <span class="item 8">Formato: <dc:format>${format.val()}</dc:format></span>
-      <span class="item 9">Relazione: <dc:relation>${relation.val()}</dc:relation></span>
-      <span class="item 10">Fonte: <dc:source>${source.val()}</dc:source></span>
-      <span class="item 11">Lingua: <dc:language>${language.val()}</dc:language></span>
-      <span class="item 12">Copertura: <dc:coverage>${coverage.val()}</dc:coverage></span>
-      <span class="item 13">Gestione dei diritti: <dc:rights>${rights.val()}</dc:rights></span>
-      `;
+      let parent = $('#dublinCoreMetadata');
+      data = getElementsFunction(parent);
     } else if (optionExtendedDC.classList.contains('is-active')) {
-      generatedXMLCode = `
-      <span class="item 1">Titolo: <dc:title>${title.val()}</dc:title></span>
-      <span class="item 2">Creatore: <dc:creator>${creator.val()}</dc:creator></span>
-      <span class="item 3">Soggetto: <dc:subject>${subject.val()}</dc:subject></span>
-      <span class="item 4">Editore: <dc:publisher>${publisher.val()}</dc:publisher></span>
-      <span class="item 5">Descrizione: <dc:description>${description.val()}</dc:description></span>
-      <span class="item 6">Data: <dc:date>${date.val()}</dc:date></span>
-      <span class="item 7">Tipo: <dc:type>${type.val()}</dc:type></span>
-      <span class="item 8">Formato: <dc:format>${format.val()}</dc:format></span>
-      <span class="item 9">Relazione: <dc:relation>${relation.val()}</dc:relation></span>
-      <span class="item 10">Fonte: <dc:source>${source.val()}</dc:source></span>
-      <span class="item 11">Lingua: <dc:language>${language.val()}</dc:language></span>
-      <span class="item 12">Copertura: <dc:coverage>${coverage.val()}</dc:coverage></span>
-      <span class="item 13">Gestione dei diritti: <dc:rights>${rights.val()}</dc:rights></span>
-      `;
+      let parent = $('#dublinCoreExt');
+      data = getElementsFunction(parent);
     } else if (optionCRMMetadata.classList.contains('is-active')) {
       generatedXMLCode = `CIDOC option`
     } else {
       return; 
     }
-    /*generatedHTMLCode = `
-    <meta name='DC.Title' content='${title.val()}'> 
-    <meta name='DC.Creator' content='${creator.val()}'> 
-    <meta name='DC.Subject' content='${subject.val()}'>
-    <meta name='DC.Description' content='${description.val()}'>
-    `*/
-    console.log(generatedXMLCode);
-    console.log(generatedHTMLCode);
-    contentRow.text(generatedHTMLCode);
-    contentRow.text(generatedHTMLCode);
-    if(hash === false) {return generatedXMLCode}
-    contentRow.append(generatedHTMLCode);
-    contentRow.append(generatedXMLCode);
+    function getElementsFunction (parent) {
+      let generatedXMLCode = '';
+      let title = '';
+      title = $(parent).find('input[name="title"]');
+      let alternative = '';
+      alternative = $(parent).find('input[name="alternative"]');
+      let creator = '';
+      creator = $(parent).find('input[name="creator"]');
+      let subject  = '';
+      subject = $(parent).find('input[name="subject"]');
+      let publisher = [];
+      publisher = $(parent).find('input[name="publisher"]');
+      let abstract  = '';
+      abstract = $(parent).find('textarea[name="abstract"]');
+      let description  = '';
+      description = $(parent).find('textarea[name="description"]');
+      let date  = '';
+      date = $(parent).find('input[name="date"]');
+      let created  = '';
+      created = $(parent).find('input[name="created"]');
+      let valid  = '';
+      valid = $(parent).find('input[name="valid"]');
+      let modified  = '';
+      modified = $(parent).find('input[name="modified"]');
+      let type   = '';
+      type = $(parent).find('input[name="type"]');
+      let format = [];
+      format = $('input[name="format"]');
+      let relation = [];
+      relation = $('input[name="relation"]');
+      let isVersionOf = [];
+      isVersionOf = $('input[name="isVersionOf"]');
+      let IsPartOf = [];
+      IsPartOf = $('input[name="IsPartOf"]');
+      let source  = '';
+      source = $('input[name="source"]');
+      let language  = '';
+      language = $('input[name="language"]');
+      let coverage  = '';
+      coverage = $('input[name="coverage"]');
+      let spatial  = '';
+      spatial = $('input[name="spatial"]');
+      let temporal  = '';
+      temporal = $('input[name="temporal"]');
+      let rights  = '';
+      rights = $('input[name="rights"]');
+      const condition = parent.attr('id') ===  'dublinCoreExt'; 
+      generatedXMLCode = `
+      <span class="item 1">Titolo:</span> <dc:title>${title.val()}</dc:title>
+      <span class="item 2">Creatore:</span> <dc:creator>${creator.val()}</dc:creator>
+      <span class="item 3">Soggetto:</span> <dc:subject>${subject.val()}</dc:subject>
+      <span class="item 4">Editore:</span> <dc:publisher>${publisher.val()}</dc:publisher>
+      ${condition ? `<span class="item ext">Abstract:</span> <dcterms:alternative>${abstract.val()}</dcterms:alternative>` : ''}
+      <span class="item 5">Descrizione:</span> <dc:description>${description.val()}</dc:description>
+      ${!condition ? `<span class="item 6">Data:</span> <dc:date>${date.val()}</dc:date>` : ''}
+      ${condition ? `<span class="item ext">Data creazione:</span> <dcterms:created>${created.val()}</dcterms:created>
+        <span class="item ext">Valido dal:</span> <dcterms:valid>${valid.val()}</dcterms:valid>
+        <span class="item ext">Ultima modifica:</span> <dcterms:modified>${modified.val()}</dcterms:modified>`: ''}
+      <span class="item 7">Tipo:</span> <dc:type>${type.val()}</dc:type>
+      <span class="item 8">Formato:</span> <dc:format>${format.val()}</dc:format>
+      <span class="item 9">Relazione:</span> <dc:relation>${relation.val()}</dc:relation>
+      ${condition ? `<span class="item ext">Versione di:</span> <dcterms:isVersionOf>${isVersionOf.val()}</dcterms:isVersionOf>
+        <span class="item ext">Parte di:</span> <dcterms:isPartOf>${IsPartOf.val()}</dcterms:isPartOf>`:''}
+      <span class="item 10">Fonte:</span> <dc:source>${source.val()}</dc:source>
+      <span class="item 11">Lingua:</span> <dc:language>${language.val()}</dc:language>
+      <span class="item 12">Copertura:</span> <dc:coverage>${coverage.val()}</dc:coverage>
+      ${condition ? `<span class="item ext">Copertura spaziale:</span> <dcterms:modified>${spatial.val()}</dcterms:modified>
+      <span class="item ext">Copertura temporale:</span> <dcterms:modified>${temporal.val()}</dcterms:modified>`: ''}
+      <span class="item 13">Gestione dei diritti:</span> <dc:rights>${rights.val()}</dc:rights>
+      `;
+    if (hash === false) {
+      return generatedXMLCode;
+    }
+    const data = 
+    {
+      name: title.val(),
+      description: generatedXMLCode,
+      objectPreview: hash,
+      objectFiles: App.ipfsHashStore
+    };
+      return data;
+    }
     /*
     const data = [
       {
@@ -120677,59 +120693,16 @@ App = {
       },
       {test: `${hash}`},
       {test2: `${App.ipfsHashStore}`}
-  ]*//*
-  const data = 
-    {
-      description: generatedXMLCode,
-      test: hash,
-      test2: App.ipfsHashStore
-    };*/
-    const data = 
-    {
-      name: title.val(),
-      description: generatedXMLCode,
-      objectPreview: hash,
-      objectFiles: App.ipfsHashStore
-    };
+       ]*//*
+      const data = 
+        {
+          description: generatedXMLCode,
+          test: hash,
+          test2: App.ipfsHashStore
+        };*/
   App.metaData = data;
-  console.log(App.ipfsHash);
   console.log('step end generateMetadata');
-  App.descriptionToIPFS(data);
-  App.loading = false;
-  return;
-  },
-
-  uploadArtw: function (hash, objectDesc) {
-    if(App.loading) {
-      return;
-    }
-    //retrieve details of the artw
-    console.log('JUST BEFORE THE EVENT App.ipfsHash', App.ipfsHash);
-    console.log('JUST BEFORE THE EVENT hash', hash);
-    console.log('blob', objectDesc);
-    console.log(objectDesc.description)
-    console.log('...Uploading your object to blockchain...');
-    //console.log(artwName, artwDescription, App.ipfsHash);
-    console.log(objectDesc.name, hash, App.ipfsHash);
-    App.contracts.Archives.deployed().then(function (instance) {
-      return instance.publishArtwork(objectDesc.name, hash, App.ipfsHash, {
-        from: App.account
-        //gas: 500000
-      });
-    }).then(function (result) {
-      console.log(result);
-      var receiptRow = $('#receiptRow');
-      //the receipt
-      $.each(result.receipt, function( key, value ) {
-        console.log( key + ': ' + value );
-        var x = document.createElement('li');
-        x.innerHTML =  key + ': ' + value; 
-        receiptRow.append(x);
-        console.log('...Done Uploading your object to blockchain...');
-      });
-    }).catch(function (error) {
-      console.error(error);
-    });
+  return App.descriptionToIPFS(data);
   },
 
   filesToIPFS: async function (fileSequence) {
@@ -120759,6 +120732,8 @@ App = {
   descriptionToIPFS: async function (objectDescription) {
     console.log('descriptionToIPFS', objectDescription);
     console.log('...Uploading your metadata description to IPFS...');
+    const openModal = document.getElementById('openModal');
+    openModal.classList.remove('is-active');
     let uploadDesc = Buffer.from(JSON.stringify(objectDescription));
     App.loading = true;
     await ipfs.files.add(uploadDesc, (err, result) => {
@@ -120828,7 +120803,7 @@ App = {
     function crmMetadataAdvanced () {
       setMetadataVisibility();
       crmMetadataBtn.classList.add('is-active');
-      const metadata = document.getElementById('crnMetadata');
+      const metadata = document.getElementById('crmMetadata');
       metadata.classList.remove('is-hidden');
     }
     
@@ -121000,6 +120975,37 @@ App = {
         objectFilePreview.setAttribute('src', `https://ipfs.io/ipfs/${key}`);
         content.append(objectFilePreview);
       }
+    });
+  },
+
+  // Blockchain functions instances
+
+  uploadArtw: function (hash, objectDesc) {
+    if(App.loading) {
+      return;
+    }
+    //retrieve details of the artw
+    console.log('JUST BEFORE THE EVENT App.ipfsHash', App.ipfsHash);
+    console.log('...Uploading your object to blockchain...');
+    //console.log(artwName, artwDescription, App.ipfsHash);
+    App.contracts.Archives.deployed().then(function (instance) {
+      return instance.publishArtwork(objectDesc.name, hash, App.ipfsHash, {
+        from: App.account
+        //gas: 500000
+      });
+    }).then(function (result) {
+      console.log(result);
+      var receiptRow = $('#receiptRow');
+      //the receipt
+      $.each(result.receipt, function( key, value ) {
+        var x = document.createElement('li');
+        x.innerHTML =  key + ': ' + value; 
+        receiptRow.append(x);
+        console.log('...Done Uploading your object to blockchain...');
+        App.reloadArtworks();
+      });
+    }).catch(function (error) {
+      console.error(error);
     });
   },
 
