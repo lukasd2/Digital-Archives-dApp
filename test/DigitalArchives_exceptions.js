@@ -12,11 +12,11 @@ contract('Archives', (accounts) => {
     const unauthorizedAccount = accounts[4]; // Account used to test for edge cases 
     const accountToWhitelist = accounts[1];
 
-    it('it should not contain third artwork', () => {
+    it('it should not contain a fourth artwork', () => {
         return Archives.deployed().then((artworkInstance) => {
             return artworkInstance.getArtworks(); // if constructor is set to insert two artworks, this function should return exactly those two 
         }).then((artworkNumber) => {
-            should.not.exist(artworkNumber[2], 3, 'Article three'); //constructor sets two artworks starting from index 0. Therefore, artwork at index 2 should not exist
+            should.not.exist(artworkNumber[3], 4, 'Artwork number four'); //constructor sets two artworks starting from index 0. Therefore, artwork at index 2 should not exist
  //constructor sets two artworks starting from index 0. Therefore, artwork at index 2 should not exist
         });
     });
@@ -51,7 +51,7 @@ contract('Archives', (accounts) => {
     });
 
     //Only contract owner should be able to add accounts on whitelist
-    it("it should not add an artworkChecker if called by an account address not equal to contract owner address", () => {
+    it("it should not add an artworkChecker if called by an unauthorized account address", () => {
         return Archives.deployed().then((instance) => {
             artworkInstance = instance;
             return artworkInstance.addAddressToWhitelist(accountToWhitelist, { from: unauthorizedAccount });
@@ -107,7 +107,7 @@ contract('Archives', (accounts) => {
         });
     });
 
-    it("it should not allow artworkCheckers to vote on Artworks that have already been approved", () => {
+    it("it should not allow artworkCheckers to vote on artworks that have already been approved", () => {
         return Archives.deployed().then((instance) => {
             artworkInstance = instance;
             return artworkInstance.approveArtwork(1, { from: artworkChecker });

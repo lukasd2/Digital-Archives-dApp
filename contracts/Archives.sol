@@ -84,6 +84,7 @@ contract Archives is Whitelist {
     constructor() public  {
         addArtwork(1, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte minore approvata", "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", true, 2);
         addArtwork(2, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte scultura", "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false, 0);
+        addArtwork(3, 0x9Fb867de1eD00990FCFFefC7925846068561ef3C, "Opera d'arte scultura", "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", false, 0);
     }
     //manual artwork adding for constructor useful for test, should be removed in production!
     function addArtwork(uint _id, address _author, string _name, string _descriptionHash, string _mainPreviewHash, bool _validation, uint _votesNum) internal {

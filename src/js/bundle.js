@@ -120473,8 +120473,8 @@ App = {
 
   initWeb3: function () {
     // Is there an injected web3 instance?
-    if (typeof web3 !== 'undefined') {
-      App.web3Provider = web3.currentProvider;
+    if (typeof web3 !== 'undefined') { 
+      App.web3Provider = web3.currentProvider; //at the current state of art shoud be the one from metamask
     } else {
       // If no injected web3 instance is detected, fall back to Ganache
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
@@ -120521,6 +120521,7 @@ App = {
       return contractInstance.whitelist(App.account); //async again -- returns an array of ids all artworks available
     }).then(function (bool) {
       if(bool) {
+        App.artworkCheckerPermissions = true;
         $('#accountPermission').text("Artwork Checker");
       } else {
         $('#accountPermission').text("User");
@@ -120575,8 +120576,8 @@ App = {
     archiviesTemplate.find('.object-button').attr('data-id', id);
     artRow.append(archiviesTemplate.html());
   },
-
-  uploadData: () => {
+  //Actions when "newArtwork" button is pressed. Sequence: filesToIpfs -> generateMetadata -> descriptionToIPFS => uploadArtw (to blockchain)
+  uploadData: () => { 
     App.filesToIPFS(App.store);
   },
 
@@ -120586,7 +120587,6 @@ App = {
     }
     App.loading = true;
     console.log('step start generateMetadata');
-    let generatedXMLCode;
     let data;
     const optionSimpleDC = document.getElementById('dublinCoreBtn');
     const optionExtendedDC = document.getElementById('dublinExtBtn');
@@ -120648,7 +120648,10 @@ App = {
       temporal = $('input[name="temporal"]');
       let rights  = '';
       rights = $('input[name="rights"]');
-      const condition = parent.attr('id') ===  'dublinCoreExt'; 
+      const condition = parent.attr('id') ===  'dublinCoreExt'; /*checks if user selected Dublin Core Extended version. 
+      If true add encoding tags (with ternary operator) also it should be possible to achieve the same thing with 
+      boolean && <tag>...</tag> in faster? way.
+      */
       generatedXMLCode = `
       <span class="item 1">Titolo:</span> <dc:title>${title.val()}</dc:title>
       <span class="item 2">Creatore:</span> <dc:creator>${creator.val()}</dc:creator>
@@ -120658,18 +120661,18 @@ App = {
       <span class="item 5">Descrizione:</span> <dc:description>${description.val()}</dc:description>
       ${!condition ? `<span class="item 6">Data:</span> <dc:date>${date.val()}</dc:date>` : ''}
       ${condition ? `<span class="item ext">Data creazione:</span> <dcterms:created>${created.val()}</dcterms:created>
-        <span class="item ext">Valido dal:</span> <dcterms:valid>${valid.val()}</dcterms:valid>
-        <span class="item ext">Ultima modifica:</span> <dcterms:modified>${modified.val()}</dcterms:modified>`: ''}
+                  <span class="item ext">Valido dal:</span> <dcterms:valid>${valid.val()}</dcterms:valid>
+                  <span class="item ext">Ultima modifica:</span> <dcterms:modified>${modified.val()}</dcterms:modified>`: ''}
       <span class="item 7">Tipo:</span> <dc:type>${type.val()}</dc:type>
       <span class="item 8">Formato:</span> <dc:format>${format.val()}</dc:format>
       <span class="item 9">Relazione:</span> <dc:relation>${relation.val()}</dc:relation>
       ${condition ? `<span class="item ext">Versione di:</span> <dcterms:isVersionOf>${isVersionOf.val()}</dcterms:isVersionOf>
-        <span class="item ext">Parte di:</span> <dcterms:isPartOf>${IsPartOf.val()}</dcterms:isPartOf>`:''}
+                  <span class="item ext">Parte di:</span> <dcterms:isPartOf>${IsPartOf.val()}</dcterms:isPartOf>`:''}
       <span class="item 10">Fonte:</span> <dc:source>${source.val()}</dc:source>
       <span class="item 11">Lingua:</span> <dc:language>${language.val()}</dc:language>
       <span class="item 12">Copertura:</span> <dc:coverage>${coverage.val()}</dc:coverage>
       ${condition ? `<span class="item ext">Copertura spaziale:</span> <dcterms:modified>${spatial.val()}</dcterms:modified>
-      <span class="item ext">Copertura temporale:</span> <dcterms:modified>${temporal.val()}</dcterms:modified>`: ''}
+                  <span class="item ext">Copertura temporale:</span> <dcterms:modified>${temporal.val()}</dcterms:modified>`: ''}
       <span class="item 13">Gestione dei diritti:</span> <dc:rights>${rights.val()}</dc:rights>
       `;
     if (hash === false) {
@@ -120835,22 +120838,22 @@ App = {
         let readerIndex = eventIndex; //looks like there is some problem with chaining events, seems like reassing solves the issue
         eventIndex++;
         const reader = new window.FileReader();
-        console.log(file);
+        //console.log(file);
         reader.readAsArrayBuffer(file);
         reader.onloadend = () => {
           App.store.push(Buffer(reader.result));
-          console.log(Buffer(reader.result));
+          //console.log(Buffer(reader.result));
           let preview = document.createElement('img');
-          let deleteBtn = document.createElement('button');
-          deleteBtn.classList = 'delete is-small';
-          deleteBtn.setAttribute('data-id', i);
+          //let deleteBtn = document.createElement('button');
+          //deleteBtn.classList = 'delete is-small';
+          //deleteBtn.setAttribute('data-id', i);
           preview.setAttribute('data-id', i);
           preview.src = URL.createObjectURL(ev.target.files[readerIndex]);
           preview.addEventListener('click', chooseMainThumbnail);
-          let test = document.createElement('span'); //TODO testing purposes
-          test.append(preview);
-          test.append(deleteBtn);
-          fileResult.append(test);       
+          let previewElements = document.createElement('span'); //TODO testing purposes
+          previewElements.append(preview);
+          //test.append(deleteBtn);
+          fileResult.append(previewElements);     
          }
       }
       function chooseMainThumbnail (ev) {
@@ -120869,11 +120872,7 @@ App = {
         let temp = App.store[0];
         App.store[0] = App.store[selectedElementId];
         App.store[selectedElementId] = temp;
-        console.log('after', App.store);
-        console.log(ev);
-        console.log(ev.target);
         ev.target.classList.toggle('mainPreview');
-        console.log('num', selectedElementId);
       }
     }
 
@@ -120955,7 +120954,7 @@ App = {
       titlePreamble.textContent = name;
       authorPreamble.textContent = author;
       title.textContent = name;
-      if(App.account === author && validation === false) {
+      if(App.artworkCheckerPermissions === true && validation === false) {
         btnAprove.disabled = false;
         btnAprove.setAttribute('data-id', id);
         btnAprove.classList.remove('hidden');
@@ -120977,7 +120976,6 @@ App = {
       }
     });
   },
-
   // Blockchain functions instances
 
   uploadArtw: function (hash, objectDesc) {
@@ -121069,6 +121067,8 @@ App = {
       App.reloadArtworks();
     });
   },
+
+  // Blockchain functions instances end
 
   filterValidObjects: () => {
     const objectRow = document.getElementById('archivesRow');

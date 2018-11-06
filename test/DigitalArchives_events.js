@@ -30,10 +30,11 @@ contract('Archives', (accounts) => {
         }).then((artworkNumber) => {
             assert.equal(artworkNumber[0], 1, 'Artwork with ID = 1');
             assert.equal(artworkNumber[1], 2, 'Artwork with ID = 2');
-            assert.equal(artworkNumber[2], 3, 'Inserted Artwork with ID = 3');
-            return artworkInstance.artworks(3);
+            assert.equal(artworkNumber[2], 3, 'Artwork with ID = 3');
+            assert.equal(artworkNumber[3], 4, 'Inserted Artwork with ID = 4');
+            return artworkInstance.artworks(4);
         }).then((artwork) => {
-            assert.equal(artwork[0], 3, "Contains the correct id");
+            assert.equal(artwork[0], 4, "Contains the correct id");
             assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
             assert.equal(artwork[2], artworkName, "contains correct name");
             assert.equal(artwork[3], descriptionHash, "contains correct descriptionHash");
@@ -47,7 +48,7 @@ contract('Archives', (accounts) => {
     it("it should modify an artwork", () => {
         return Archives.deployed().then(function (instance) {
             artworkInstance = instance;
-            id = 3;
+            id = 4;
             newDescriptionHash = '0x0';
             return artworkInstance.modifyArtworkDescription(id, newDescriptionHash, { from: contractOwner });
             //Event emitted, check receipt values (ouput)
@@ -58,7 +59,7 @@ contract('Archives', (accounts) => {
             assert.equal(receipt.logs[0].args._author, contractOwner, "Event sender must be" + contractOwner);
             return artworkInstance.artworks(id);
         }).then((artwork) => {
-            assert.equal(artwork[0], 3, "Contains the correct id");
+            assert.equal(artwork[0], 4, "Contains the correct id");
             assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
             assert.equal(artwork[2], artworkName, "contains correct name");
             assert.equal(artwork[3], newDescriptionHash, "contains correct descriptionHash");
@@ -88,7 +89,7 @@ contract('Archives', (accounts) => {
         });
     });
     //Artwork checkers should be able to cast votes
-    it("it should allow for artwork checkers to vote", () => {
+    it("it should allow for artworkCheckers to vote", () => {
         return Archives.deployed().then((instance) => {
             artworkInstance = instance;
             return artworkInstance.approveArtwork(2, { from: accountToWhitelist });
@@ -116,7 +117,7 @@ contract('Archives', (accounts) => {
         });
     });
     //We assume that an artwork is "validated" if votesNum >= 2
-    it("it should allow to vote and approve the artwork already voted by first artworkChecker", function () {
+    it("it should allow to vote and approve the artwork", function () {
         return Archives.deployed().then((instance) => {
             artworkInstance = instance;
             votedId = 2;
