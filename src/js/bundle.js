@@ -120464,7 +120464,6 @@ App = {
   ipfsHash: '',
   ipfsHashStore: [],
   store: [],
-  metaData: {},
   artworkCheckerPermissions: false,
 
   init: function () {
@@ -120574,11 +120573,36 @@ App = {
     archiviesTemplate.find('.alert').attr('data-id', id);
     archiviesTemplate.find('img').attr('src', `https://ipfs.io/ipfs/${dataHash}`);
     archiviesTemplate.find('.object-button').attr('data-id', id);
+    archiviesTemplate.find('.object-button').attr('data-val', validation);
     artRow.append(archiviesTemplate.html());
   },
   //Actions when "newArtwork" button is pressed. Sequence: filesToIpfs -> generateMetadata -> descriptionToIPFS => uploadArtw (to blockchain)
   uploadData: () => { 
     App.filesToIPFS(App.store);
+  },
+
+  filesToIPFS: async function (fileSequence) {
+    console.log('filesToIPFS', fileSequence);
+    App.loading = true;
+    App.loadingProgress(1);
+    console.log('...Uploading your files to IPFS...');
+    await ipfs.files.add(fileSequence, (err, result) => {
+      if (err) {
+        console.error(err);
+        return
+      }
+      for(let key in result) {
+        console.log('keys', key);
+        App.ipfsHashStore.push(result[key].hash);
+      }
+      console.log('ipfs result', result);
+      const hash = result[0].hash;
+      App.ipfsHash = hash;
+      App.loading = false;
+      console.log('added data hash:', hash);
+      console.log('...DONE Uploading your files to IPFS...');
+      App.generateMetadata(hash);
+  });
   },
 
   generateMetadata: function (hash) {
@@ -120598,9 +120622,7 @@ App = {
       let parent = $('#dublinCoreExt');
       data = getElementsFunction(parent);
     } else if (optionCRMMetadata.classList.contains('is-active')) {
-      generatedXMLCode = `CIDOC option`
-    } else {
-      return; 
+      generatedXMLCode = `CIDOC option`;   
     }
     function getElementsFunction (parent) {
       let generatedXMLCode = '';
@@ -120657,7 +120679,7 @@ App = {
       <span class="item 2">Creatore:</span> <dc:creator>${creator.val()}</dc:creator>
       <span class="item 3">Soggetto:</span> <dc:subject>${subject.val()}</dc:subject>
       <span class="item 4">Editore:</span> <dc:publisher>${publisher.val()}</dc:publisher>
-      ${condition ? `<span class="item ext">Abstract:</span> <dcterms:alternative>${abstract.val()}</dcterms:alternative>` : ''}
+      ${condition ? `<span class="item ext">Abstract:</span> <dcterms:alternative>${abstract.val()}</dcterms:alternative>`: ''}
       <span class="item 5">Descrizione:</span> <dc:description>${description.val()}</dc:description>
       ${!condition ? `<span class="item 6">Data:</span> <dc:date>${date.val()}</dc:date>` : ''}
       ${condition ? `<span class="item ext">Data creazione:</span> <dcterms:created>${created.val()}</dcterms:created>
@@ -120676,7 +120698,8 @@ App = {
       <span class="item 13">Gestione dei diritti:</span> <dc:rights>${rights.val()}</dc:rights>
       `;
     if (hash === false) {
-      return generatedXMLCode;
+      const data = generatedXMLCode;
+      return data;
     }
     const data = 
     {
@@ -120687,49 +120710,11 @@ App = {
     };
       return data;
     }
-    /*
-    const data = [
-      {
-        title: `<meta name='DC.Title' content='${title.val()}'>`,
-        creator: `<meta name='DC.Creator' content='${creator.val()}'>`
-        
-      },
-      {test: `${hash}`},
-      {test2: `${App.ipfsHashStore}`}
-       ]*//*
-      const data = 
-        {
-          description: generatedXMLCode,
-          test: hash,
-          test2: App.ipfsHashStore
-        };*/
-  App.metaData = data;
+    if (hash === false) {
+      return data;
+    }
   console.log('step end generateMetadata');
   return App.descriptionToIPFS(data);
-  },
-
-  filesToIPFS: async function (fileSequence) {
-    console.log('filesToIPFS', fileSequence);
-    App.loading = true;
-    App.loadingProgress(1);
-    console.log('...Uploading your files to IPFS...');
-    await ipfs.files.add(fileSequence, (err, result) => {
-      if (err) {
-        console.error(err);
-        return
-      }
-      for(let key in result) {
-        console.log('keys', key);
-        App.ipfsHashStore.push(result[key].hash);
-      }
-      console.log('ipfs result', result);
-      const hash = result[0].hash;
-      App.ipfsHash = hash;
-      App.loading = false;
-      console.log('added data hash:', hash);
-      console.log('...DONE Uploading your files to IPFS...');
-      App.generateMetadata(hash);
-  });
   },
 
   descriptionToIPFS: async function (objectDescription) {
@@ -120805,6 +120790,13 @@ App = {
 
     function crmMetadataAdvanced () {
       setMetadataVisibility();
+      $.get("../js/cidoc-crm.rdf", {}, function (xml){      
+        var parser, xmlDoc;
+        console.log(xml);
+        parser = new DOMParser();
+        xmlDoc = parser.parseFromString(xml,"text/xml");
+        console.log(xmlDoc);
+      });
       crmMetadataBtn.classList.add('is-active');
       const metadata = document.getElementById('crmMetadata');
       metadata.classList.remove('is-hidden');
@@ -120859,20 +120851,18 @@ App = {
       function chooseMainThumbnail (ev) {
         let fileResult = document.getElementById('filePreview');
         let imgList = fileResult.querySelectorAll('img');
+        if(ev.target.classList.contains('mainPreview')) return; //already selected as main preview
         for(let element of imgList) {
           element.classList = '';
         }
-        let selectedElementId = ev.target.getAttribute('data-id')
-        console.log('before', App.store);
-        console.log('selectedElementId',selectedElementId);
-        if(selectedElementId == App.store[0]) {
-          ev.target.classList.toggle('mainPreview');
-          return;
-        }
+        let selectedElementId = ev.target.getAttribute('data-id');
+        //console.log('before', App.store);
+        //console.log('selectedElementId', selectedElementId);
         let temp = App.store[0];
         App.store[0] = App.store[selectedElementId];
         App.store[selectedElementId] = temp;
         ev.target.classList.toggle('mainPreview');
+        console.log('after', App.store);
       }
     }
 
@@ -120916,8 +120906,10 @@ App = {
   },
 
   dataToModal: function(ev, artworkPreview) {
-    //console.log('data to modal', ev.target.getAttribute('data-id'));
-    artworkPreview.classList.add('is-active'); //TODO
+    if(ev.target) {
+      if (ev.target.getAttribute('data-val') === 'true') artworkPreview.classList.add('is-active');
+      else artworkPreview.classList.remove('is-active');
+    }
     let artId;
     if (isNaN(ev)) artId =  ev.target.getAttribute('data-id');
     else artId = ev ;
@@ -120925,7 +120917,7 @@ App = {
       contractInstance = instance;
       return artId;
     }).then(function (artId) {
-        const artworkId = artId; //TODO temporary then select from ev target!
+        const artworkId = artId;
         //take artworks from the mapping
         contractInstance.artworks(artworkId).then(function (artwork) {
           console.log(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
@@ -120944,6 +120936,7 @@ App = {
     const artworkActions = document.querySelector('.artwork-actions');
     const btnAprove = artworkActions.querySelector('.btn-adopt');
     const btnModify = artworkActions.querySelector('.btn-modify-metadata');
+    mediaContent.innerHTML = "";
     ipfs.files.cat(descriptionHash, function (err, file) {
       if (err) { throw err; }
       let ipfsResult =  file.toString('utf8');
@@ -120953,7 +120946,7 @@ App = {
       previewPreamble.src = `https://ipfs.io/ipfs/${objectResult.objectPreview}`;
       titlePreamble.textContent = name;
       authorPreamble.textContent = author;
-      title.textContent = name;
+      title.innerHTML = `<a href="https://ipfs.io/ipfs/${descriptionHash}" target="_blank">Riferimento al contenuto IPFS</a>`;
       if(App.artworkCheckerPermissions === true && validation === false) {
         btnAprove.disabled = false;
         btnAprove.setAttribute('data-id', id);
@@ -120972,12 +120965,11 @@ App = {
       for(key of objectResult.objectFiles) {
         let objectFilePreview = document.createElement('img');
         objectFilePreview.setAttribute('src', `https://ipfs.io/ipfs/${key}`);
-        content.append(objectFilePreview);
+        mediaContent.append(objectFilePreview);
       }
     });
   },
   // Blockchain functions instances
-
   uploadArtw: function (hash, objectDesc) {
     if(App.loading) {
       return;
@@ -120993,15 +120985,13 @@ App = {
       });
     }).then(function (result) {
       console.log(result);
-      var receiptRow = $('#receiptRow');
-      //the receipt
+      /*var receiptRow = $('#receiptRow');
       $.each(result.receipt, function( key, value ) {
         var x = document.createElement('li');
         x.innerHTML =  key + ': ' + value; 
         receiptRow.append(x);
-        console.log('...Done Uploading your object to blockchain...');
+        console.log('...Done Uploading your object to blockchain...');*/
         App.reloadArtworks();
-      });
     }).catch(function (error) {
       console.error(error);
     });
@@ -121033,14 +121023,13 @@ App = {
       const hash = result[0].hash;
       console.log('added data hash:', hash);
       console.log('...Done Uploading your metadata description to IPFS...');
-      App.modifyArtwork(id, hash);
+      return App.modifyArtwork(id, hash);
       });
     });
   },
 
   modifyArtwork: (id, hash) => {
     const idToApprove = id.toNumber();
-    console.log('modifyArtwork id to Modifyt', idToApprove);
     App.contracts.Archives.deployed().then(function (instance) {
       return instance.modifyArtworkDescription(idToApprove, hash, {
         from: App.account,

@@ -42,12 +42,6 @@
                         </a>
                     </div>
                 </div>
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <p>Account: </p>
-                        <!--<p id="account" class="welcome"></p>-->
-                    </div>
-                </div>
             </nav>
         </div>
     </header>
@@ -56,7 +50,7 @@
             <section class="artwork-creation column is-2 hero is-fullheight">
                 <div class="creation-status">
                     <div class="creation-new has-text-centered">
-                        <a id="newArtwork" class="button is-link is-block is-bold">
+                        <a id="newArtwork" class="button is-block">
                             <span class="creation-new">Inserisci Oggetto</span>
                         </a>
                     </div>
@@ -516,28 +510,38 @@
                         </div>
                     </div> <!-- END MODAL -->
                     <div class="creation-status">
-                        <a href="#" class="item active has-text-centered"><span id="account" class="name">Account
-                                address</span></a>
-                        <a href="#" class="item has-text-centered"><span id="accountBalance" class="name">Account
-                                balance</span></a>
-                        <a href="#" class="item has-text-centered"><span id="accountPermission" class="name">Sent
-                                Mail</span></a>
+                        <ul>
+                            <li class="item active has-text-centered">Account address:
+                                <span id="account" class="name"></span>
+                            </li>
+                            <li class="item active has-text-centered">Account balance:
+                                <span id="accountBalance" class="name"></span>
+                            </li>
+                            <li class="item active has-text-centered">Account permissions:
+                                <span id="accountPermission" class="name"></span>
+                            </li>
+                        </ul>
+                        <div class="object-loader is-hidden">
+                                <!-- Credits: http://tobiasahlin.com/spinkit/ -->
+                                    <div id="loader" class="spinner">
+                                            <div class="rect1"></div>
+                                            <div class="rect2"></div>
+                                            <div class="rect3"></div>
+                                            <div class="rect4"></div>
+                                            <div class="rect5"></div>
+                                    </div>
+                        </div>
                     </div>
                 </div>
             </section>
             <section class="artwork-overview column is-5 is-fullheight" id="message-feed">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            User Search
-                        </p>
-                        <a href="#" class="card-header-icon" aria-label="more options">
-                            <span class="icon">
-                                <i class="fa fa-angle-down" aria-hidden="true"></i>
-                            </span>
-                        </a>
+                <div class="columns">
+                <div class="column filter-bar is-12">
+                    <header class="search-header">
+                            <h3>User Search</h3>
                     </header>
-                    <div class="field has-addons">
+                    <div class="columns">
+                    <div class="field column is-8 has-addons">
                         <div class="control is-expanded">
                             <input class="input" type="text" placeholder="Find a repository">
                         </div>
@@ -547,6 +551,7 @@
                             </a>
                         </div>
                     </div>
+                    <div class="filters column is-4">
                     <a class="button is-large" id="filterValidObjects" onclick="App.filterValidObjects(); return false;">
                         <span class="icon is-large">
                             <img src="img/valid-document.svg">
@@ -558,6 +563,9 @@
                         </span>
                     </a>
                 </div>
+            </div>
+                </div>
+                 </div>
                 <div id="archivesRow" class="">
                     <!-- Works load HERE -->
                 </div>
@@ -610,6 +618,7 @@
                     <hr>
                     <div class="description-title">
                     </div>
+                    <hr>
                     <div class="description-content">
                     </div>
                     <div class="description-footer">

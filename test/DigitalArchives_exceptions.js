@@ -35,7 +35,7 @@ contract('Archives', (accounts) => {
         }).then((artwork) => {
           assert.equal(artwork[0], 2, "contains the correct id");
           assert.equal(artwork[1], contractOwner, "contains the correct author, equal to contract owner");
-          assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains the same descriptionHash");
+          assert.equal(artwork[3], "QmdGB1JTFfNAu1XzC2fsypUwhCTP9DHbAWn5EVNmDNNFy5", "contains the same descriptionHash");
         });
     });
 

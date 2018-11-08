@@ -190,36 +190,33 @@ html, body {
     .object-insertion #filePreview .mainPreview {
       border: 4px solid green; }
 
-.object-loader .spinner {
-  margin: 10px auto;
-  width: 70px;
-  height: 60px;
-  text-align: center;
-  font-size: 12px; }
-
-.object-loader .spinner > div {
-  background-color: #679436;
-  height: 100%;
-  width: 6px;
-  display: inline-block;
-  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
-  animation: sk-stretchdelay 1.2s infinite ease-in-out; }
-
-.object-loader .spinner .rect2 {
-  -webkit-animation-delay: -1.1s;
-  animation-delay: -1.1s; }
-
-.object-loader .spinner .rect3 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s; }
-
-.object-loader .spinner .rect4 {
-  -webkit-animation-delay: -0.9s;
-  animation-delay: -0.9s; }
-
-.object-loader .spinner .rect5 {
-  -webkit-animation-delay: -0.8s;
-  animation-delay: -0.8s; }
+.object-loader {
+  display: flex;
+  justify-content: flex-end; }
+  .object-loader .spinner {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 12px; }
+  .object-loader .spinner > div {
+    background-color: #679436;
+    height: 100%;
+    width: 4px;
+    display: inline-block;
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out; }
+  .object-loader .spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s; }
+  .object-loader .spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s; }
+  .object-loader .spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s; }
+  .object-loader .spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s; }
 
 @-webkit-keyframes sk-stretchdelay {
   0%, 40%, 100% {
@@ -253,6 +250,11 @@ html, body {
   position: relative;
   border-right: 1px solid #DEDEDE;
   box-shadow: 2px 0 0 0 #f5f5f5; }
+  .artwork-creation .button {
+    background-color: #05668D;
+    color: #ffffff; }
+    .artwork-creation .button:hover {
+      background-color: #427aa1; }
   .artwork-creation::before {
     position: absolute;
     content: "";
@@ -270,10 +272,15 @@ html, body {
     padding: 25px 0; }
     .artwork-creation .creation-status .item {
       display: block;
-      padding: 10px 0;
-      color: #6F7B7E; }
+      padding: 20px 0;
+      color: #6F7B7E;
+      border-bottom: 1px dotted #6F7B7E; }
+      .artwork-creation .creation-status .item #account {
+        font-size: 13px; }
       .artwork-creation .creation-status .item:hover {
         background-color: #F2F2F2; }
+    .artwork-creation .creation-status .item:last-child {
+      border: 0; }
     .artwork-creation .creation-status .item.active {
       background-color: #F1F1F1; }
     .artwork-creation .creation-status .icon {
@@ -284,6 +291,15 @@ html, body {
       font-size: 15px;
       color: #5D5D5D;
       font-weight: 500; }
+
+.filter-bar {
+  background-color: #F1F1F1;
+  border-radius: 15px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  display: flex;
+  flex-direction: column; }
+  .filter-bar .search-header {
+    text-align: center; }
 
 .artwork-object {
   /* Styles */ }
@@ -314,6 +330,11 @@ html, body {
       position: absolute;
       top: 10px;
       right: 0; }
+  .artwork-object .object-button {
+    background-color: #05668D;
+    color: #ffffff; }
+    .artwork-object .object-button:hover {
+      background-color: #427aa1; }
 
 .media {
   border-radius: 15px;
@@ -366,6 +387,8 @@ html, body {
     height: 100%;
     margin-top: 40px;
     margin-right: 20px; }
+  .artwork-description .description-preview.is-active {
+    border: 3px solid #679436; }
   .artwork-description .artwork-info {
     text-align: center;
     align-items: center; }
@@ -396,6 +419,10 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly; }
+  .artwork-description .description-title {
+    background-color: #F1F1F1;
+    text-align: center;
+    padding: 20px; }
   .artwork-description .description-content {
     display: flex;
     flex-direction: column;
@@ -407,18 +434,18 @@ html, body {
       display: flex;
       padding-bottom: 2px;
       font-weight: bold; }
-    .artwork-description .description-content img {
-      display: flex;
-      flex-direction: row;
-      max-width: 250px;
-      max-height: 300px;
-      border: 1px solid #427aa1;
-      margin-right: 10px; }
   .artwork-description .description-footer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     margin-top: 25px; }
     .artwork-description .description-footer img {
-      max-width: 250px;
-      max-height: 300px;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 230px;
+      max-height: 120px;
+      width: auto;
+      height: auto;
       border: 1px solid #427aa1;
       margin-right: 10px; }
 

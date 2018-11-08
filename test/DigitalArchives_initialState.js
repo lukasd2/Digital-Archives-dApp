@@ -29,27 +29,27 @@ contract('Archives', (accounts) => {
         }).then((artwork) => {
           assert.equal(artwork[0], 1, "Contains the correct id");
           assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
-          assert.equal(artwork[2], "Opera d'arte minore approvata", "contains correct name");
-          assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains correct descriptionHash");
-          assert.equal(artwork[4], "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", "contains correct mainPreviewHash");
+          assert.equal(artwork[2], "Monumento ai caduti della prima guerra mondiale", "contains correct name");
+          assert.equal(artwork[3], "QmVh3Lj1nriF7rrwCsQgk14uxNQ4SjnMiboePWmS99LQVE", "contains correct descriptionHash");
+          assert.equal(artwork[4], "QmUJhA14nkZaD6tRq3KD4e8QbqbFcGk2S84RfLSGi3xKVH", "contains correct mainPreviewHash");
           assert.equal(artwork[5], true, "contains validation field set to true");
           assert.equal(artwork[6], 2, "contains 2 votes count");
           return artworkInstance.artworks(2);
         }).then((artwork) => {
           assert.equal(artwork[0], 2, "contains the correct id");
           assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
-          assert.equal(artwork[2], "Opera d'arte scultura", "contains the correct name");
-          assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains correct descriptionHash");
-          assert.equal(artwork[4], "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", "contains correct mainPreviewHash");
+          assert.equal(artwork[2], "Armadio da farmacia", "contains the correct name");
+          assert.equal(artwork[3], "QmdGB1JTFfNAu1XzC2fsypUwhCTP9DHbAWn5EVNmDNNFy5", "contains correct descriptionHash");
+          assert.equal(artwork[4], "QmZjstpjo4GsxwCYZXaqDeYC6FNteSUkRGKLqQEQUhcSTb", "contains correct mainPreviewHash");
           assert.equal(artwork[5], false, "contains validation field set to false");
           assert.equal(artwork[6], 0, "contains 0 votes count");
           return artworkInstance.artworks(3);
         }).then((artwork) => {
             assert.equal(artwork[0], 3, "contains the correct id");
             assert.equal(artwork[1], contractOwner, "contains the correct author, equale to contract owner");
-            assert.equal(artwork[2], "Opera d'arte scultura", "contains the correct name");
-            assert.equal(artwork[3], "QmRDKiVKaEFxcEa5z9haS1fEhQbQriqYgNnAsHmgxM2de6", "contains correct descriptionHash");
-            assert.equal(artwork[4], "QmVFCTESBiwPExSBYkA5EKLQ1MHWKYG2UuHSxZAWoQHLhE", "contains correct mainPreviewHash");
+            assert.equal(artwork[2], "Dipinto di un Angelo", "contains the correct name");
+            assert.equal(artwork[3], "QmPUPDB8MXMuQDAfwmR29KMGeG2dvTgLTMjVbR1NGecSoK", "contains correct descriptionHash");
+            assert.equal(artwork[4], "Qmbxf2SqYwvWfe9meCsxN91tjUSuZgL2ct99ZY5P63R8eX", "contains correct mainPreviewHash");
             assert.equal(artwork[5], false, "contains validation field set to false");
             assert.equal(artwork[6], 0, "contains 0 votes count");
           });
