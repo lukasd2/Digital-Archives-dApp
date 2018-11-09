@@ -269,7 +269,8 @@ html, body {
     padding: 50px 40px; }
   .artwork-creation .creation-status {
     color: #6F7B7E;
-    padding: 25px 0; }
+    padding: 25px 0;
+    overflow: hidden; }
     .artwork-creation .creation-status .item {
       display: block;
       padding: 20px 0;
@@ -300,6 +301,14 @@ html, body {
   flex-direction: column; }
   .filter-bar .search-header {
     text-align: center; }
+  .filter-bar .filters {
+    display: flex;
+    justify-content: flex-end; }
+    .filter-bar .filters .button {
+      margin-right: 10px; }
+
+progress {
+  background-color: red !important; }
 
 .artwork-object {
   /* Styles */ }
@@ -336,16 +345,30 @@ html, body {
     .artwork-object .object-button:hover {
       background-color: #427aa1; }
 
+#archivesRow {
+  margin-top: 45px; }
+
 .media {
   border-radius: 15px;
-  margin-top: 45px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   height: 200px;
   padding: 0 !important; }
   .media:hover {
     background-color: #F2F2F2; }
+  .media .title::after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 25%;
+    padding-top: 12px;
+    border-bottom: 2px solid #05668D; }
   .media .title, .media .subtitle {
-    font-size: 1.2em; }
+    text-align: center;
+    padding: 10px 0px;
+    font-size: 1em; }
+  .media .subtitle {
+    font-size: 0.9em;
+    color: #5D5D5D; }
   .media .art-description {
     font-size: 0.7em; }
   .media .media-left {
@@ -372,6 +395,10 @@ html, body {
   .media .bottom-content {
     justify-content: space-between;
     display: flex; }
+    .media .bottom-content .buttons {
+      right: 0;
+      bottom: 0;
+      position: absolute; }
 
 .artwork-description {
   background-color: #05668D;
@@ -451,6 +478,10 @@ html, body {
 
 .modal-card {
   width: 1024px; }
+
+@media (max-width: 1471px) {
+  .artwork-creation .creation-new {
+    padding: 50px 15px !important; } }
 
 @media (max-width: 769px) {
   .intro-description::before {

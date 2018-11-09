@@ -15,7 +15,7 @@
     <header class="page-header">
         <h1 style="display: none;">PAGE TITLE</h1>
         <div class="column">
-            <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
                 <h2 style="display: none;">PAGE Navigation</h2>
                 <div class="navbar-brand">
                     <a class="navbar-item" href="#">
@@ -569,24 +569,21 @@
                 <div id="archivesRow" class="">
                     <!-- Works load HERE -->
                 </div>
-
+                
                 <div id="archiviesTemplate" class="artwork-object" style="display: none;">
+                    <div class="columns">
+                        <div class="column is-12">
                     <article class="media artwork-object">
-
-                        <figure class="media-left">
+                        <figure class="media-left column is-marginless is-4">
                             <img class="image" src="https://bulma.io/images/placeholders/128x128.png">
                         </figure>
-                        <div class="media-content">
+                        <div class="media-content column is-6">
                             <div class="content">
                                 <p class="art-name title">Titolo dell'oggetto</p>
                                 <p class="art-author subtitle">Indirizzo dell'autore</p>
                                 <p class="art-description"></p>
                                 <progress class="progress is-link is-medium" value="0" max="2"></progress>
                                 <div class="bottom-content">
-                                    <div class="panel-validity">
-                                        <strong>Validation</strong>: <span class="art-validity">Warren, MI</span>
-                                        <span class="art-validation"></span>
-                                    </div>
                                     <div class="buttons is-right">
                                         <a class="object-button button is-info is-medium">Visualizza
                                         </a>
@@ -595,6 +592,8 @@
                             </div>
                         </div>
                     </article>
+                    </div>
+                </div>
                 </div>
             </section>
             <section class="artwork-description column hero is-5 is-fullheight">

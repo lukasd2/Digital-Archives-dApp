@@ -7,6 +7,8 @@
 @import "mixins";
 
 // Update Bulma's global variables
+$progress-bar-background-color: $blue-dark;
+$progress-value-background-color: #fff;
 $family-sans-serif: "Nunito", sans-serif;
 /*$grey-dark: $brown;
 $grey-light: $beige-light;
@@ -293,6 +295,7 @@ html,body {
 	.creation-status {
 		color: #6F7B7E;
 		padding: 25px 0;
+		overflow: hidden;
 		.item {
 			display: block;
 			padding: 20px 0;
@@ -334,8 +337,16 @@ html,body {
 		text-align: center;
 	}
 	.filters {
-		//
+		display: flex;
+		justify-content: flex-end;
+		.button {
+			margin-right: 10px;
+		}
 	}
+}
+
+progress {
+	background-color: red !important;
 }
 
 .artwork-object {
@@ -380,9 +391,12 @@ html,body {
 	}
 }
 
+#archivesRow {
+	margin-top: 45px;
+}
+
 .media {
 	border-radius: 15px;
-	margin-top: 45px;
  	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 	height: 200px;
 	padding: 0 !important;
@@ -390,8 +404,24 @@ html,body {
 		//cursor: pointer;
 		background-color: #F2F2F2;
 	}
+	.title{
+		&::after {
+			content: "";
+    display: block;
+    margin: 0 auto;
+    width: 25%;
+    padding-top: 12px;
+    border-bottom: 2px solid $blue-dark;
+		}
+	}
 	.title, .subtitle {
-		font-size: 1.2em;
+		text-align: center;
+		padding: 10px 0px;
+		font-size: 1em;
+	}
+	.subtitle {
+		font-size: 0.9em;
+		color: #5D5D5D;
 	}
 	.art-description {
 		font-size: 0.7em;
@@ -425,7 +455,12 @@ html,body {
 	}
 	.bottom-content {
 		justify-content: space-between;
-    	display: flex;
+		display: flex;
+		.buttons {
+			right: 0;
+			bottom: 0;
+			position: absolute;
+		}
 	}
 } //section 2
 
@@ -522,6 +557,13 @@ html,body {
 	width: 1024px;
 }
 
+@media (max-width: 1471px) {
+	.artwork-creation .creation-new {
+		padding: 50px 15px !important;
+
+	}
+}
+
 @media (max-width: 769px) {
 	.intro-description::before {
 		content: none !important;
@@ -531,6 +573,7 @@ html,body {
 		margin: 0;
 	}
 }
+
 
 /*
 .skewed::after {

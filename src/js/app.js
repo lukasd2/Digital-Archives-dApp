@@ -113,8 +113,8 @@ App = {
     archiviesTemplate.find('.art-author').text(author);
     archiviesTemplate.find('.progress').attr('value', voteNum);
     archiviesTemplate.find('.art-name').text(name);
-    archiviesTemplate.find('.art-description').text(`https://ipfs.io/ipfs/${descriptionHash}`);
-    archiviesTemplate.find('.art-validity').text(validation);
+    //archiviesTemplate.find('.art-description').text(`https://ipfs.io/ipfs/${descriptionHash}`);
+    //archiviesTemplate.find('.art-validity').text(validation);
     archiviesTemplate.find('.art-validity').attr('data-id', id);
     archiviesTemplate.find('.alert').attr('data-id', id);
     archiviesTemplate.find('img').attr('src', `https://ipfs.io/ipfs/${dataHash}`);
