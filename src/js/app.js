@@ -549,6 +549,7 @@ App = {
     const openModal = document.getElementById('openModal');
     openModal.classList.add('is-active');
     const modalFooter = document.querySelector('.modal-card-foot');
+    $(".modal-card-foot > button.is-success").remove();
       const modifyArtworkBtn = document.createElement('button');
       modifyArtworkBtn.appendChild(document.createTextNode("Modifica la descrizione"));
       modifyArtworkBtn.classList = 'button is-success';
