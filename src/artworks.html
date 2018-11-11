@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Digital Archives Site Mockup</title>
+    <title>Progetto Archivi Digitali</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet prefetch' href='https://use.fontawesome.com/releases/v5.0.10/css/all.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
@@ -13,12 +13,12 @@
 
 <body>
     <header class="page-header">
-        <h1 style="display: none;">PAGE TITLE</h1>
+        <h1 style="display: none;">Progetto Archivi Digitali</h1>
         <div class="column">
             <nav class="navbar" role="navigation" aria-label="main navigation">
-                <h2 style="display: none;">PAGE Navigation</h2>
+                <h2 style="display: none;">Navigazione Archivi Digitali</h2>
                 <div class="navbar-brand">
-                    <a class="navbar-item" href="#">
+                    <a class="navbar-item" href="./index.html">
                         <img src="img/logoPlaceholder2.png" alt="logo placeholder" height="100">
                     </a>
                     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
@@ -28,19 +28,12 @@
                     </a>
                 </div>
                 <div class="navbar-start is-tab">
-                    <a class="navbar-item" href="bulma.html">
+                    <a class="navbar-item" href="./index.html">
                         Home
                     </a>
-                    <div class="navbar-item is-tab">
-                        <a class="navbar-item" href="#">
-                            Inserimento
-                        </a>
-                    </div>
-                    <div class="navbar-item is-tab">
-                        <a class="navbar-item" href="#">
-                            Archivio
-                        </a>
-                    </div>
+                    <a class="navbar-item" href="./artworks.html">
+                        Archivio
+                    </a>
                 </div>
             </nav>
         </div>
@@ -450,26 +443,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="columns">
-                                                <div class="field column is-half">
-                                                    <label class="label">Soggetto</label>
-                                                    <div class="control">
-                                                        <input class="input" type="text" name="subject" placeholder='Esempio: "Poema"'>>
-                                                        <p class="help">L’argomento della risorsa. Può essere espresso
-                                                            da parole chiave o
-                                                            frasi chiave o codici di classificazione che descrivono
-                                                            l’argomento della risorsa</p>
-                                                    </div>
-                                                </div>
-                                                <div class="field column is-half">
-                                                    <label class="label">Formato</label>
-                                                    <div class="control">
-                                                        <input class="input" type="text" placeholder="Formato">
-                                                        <p class="help">La manifestazione fisica o digitale della
-                                                            risorsa</p>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="columns">
                                             <div class="field column">
@@ -496,7 +469,11 @@
                                                 </label>
                                                 <p class="help">Un riferimento univoco alla risorsa nell’ambito di un
                                                     dato
-                                                    contesto</p>
+                                                    contesto<span class="required">*</span></p>
+                                            </div>
+                                            <div class="column">
+                                                <p><span class="required">*</span> è obbligatorio inserire almeno un'immagine rappresentativa dell'oggetto. 
+                                                    Fino a un massimo di 10 immagini.</p>
                                             </div>
                                         </div>
                                     </form>
@@ -535,21 +512,15 @@
                 </div>
             </section>
             <section class="artwork-overview column is-5 is-fullheight" id="message-feed">
+                <div id="users">
                 <div class="columns">
                 <div class="column filter-bar is-12">
                     <header class="search-header">
-                            <h3>User Search</h3>
+                            <h2 class="title">Registro Blockchain</h2>
                     </header>
                     <div class="columns">
-                    <div class="field column is-8 has-addons">
-                        <div class="control is-expanded">
-                            <input class="input" type="text" placeholder="Find a repository">
-                        </div>
-                        <div class="control">
-                            <a class="button is-info">
-                                Search
-                            </a>
-                        </div>
+                    <div class="field column is-8">
+                            <input class="input search-box is-medium" type="text" placeholder="Cerca oggetto per titolo...">
                     </div>
                     <div class="filters column is-4">
                     <a class="button is-large" id="filterValidObjects" onclick="App.filterValidObjects(); return false;">
@@ -566,11 +537,13 @@
             </div>
                 </div>
                  </div>
-                <div id="archivesRow" class="">
+                <ul id="archivesRow" class="list">
                     <!-- Works load HERE -->
+                </ul>
                 </div>
                 
                 <div id="archiviesTemplate" class="artwork-object" style="display: none;">
+                    <li>
                     <div class="columns">
                         <div class="column is-12">
                     <article class="media artwork-object">
@@ -594,6 +567,7 @@
                     </article>
                     </div>
                 </div>
+             </li>
                 </div>
             </section>
             <section class="artwork-description column hero is-5 is-fullheight">
@@ -639,6 +613,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/web3.min.js"></script>
     <script src="js/truffle-contract.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="js/bundle.js"></script>
 </body>
 

@@ -361,6 +361,19 @@ App = {
         }
       }, false);
     //Event listeners
+    /* Search bar function */
+    $('.search-box').on('keyup', function(){
+      var searchTerm = $(this).val().toLowerCase();
+      $('.list li').each(function(){
+        if ($('.title', this).text().toLowerCase().indexOf(searchTerm) > -1) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+      });
+    });
+    /* Search bar function END */
+    //File upload listener
     let uploadFile = document.getElementById('captureFileUpload');
     uploadFile.addEventListener('change', fileUploadForm);
     function fileUploadForm(ev) {
@@ -507,6 +520,9 @@ App = {
         btnModify.disabled = false;
         btnModify.setAttribute('data-id', id);
         btnModify.onclick = () => {App.modifyMetadata(id, objectResult)}; //ad-hoc solution since an addEventListener would take into account all functions calls, possibliy to be fixed with currying or bind
+      } else {
+        btnModify.removeAttribute('data-id');
+        btnModify.disabled = true;
       };
       for(key of objectResult.objectFiles) {
         let objectFilePreview = document.createElement('img');
@@ -607,21 +623,27 @@ App = {
   // Blockchain functions instances end
 
   filterValidObjects: () => {
+    if(App.loading) {
+      return;
+    }
     const objectRow = document.getElementById('archivesRow');
     const button = document.getElementById('filterValidObjects');
     const objects = objectRow.querySelectorAll('.artwork-object[data-val=false]');
+    button.classList.toggle('is-active');
     objects.forEach((object) => {
-      button.classList.toggle('is-active');
       object.classList.toggle('is-hidden');
     });
   },
 
   filterPendingObjects: () => {
+    if(App.loading) {
+      return;
+    }
     const objectRow = document.getElementById('archivesRow');
     const button = document.getElementById('filterPendingObjects');
     const objects = objectRow.querySelectorAll('.artwork-object[data-val=true]');
+    button.classList.toggle('is-active');
     objects.forEach((object) => {
-      button.classList.toggle('is-active');
       object.classList.toggle('is-hidden');
     });
   }
