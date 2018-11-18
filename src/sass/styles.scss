@@ -7,7 +7,6 @@
 @import "mixins";
 
 // Update Bulma's global variables
-$progress-bar-background-color: $blue-dark;
 $progress-value-background-color: #fff;
 $family-sans-serif: "Nunito", sans-serif;
 /*$grey-dark: $brown;
@@ -172,7 +171,7 @@ html,body {
 
 		//z-index: 80;
 		.message {
-			align-self: flex-start;
+			align-self: flex-end;
 			z-index: 100;
 			width: 60%;
 			text-align: left;
@@ -373,6 +372,31 @@ html,body {
 			color: #5D5D5D;
 			font-weight: 500;
 		}
+		.status-progress {
+			text-align: center;
+			margin-top: 35px;
+			background-color: #F1F1F1;
+			p {
+				position: relative;
+				padding: 20px 0;
+				color: #6F7B7E;
+				border-bottom: 1px dotted #6F7B7E;
+			}
+			.success {
+				&::before {
+					content: "";
+					display: block;
+					height: 40px;
+					width: 40px;
+					background-size: cover;
+					background-image: url(../img/check-mark-button.svg);
+					background-repeat: no-repeat;
+					position: absolute;
+					top: 10px;
+					right: 3px;
+				}
+			}
+		}
 	}
 } //Section 1
 
@@ -425,10 +449,6 @@ html,body {
 			border-color: $blue-dark;
 		}
 	}
-}
-
-progress {
-	background-color: red !important;
 }
 
 .artwork-object {
@@ -524,6 +544,8 @@ progress {
 	}
 	.content {
 		.progress {
+			padding: 10px;
+			background-color: $blue-dark;
 			text-align: center;
 			position: relative;
 		  &::before {
@@ -655,7 +677,11 @@ progress {
 @media (max-width: 1471px) {
 	.artwork-creation .creation-new {
 		padding: 50px 15px !important;
-
+	}
+	.content {
+		.progress {
+			width: 72%;
+		}
 	}
 }
 

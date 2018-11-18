@@ -7,7 +7,7 @@
     <title>Progetto Archivi Digitali</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet prefetch' href='https://use.fontawesome.com/releases/v5.0.10/css/all.css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <link rel="stylesheet" href="css/bulma.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -449,7 +449,7 @@
                                                 <label class="label">Identificatore</label>
                                                 <div class="file has-name">
                                                     <label class="file-label">
-                                                        <img id="imagePreview" src="" alt="" style="display: block">
+                                                        <img id="imagePreview" src="" alt="image Preview" style="display: none;">
                                                         <input id="captureFileUpload" class="file-input" type="file"
                                                             name="resume" multiple>
                                                         <span class="file-cta">
@@ -498,6 +498,8 @@
                                 <span id="accountPermission" class="name"></span>
                             </li>
                         </ul>
+                        <div class="status-progress">
+                        </div>
                         <div class="object-loader is-hidden">
                                 <!-- Credits: http://tobiasahlin.com/spinkit/ -->
                                     <div id="loader" class="spinner">
@@ -507,12 +509,12 @@
                                             <div class="rect4"></div>
                                             <div class="rect5"></div>
                                     </div>
+                                    
                         </div>
                     </div>
                 </div>
             </section>
             <section class="artwork-overview column is-5 is-fullheight" id="message-feed">
-                <div id="users">
                 <div class="columns">
                 <div class="column filter-bar is-12">
                     <header class="search-header">
@@ -525,22 +527,21 @@
                     <div class="filters column is-4">
                     <a class="button is-large" id="filterValidObjects" onclick="App.filterValidObjects(); return false;">
                         <span class="icon is-large">
-                            <img src="img/valid-document.svg">
+                            <img src="img/valid-document.svg" alt="Approved object icon">
                         </span>
                     </a>
                     <a class="button is-large" id="filterPendingObjects" onclick="App.filterPendingObjects(); return false;">
                         <span class="icon is-large">
-                            <img src="img/awaitForApproval.svg">
+                            <img src="img/awaitForApproval.svg" alt="Waiting for approval object icon">
                         </span>
                     </a>
                 </div>
             </div>
                 </div>
                  </div>
-                <ul id="archivesRow" class="list">
+                <ul id="archivesRow" class="artwork-list">
                     <!-- Works load HERE -->
                 </ul>
-                </div>
                 
                 <div id="archiviesTemplate" class="artwork-object" style="display: none;">
                     <li>
@@ -548,7 +549,7 @@
                         <div class="column is-12">
                     <article class="media artwork-object">
                         <figure class="media-left column is-marginless is-4">
-                            <img class="image" src="https://bulma.io/images/placeholders/128x128.png">
+                            <img class="image" src="https://bulma.io/images/placeholders/128x128.png" alt="Placeholder-image">
                         </figure>
                         <div class="media-content column is-6">
                             <div class="content">
@@ -576,7 +577,7 @@
                     <div class="columns">
                         <div class="artwork-info column is-6">
                             <div class="avatar">
-                                <img id="previewPreamble" src="https://placehold.it/128x128">
+                                <img id="previewPreamble" src="https://placehold.it/128x128" alt="Placeholder-image">
                             </div>
                             <div class="address">
                                 <div id="artworkNamePreamble" class="name">Titolo dell'oggetto</div>
@@ -608,12 +609,11 @@
             </p>
         </div>
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/web3.min.js"></script>
     <script src="js/truffle-contract.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="js/bundle.js"></script>
 </body>
 

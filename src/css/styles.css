@@ -134,7 +134,7 @@ html, body {
     flex-direction: column;
     justify-content: flex-start; }
     .page-introduction .intro-description .message {
-      align-self: flex-start;
+      align-self: flex-end;
       z-index: 100;
       width: 60%;
       text-align: left; }
@@ -242,11 +242,12 @@ html, body {
   justify-content: flex-end; }
   .object-loader .spinner {
     width: 50px;
-    height: 50px;
+    height: 60px;
     text-align: center;
-    font-size: 12px; }
+    margin: 0 auto;
+    margin-top: 15px; }
   .object-loader .spinner > div {
-    background-color: #679436;
+    background-color: #05668D;
     height: 100%;
     width: 4px;
     display: inline-block;
@@ -327,6 +328,26 @@ html, body {
       font-size: 15px;
       color: #5D5D5D;
       font-weight: 500; }
+    .artwork-creation .creation-status .status-progress {
+      text-align: center;
+      margin-top: 35px;
+      background-color: #F1F1F1; }
+      .artwork-creation .creation-status .status-progress p {
+        position: relative;
+        padding: 20px 0;
+        color: #6F7B7E;
+        border-bottom: 1px dotted #6F7B7E; }
+      .artwork-creation .creation-status .status-progress .success::before {
+        content: "";
+        display: block;
+        height: 40px;
+        width: 40px;
+        background-size: cover;
+        background-image: url(../img/check-mark-button.svg);
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 10px;
+        right: 3px; }
 
 .filter-bar {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 2px rgba(0, 0, 0, 0.23);
@@ -367,9 +388,6 @@ html, body {
     .filter-bar .field .input {
       width: 75%;
       border-color: #05668D; }
-
-progress {
-  background-color: red !important; }
 
 .artwork-object[data-val='true'] {
   border: 3px solid #679436;
@@ -445,6 +463,8 @@ progress {
     max-width: 200px;
     margin: 0 auto; }
   .media .content .progress {
+    padding: 10px;
+    background-color: #05668D;
     text-align: center;
     position: relative; }
     .media .content .progress::before {
@@ -554,7 +574,9 @@ progress {
 
 @media (max-width: 1471px) {
   .artwork-creation .creation-new {
-    padding: 50px 15px !important; } }
+    padding: 50px 15px !important; }
+  .content .progress {
+    width: 72%; } }
 
 @media (max-width: 769px) {
   .intro-description::before {

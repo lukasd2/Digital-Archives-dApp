@@ -79,6 +79,7 @@ App = {
     if (App.loading) {
       return;
     }
+    App.loadingProgress('refresh'); //Only for presentation purposes, should be removed alongside with this function
     App.loading = true;
     // refresh account information (because the balance might have changed)
     App.displayAccountInfo();
@@ -130,8 +131,8 @@ App = {
   filesToIPFS: async function (fileSequence) {
     console.log('filesToIPFS', fileSequence);
     App.loading = true;
-    App.loadingProgress(1);
-    console.log('...Uploading your files to IPFS...');
+    App.loadingProgress('File Upload');
+    //console.log('...Uploading your files to IPFS...');
     await ipfs.files.add(fileSequence, (err, result) => {
       if (err) {
         console.error(err);
@@ -146,7 +147,8 @@ App = {
       App.ipfsHash = hash;
       App.loading = false;
       console.log('added data hash:', hash);
-      console.log('...DONE Uploading your files to IPFS...');
+      App.loadingProgress('success');
+      //console.log('...DONE Uploading your files to IPFS...');
       App.generateMetadata(hash);
   });
   },
@@ -156,7 +158,8 @@ App = {
       return;
     }
     App.loading = true;
-    console.log('step start generateMetadata');
+    App.loadingProgress('Description Creation');
+    //console.log('step start generateMetadata');
     let data;
     const optionSimpleDC = document.getElementById('dublinCoreBtn');
     const optionExtendedDC = document.getElementById('dublinExtBtn');
@@ -259,13 +262,15 @@ App = {
     if (hash === false) {
       return data;
     }
-  console.log('step end generateMetadata');
+  App.loadingProgress('success');
+  //console.log('step end generateMetadata');
   return App.descriptionToIPFS(data);
   },
 
   descriptionToIPFS: async function (objectDescription) {
-    console.log('descriptionToIPFS', objectDescription);
-    console.log('...Uploading your metadata description to IPFS...');
+    App.loadingProgress('Description Upload');
+    //console.log('descriptionToIPFS', objectDescription);
+    //console.log('...Uploading your metadata description to IPFS...');
     const openModal = document.getElementById('openModal');
     openModal.classList.remove('is-active');
     let uploadDesc = Buffer.from(JSON.stringify(objectDescription));
@@ -279,7 +284,8 @@ App = {
       console.log('ipfs result', result);
       const hash = result[0].hash;
       console.log('added data hash:', hash);
-      console.log('...Done Uploading your metadata description to IPFS...');
+      App.loadingProgress('success');
+      //console.log('...Done Uploading your metadata description to IPFS...');
       App.uploadArtw(hash, objectDescription);
       ipfs.files.cat(hash, function (err, file) {
         if (err) {
@@ -290,13 +296,18 @@ App = {
     })
   },
 
-  loadingProgress: function (step) {
-    switch (step) {
-      case 1:
-      console.log('loadingProgress');
+  loadingProgress: function (stringStatus) {
+    const loader = $('.object-loader');
+    loader.removeClass('is-hidden');
+    const statusContainer = $('.status-progress');
+    if (stringStatus === 'success') {
+      return $('.status-progress p:last-child').addClass('success');
     }
-    const loader = document.getElementById('loader');
-    const btnSendArt = document.getElementById('sendToChain');
+    statusContainer.append( `<p>${stringStatus}</p>`);
+    if (stringStatus === 'refresh') {
+      loader.addClass('is-hidden');
+      statusContainer.empty();
+    }
   },
 
   //listen for events global
@@ -364,7 +375,7 @@ App = {
     /* Search bar function */
     $('.search-box').on('keyup', function(){
       var searchTerm = $(this).val().toLowerCase();
-      $('.list li').each(function(){
+      $('.artwork-list li').each(function(){
         if ($('.title', this).text().toLowerCase().indexOf(searchTerm) > -1) {
             $(this).show();
         } else {
@@ -538,7 +549,8 @@ App = {
     }
     //retrieve details of the artw
     console.log('JUST BEFORE THE EVENT App.ipfsHash', App.ipfsHash);
-    console.log('...Uploading your object to blockchain...');
+    App.loadingProgress('Blockchain Upload');
+    //console.log('...Uploading your object to blockchain...');
     //console.log(artwName, artwDescription, App.ipfsHash);
     App.contracts.Archives.deployed().then(function (instance) {
       return instance.publishArtwork(objectDesc.name, hash, App.ipfsHash, {
@@ -553,6 +565,7 @@ App = {
         x.innerHTML =  key + ': ' + value; 
         receiptRow.append(x);
         console.log('...Done Uploading your object to blockchain...');*/
+        App.loadingProgress('success');
         App.reloadArtworks();
     }).catch(function (error) {
       console.error(error);
@@ -585,6 +598,7 @@ App = {
       console.log('ipfs result', result);
       const hash = result[0].hash;
       console.log('added data hash:', hash);
+      App.loadingProgress('success');
       console.log('...Done Uploading your metadata description to IPFS...');
       return App.modifyArtwork(id, hash);
       });
@@ -650,7 +664,7 @@ App = {
 };
 
 $(function () {
-  $(window).load(function () {
+  $(window).on('load', function() {
     App.init();
   });
 });
