@@ -16,7 +16,8 @@
   "license": "ISC",
   "devDependencies": {
     "lite-server": "^2.3.0",
-    "node-sass": "^4.9.3"
+    "node-sass": "^4.9.3",
+    "tinyify": "^2.5.0"
   },
   "dependencies": {
     "browserify": "^16.2.2",
