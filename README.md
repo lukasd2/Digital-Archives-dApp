@@ -4,8 +4,9 @@ Description TODO
 
 ###### Created on: 11/2018 / Live version: https://lukasd2.github.io/Digital-Archives-dApp/src/artworks.html
 
-### With Ethereum blockchain we can track every transaction made e.g. using this app interface!
-### https://ropsten.etherscan.io/address/0xb6d296f2402fee810171a5d9b148f1744d10413c
+#### With Ethereum blockchain we can track every transaction made e.g. using this app interface!
+#### https://ropsten.etherscan.io/address/0x21af2ac807dd0ce64e242c35f57219341218d3d1
+(old deployment used before the presentation) https://ropsten.etherscan.io/address/0xb6d296f2402fee810171a5d9b148f1744d10413c
 
 ## Getting Started 
 
