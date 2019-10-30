@@ -29676,7 +29676,13 @@ module.exports = {
 
 },{}],166:[function(require,module,exports){
 module.exports={
-  "_from": "ipfs-api@^24.0.0",
+  "_args": [
+    [
+      "ipfs-api@24.0.0",
+      "F:\\Digital-Archives-dApp"
+    ]
+  ],
+  "_from": "ipfs-api@24.0.0",
   "_id": "ipfs-api@24.0.0",
   "_inBundle": false,
   "_integrity": "sha512-UKgkOFfVYRXNM2aiZXMHbQn4Ulrwo62aDMd6YvbmX3qwnVXTzhZ3rdU2AWperFfhrBu1kckvpwKJ+EYoSprePw==",
@@ -29686,23 +29692,21 @@ module.exports={
     "ms": "2.0.0"
   },
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "ipfs-api@^24.0.0",
+    "raw": "ipfs-api@24.0.0",
     "name": "ipfs-api",
     "escapedName": "ipfs-api",
-    "rawSpec": "^24.0.0",
+    "rawSpec": "24.0.0",
     "saveSpec": null,
-    "fetchSpec": "^24.0.0"
+    "fetchSpec": "24.0.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ipfs-api/-/ipfs-api-24.0.0.tgz",
-  "_shasum": "376a02bd7cb2a7ecbd194948a818fd02d095b69b",
-  "_spec": "ipfs-api@^24.0.0",
-  "_where": "D:\\Blockchain projects\\digitalArchivesProject",
+  "_spec": "24.0.0",
+  "_where": "F:\\Digital-Archives-dApp",
   "browser": {
     "glob": false,
     "fs": false,
@@ -29714,7 +29718,6 @@ module.exports={
   "bugs": {
     "url": "https://github.com/ipfs/js-ipfs-api/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Alan Shaw",
@@ -30047,7 +30050,6 @@ module.exports={
     "streamifier": "~0.1.1",
     "tar-stream": "^1.6.1"
   },
-  "deprecated": false,
   "description": "A client library for the IPFS HTTP API",
   "devDependencies": {
     "aegir": "^15.1.0",
@@ -120470,21 +120472,29 @@ App = {
     return App.initWeb3();
   },
 
-  initWeb3: function () {
-    // Is there an injected web3 instance?
-    if (typeof web3 !== 'undefined') { 
-      App.web3Provider = web3.currentProvider; //at the current state of art shoud be the one from metamask
-    } else {
-      // If no injected web3 instance is detected, fall back to Ganache
+  initWeb3: async function () {
+    if (window.ethereum) {
+      App.web3Provider = window.ethereum;
+      try {
+        await window.ethereum.enable();
+      } catch (error) {
+        console.error("User denied account access to Digital Archives App")
+      }
+    }
+    else if (window.web3) {
+      App.web3Provider = window.web3.currentProvider;
+    }
+    // If no injected web3 instance is detected, fall back to Ganache
+    else {
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
     }
     web3 = new Web3(App.web3Provider);
+
     App.displayAccountInfo();
     return App.initContract();
   },
 
   displayAccountInfo: function () {
-    //asynchronous
     web3.eth.getCoinbase(function (err, account) {
       if (err === null) {
         App.account = account;
@@ -120499,15 +120509,12 @@ App = {
   },
 
   initContract: function () {
-    // fetch and store  
     $.getJSON('Archives.json', function (archivesArtifact) {
       // get the contract artifact file and use it to instantiate a truffle contract abstraction
       App.contracts.Archives = TruffleContract(archivesArtifact);
-      // set the provider for our contracts
       App.contracts.Archives.setProvider(App.web3Provider);
-      //listen to events
+
       App.bindEvents();
-      //retrieve the article from the contract
       App.showPermissions();
       return App.reloadArtworks();
     })
@@ -120517,9 +120524,9 @@ App = {
     let contractInstance;
     App.contracts.Archives.deployed().then(function (instance) {
       contractInstance = instance;
-      return contractInstance.whitelist(App.account); //async again -- returns an array of ids all artworks available
+      return contractInstance.whitelist(App.account); //async returns an array of ids all artworks available
     }).then(function (bool) {
-      if(bool) {
+      if (bool) {
         App.artworkCheckerPermissions = true;
         $('#accountPermission').text("Artwork Checker");
       } else {
@@ -120561,7 +120568,7 @@ App = {
   displayArtworks: function (id, author, name, descriptionHash, dataHash, validation, voteNum) {
     const artRow = $('#archivesRow');
     const archiviesTemplate = $('#archiviesTemplate');
-    archiviesTemplate.find('.panel-title').text('Title: '+name);
+    archiviesTemplate.find('.panel-title').text('Title: ' + name);
     archiviesTemplate.find('.art-id').text(id);
     archiviesTemplate.find('.artwork-object').attr('data-id', id);
     archiviesTemplate.find('.artwork-object').attr('data-val', validation);
@@ -120578,7 +120585,7 @@ App = {
     artRow.append(archiviesTemplate.html());
   },
   //Actions when "newArtwork" button is pressed. Sequence: filesToIpfs -> generateMetadata -> descriptionToIPFS => uploadArtw (to blockchain)
-  uploadData: () => { 
+  uploadData: () => {
     App.filesToIPFS(App.store);
   },
 
@@ -120592,7 +120599,7 @@ App = {
         console.error(err);
         return
       }
-      for(let key in result) {
+      for (let key in result) {
         console.log('keys', key);
         App.ipfsHashStore.push(result[key].hash);
       }
@@ -120604,30 +120611,32 @@ App = {
       App.loadingProgress('success');
       //console.log('...DONE Uploading your files to IPFS...');
       App.generateMetadata(hash);
-  });
+    });
   },
 
   generateMetadata: function (hash) {
-    if(App.loading) {
+    if (App.loading) {
       return;
     }
     App.loading = true;
     App.loadingProgress('Description Creation');
-    //console.log('step start generateMetadata');
+
     let data;
     const optionSimpleDC = document.getElementById('dublinCoreBtn');
     const optionExtendedDC = document.getElementById('dublinExtBtn');
     const optionCRMMetadata = document.getElementById('crmMetadataBtn');
-    if(optionSimpleDC.classList.contains('is-active')) {
+
+    if (optionSimpleDC.classList.contains('is-active')) {
       let parent = $('#dublinCoreMetadata');
       data = getElementsFunction(parent);
     } else if (optionExtendedDC.classList.contains('is-active')) {
       let parent = $('#dublinCoreExt');
       data = getElementsFunction(parent);
     } else if (optionCRMMetadata.classList.contains('is-active')) {
-      generatedXMLCode = `CIDOC option`;   
+      generatedXMLCode = `CIDOC option`;
     }
-    function getElementsFunction (parent) {
+
+    function getElementsFunction(parent) {
       let generatedXMLCode = '';
       let title = '';
       title = $(parent).find('input[name="title"]');
@@ -120635,23 +120644,23 @@ App = {
       alternative = $(parent).find('input[name="alternative"]');
       let creator = '';
       creator = $(parent).find('input[name="creator"]');
-      let subject  = '';
+      let subject = '';
       subject = $(parent).find('input[name="subject"]');
       let publisher = [];
       publisher = $(parent).find('input[name="publisher"]');
-      let abstract  = '';
+      let abstract = '';
       abstract = $(parent).find('textarea[name="abstract"]');
-      let description  = '';
+      let description = '';
       description = $(parent).find('textarea[name="description"]');
-      let date  = '';
+      let date = '';
       date = $(parent).find('input[name="date"]');
-      let created  = '';
+      let created = '';
       created = $(parent).find('input[name="created"]');
-      let valid  = '';
+      let valid = '';
       valid = $(parent).find('input[name="valid"]');
-      let modified  = '';
+      let modified = '';
       modified = $(parent).find('input[name="modified"]');
-      let type   = '';
+      let type = '';
       type = $(parent).find('input[name="type"]');
       let format = [];
       format = $('input[name="format"]');
@@ -120661,19 +120670,19 @@ App = {
       isVersionOf = $('input[name="isVersionOf"]');
       let IsPartOf = [];
       IsPartOf = $('input[name="IsPartOf"]');
-      let source  = '';
+      let source = '';
       source = $('input[name="source"]');
-      let language  = '';
+      let language = '';
       language = $('input[name="language"]');
-      let coverage  = '';
+      let coverage = '';
       coverage = $('input[name="coverage"]');
-      let spatial  = '';
+      let spatial = '';
       spatial = $('input[name="spatial"]');
-      let temporal  = '';
+      let temporal = '';
       temporal = $('input[name="temporal"]');
-      let rights  = '';
+      let rights = '';
       rights = $('input[name="rights"]');
-      const condition = parent.attr('id') ===  'dublinCoreExt'; /*checks if user selected Dublin Core Extended version. 
+      const condition = parent.attr('id') === 'dublinCoreExt'; /*checks if user selected Dublin Core Extended version. 
       If true add encoding tags (with ternary operator) also it should be possible to achieve the same thing with 
       boolean && <tag>...</tag> in faster? way.
       */
@@ -120682,53 +120691,53 @@ App = {
       <span class="item 2">Creatore:</span> <dc:creator>${creator.val()}</dc:creator>
       <span class="item 3">Soggetto:</span> <dc:subject>${subject.val()}</dc:subject>
       <span class="item 4">Editore:</span> <dc:publisher>${publisher.val()}</dc:publisher>
-      ${condition ? `<span class="item ext">Abstract:</span> <dcterms:alternative>${abstract.val()}</dcterms:alternative>`: ''}
+      ${condition ? `<span class="item ext">Abstract:</span> <dcterms:alternative>${abstract.val()}</dcterms:alternative>` : ''}
       <span class="item 5">Descrizione:</span> <dc:description>${description.val()}</dc:description>
       ${!condition ? `<span class="item 6">Data:</span> <dc:date>${date.val()}</dc:date>` : ''}
       ${condition ? `<span class="item ext">Data creazione:</span> <dcterms:created>${created.val()}</dcterms:created>
                   <span class="item ext">Valido dal:</span> <dcterms:valid>${valid.val()}</dcterms:valid>
-                  <span class="item ext">Ultima modifica:</span> <dcterms:modified>${modified.val()}</dcterms:modified>`: ''}
+                  <span class="item ext">Ultima modifica:</span> <dcterms:modified>${modified.val()}</dcterms:modified>` : ''}
       <span class="item 7">Tipo:</span> <dc:type>${type.val()}</dc:type>
       <span class="item 8">Formato:</span> <dc:format>${format.val()}</dc:format>
       <span class="item 9">Relazione:</span> <dc:relation>${relation.val()}</dc:relation>
       ${condition ? `<span class="item ext">Versione di:</span> <dcterms:isVersionOf>${isVersionOf.val()}</dcterms:isVersionOf>
-                  <span class="item ext">Parte di:</span> <dcterms:isPartOf>${IsPartOf.val()}</dcterms:isPartOf>`:''}
+                  <span class="item ext">Parte di:</span> <dcterms:isPartOf>${IsPartOf.val()}</dcterms:isPartOf>` : ''}
       <span class="item 10">Fonte:</span> <dc:source>${source.val()}</dc:source>
       <span class="item 11">Lingua:</span> <dc:language>${language.val()}</dc:language>
       <span class="item 12">Copertura:</span> <dc:coverage>${coverage.val()}</dc:coverage>
       ${condition ? `<span class="item ext">Copertura spaziale:</span> <dcterms:modified>${spatial.val()}</dcterms:modified>
-                  <span class="item ext">Copertura temporale:</span> <dcterms:modified>${temporal.val()}</dcterms:modified>`: ''}
+                  <span class="item ext">Copertura temporale:</span> <dcterms:modified>${temporal.val()}</dcterms:modified>` : ''}
       <span class="item 13">Gestione dei diritti:</span> <dc:rights>${rights.val()}</dc:rights>
       `;
+      if (hash === false) {
+        const data = generatedXMLCode;
+        return data;
+      }
+      const data =
+      {
+        name: title.val(),
+        description: generatedXMLCode,
+        objectPreview: hash,
+        objectFiles: App.ipfsHashStore
+      };
+      return data;
+    }
     if (hash === false) {
-      const data = generatedXMLCode;
       return data;
     }
-    const data = 
-    {
-      name: title.val(),
-      description: generatedXMLCode,
-      objectPreview: hash,
-      objectFiles: App.ipfsHashStore
-    };
-      return data;
-    }
-    if (hash === false) {
-      return data;
-    }
-  App.loadingProgress('success');
-  //console.log('step end generateMetadata');
-  return App.descriptionToIPFS(data);
+
+    App.loadingProgress('success');
+    return App.descriptionToIPFS(data);
   },
 
   descriptionToIPFS: async function (objectDescription) {
     App.loadingProgress('Description Upload');
-    //console.log('descriptionToIPFS', objectDescription);
-    //console.log('...Uploading your metadata description to IPFS...');
+
     const openModal = document.getElementById('openModal');
     openModal.classList.remove('is-active');
     let uploadDesc = Buffer.from(JSON.stringify(objectDescription));
     App.loading = true;
+
     await ipfs.files.add(uploadDesc, (err, result) => {
       App.loading = false;
       if (err) {
@@ -120739,7 +120748,7 @@ App = {
       const hash = result[0].hash;
       console.log('added data hash:', hash);
       App.loadingProgress('success');
-      //console.log('...Done Uploading your metadata description to IPFS...');
+
       App.uploadArtw(hash, objectDescription);
       ipfs.files.cat(hash, function (err, file) {
         if (err) {
@@ -120754,10 +120763,11 @@ App = {
     const loader = $('.object-loader');
     loader.removeClass('is-hidden');
     const statusContainer = $('.status-progress');
+
     if (stringStatus === 'success') {
       return $('.status-progress p:last-child').addClass('success');
     }
-    statusContainer.append( `<p>${stringStatus}</p>`);
+    statusContainer.append(`<p>${stringStatus}</p>`);
     if (stringStatus === 'refresh') {
       loader.addClass('is-hidden');
       statusContainer.empty();
@@ -120771,10 +120781,10 @@ App = {
     newArtworkBtn.addEventListener('click', () => {
       const openModal = document.getElementById('openModal');
       openModal.classList.add('is-active');
-    }); 
+    });
     //New Artwork Insertion Modal Close
     const closeModal = openModal.querySelector('.delete');
-    closeModal.addEventListener('click', () => { 
+    closeModal.addEventListener('click', () => {
       openModal.classList.remove('is-active');
     });
 
@@ -120785,55 +120795,55 @@ App = {
     dublinExtBtn.addEventListener('click', dublinCoreExtended, false);
     crmMetadataBtn.addEventListener('click', crmMetadataAdvanced, false);
 
-    function dublinCoreSimple () {
+    function dublinCoreSimple() {
       setMetadataVisibility();
       dublinCoreBtn.classList.add('is-active');
       const metadata = document.getElementById('dublinCoreMetadata');
       metadata.classList.remove('is-hidden');
     }
 
-    function dublinCoreExtended () {
+    function dublinCoreExtended() {
       setMetadataVisibility();
       dublinExtBtn.classList.add('is-active');
       const metadata = document.getElementById('dublinCoreExt');
       metadata.classList.remove('is-hidden');
     }
 
-    function crmMetadataAdvanced () {
+    function crmMetadataAdvanced() {
       setMetadataVisibility();
-      $.get("../js/cidoc-crm.rdf", {}, function (xml){      
+      $.get("../js/cidoc-crm.rdf", {}, function (xml) {
         var parser, xmlDoc;
         console.log(xml);
         parser = new DOMParser();
-        xmlDoc = parser.parseFromString(xml,"text/xml");
+        xmlDoc = parser.parseFromString(xml, "text/xml");
         console.log(xmlDoc);
       });
       crmMetadataBtn.classList.add('is-active');
       const metadata = document.getElementById('crmMetadata');
       metadata.classList.remove('is-hidden');
     }
-    
-    function setMetadataVisibility () {
+
+    function setMetadataVisibility() {
       $("#metadataOptions > li.is-active").removeClass("is-active");
       $(".insertionForm > #dublinCoreMetadata, #dublinCoreExt, #crmMetadata").addClass("is-hidden");
     }
     //Binding of artwork object to IPFS preview by data-id 
     const artworkContainer = document.getElementById('archivesRow');
     artworkContainer.addEventListener('click', (ev) => {
-        if(ev.target.classList.contains('object-button')) {
-          const artworkPreview = document.getElementById('artwork-preview');
-          App.dataToModal(ev, artworkPreview);
-        }
-      }, false);
+      if (ev.target.classList.contains('object-button')) {
+        const artworkPreview = document.getElementById('artwork-preview');
+        App.dataToModal(ev, artworkPreview);
+      }
+    }, false);
     //Event listeners
     /* Search bar function */
-    $('.search-box').on('keyup', function(){
+    $('.search-box').on('keyup', function () {
       var searchTerm = $(this).val().toLowerCase();
-      $('.artwork-list li').each(function(){
+      $('.artwork-list li').each(function () {
         if ($('.title', this).text().toLowerCase().indexOf(searchTerm) > -1) {
-            $(this).show();
+          $(this).show();
         } else {
-            $(this).hide();
+          $(this).hide();
         }
       });
     });
@@ -120847,11 +120857,11 @@ App = {
       let fileResult = document.getElementById('filePreview');
       let sessionIndex = App.store.length;
       let eventIndex = 0;
-      console.log('sessionIndex',sessionIndex);
-      for(let i = sessionIndex; i < (sessionIndex+files.length); i++) {
+      console.log('sessionIndex', sessionIndex);
+      for (let i = sessionIndex; i < (sessionIndex + files.length); i++) {
         let file = files[eventIndex];
-        if(!file.type.match('image')) continue;
-        let readerIndex = eventIndex; //looks like there is some problem with chaining events, seems like reassing solves the issue
+        if (!file.type.match('image')) continue;
+        let readerIndex = eventIndex; //looks like there is some problem with chaining events, seems like reassign solves the issue
         eventIndex++;
         const reader = new window.FileReader();
         //console.log(file);
@@ -120869,20 +120879,19 @@ App = {
           let previewElements = document.createElement('span'); //TODO testing purposes
           previewElements.append(preview);
           //test.append(deleteBtn);
-          fileResult.append(previewElements);     
-         }
+          fileResult.append(previewElements);
+        }
       }
-      function chooseMainThumbnail (ev) {
+      function chooseMainThumbnail(ev) {
         let fileResult = document.getElementById('filePreview');
         let imgList = fileResult.querySelectorAll('img');
-        if(ev.target.classList.contains('mainPreview')) return; //already selected as main preview
-        for(let element of imgList) {
+        if (ev.target.classList.contains('mainPreview')) return; //already selected as main preview
+        for (let element of imgList) {
           element.classList = '';
         }
         let selectedElementId = ev.target.getAttribute('data-id');
-        //console.log('before', App.store);
-        //console.log('selectedElementId', selectedElementId);
         let temp = App.store[0];
+
         App.store[0] = App.store[selectedElementId];
         App.store[selectedElementId] = temp;
         ev.target.classList.toggle('mainPreview');
@@ -120929,25 +120938,25 @@ App = {
     });
   },
 
-  dataToModal: function(ev, artworkPreview) {
-    if(ev.target) {
+  dataToModal: function (ev, artworkPreview) {
+    if (ev.target) {
       if (ev.target.getAttribute('data-val') === 'true') artworkPreview.classList.add('is-active');
       else artworkPreview.classList.remove('is-active');
     }
     let artId;
-    if (isNaN(ev)) artId =  ev.target.getAttribute('data-id');
-    else artId = ev ;
+    if (isNaN(ev)) artId = ev.target.getAttribute('data-id');
+    else artId = ev;
     App.contracts.Archives.deployed().then(function (instance) {
       contractInstance = instance;
       return artId;
     }).then(function (artId) {
-        const artworkId = artId;
-        //take artworks from the mapping
-        contractInstance.artworks(artworkId).then(function (artwork) {
-          console.log(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
-          App.loadModalData(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
-        });
+      const artworkId = artId;
+      //take artworks from the mapping
+      contractInstance.artworks(artworkId).then(function (artwork) {
+        console.log(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
+        App.loadModalData(artwork[0], artwork[1], artwork[2], artwork[3], artwork[4], artwork[5]);
       });
+    });
   },
 
   loadModalData: function (id, author, name, descriptionHash, dataHash, validation) {
@@ -120963,7 +120972,7 @@ App = {
     mediaContent.innerHTML = "";
     ipfs.files.cat(descriptionHash, function (err, file) {
       if (err) { throw err; }
-      let ipfsResult =  file.toString('utf8');
+      let ipfsResult = file.toString('utf8');
       var objectResult = JSON.parse(ipfsResult);
       content.append(objectResult);
       content.innerHTML = objectResult.description;
@@ -120971,90 +120980,84 @@ App = {
       titlePreamble.textContent = name;
       authorPreamble.textContent = author;
       title.innerHTML = `<a href="https://ipfs.io/ipfs/${descriptionHash}" target="_blank">Riferimento al contenuto IPFS</a>`;
-      if(App.artworkCheckerPermissions === true && validation === false) {
+      if (App.artworkCheckerPermissions === true && validation === false) {
         btnAprove.disabled = false;
         btnAprove.setAttribute('data-id', id);
         btnAprove.classList.remove('hidden');
-        btnAprove.onclick =  () => App.validateArtwork(id); //old style solution same reason as btnModify.onclick. Also removingEventListener at each function call should fix it.
+        btnAprove.onclick = () => App.validateArtwork(id); //old style solution same reason as btnModify.onclick. Also removingEventListener at each function call should fix it.
         //addEventListener was assigned on each function call  
       } else {
         btnAprove.removeAttribute('data-id');
         btnAprove.disabled = true;
       }
-      if(App.account === author) {
+      if (App.account === author) {
         btnModify.disabled = false;
         btnModify.setAttribute('data-id', id);
-        btnModify.onclick = () => {App.modifyMetadata(id, objectResult)}; //ad-hoc solution since an addEventListener would take into account all functions calls, possibliy to be fixed with currying or bind
+        btnModify.onclick = () => { App.modifyMetadata(id, objectResult) }; //ad-hoc solution since an addEventListener would take into account all functions calls, possibliy to be fixed with currying or bind
       } else {
         btnModify.removeAttribute('data-id');
         btnModify.disabled = true;
       };
-      for(key of objectResult.objectFiles) {
+      for (key of objectResult.objectFiles) {
         let objectFilePreview = document.createElement('img');
         objectFilePreview.setAttribute('src', `https://ipfs.io/ipfs/${key}`);
         mediaContent.append(objectFilePreview);
       }
     });
   },
-  // Blockchain functions instances
+
   uploadArtw: function (hash, objectDesc) {
-    if(App.loading) {
+    if (App.loading) {
       return;
     }
     //retrieve details of the artw
-    console.log('JUST BEFORE THE EVENT App.ipfsHash', App.ipfsHash);
+    console.log('JUST BEFORE THE EVENT uploadArtw App.ipfsHash', App.ipfsHash);
     App.loadingProgress('Blockchain Upload');
     //console.log('...Uploading your object to blockchain...');
     //console.log(artwName, artwDescription, App.ipfsHash);
     App.contracts.Archives.deployed().then(function (instance) {
       return instance.publishArtwork(objectDesc.name, hash, App.ipfsHash, {
         from: App.account
-        //gas: 500000
       });
     }).then(function (result) {
       console.log(result);
-      /*var receiptRow = $('#receiptRow');
-      $.each(result.receipt, function( key, value ) {
-        var x = document.createElement('li');
-        x.innerHTML =  key + ': ' + value; 
-        receiptRow.append(x);
-        console.log('...Done Uploading your object to blockchain...');*/
-        App.loadingProgress('success');
-        App.reloadArtworks();
+      App.loadingProgress('success');
+      App.reloadArtworks();
+
     }).catch(function (error) {
       console.error(error);
     });
   },
 
   modifyMetadata: (id, objectResult) => {
-    console.log('event modifyMetadata', id);
-    console.log("modifyMETADAT", objectResult);
     const openModal = document.getElementById('openModal');
     openModal.classList.add('is-active');
     const modalFooter = document.querySelector('.modal-card-foot');
     $(".modal-card-foot > button.is-success").remove();
-      const modifyArtworkBtn = document.createElement('button');
-      modifyArtworkBtn.appendChild(document.createTextNode("Modifica la descrizione"));
-      modifyArtworkBtn.classList = 'button is-success';
-      modifyArtworkBtn.id = 'modifyBtn';
-      modalFooter.append(modifyArtworkBtn);
-    modifyArtworkBtn.addEventListener('click', async ()  => {
+    const modifyArtworkBtn = document.createElement('button');
+
+    modifyArtworkBtn.appendChild(document.createTextNode("Modifica la descrizione"));
+    modifyArtworkBtn.classList = 'button is-success';
+    modifyArtworkBtn.id = 'modifyBtn';
+    modalFooter.append(modifyArtworkBtn);
+
+    modifyArtworkBtn.addEventListener('click', async () => {
       const newMetadata = App.generateMetadata(false);
       objectResult.description = newMetadata;
       let uploadDesc = Buffer.from(JSON.stringify(objectResult));
       App.loading = true;
       await ipfs.files.add(uploadDesc, (err, result) => {
-      App.loading = false;
-      if (err) {
-        console.error(err);
-        return
-      }
-      console.log('ipfs result', result);
-      const hash = result[0].hash;
-      console.log('added data hash:', hash);
-      App.loadingProgress('success');
-      console.log('...Done Uploading your metadata description to IPFS...');
-      return App.modifyArtwork(id, hash);
+        App.loading = false;
+        if (err) {
+          console.error(err);
+          return
+        }
+        console.log('ipfs result', result);
+        const hash = result[0].hash;
+        console.log('added data hash:', hash);
+        App.loadingProgress('success');
+        console.log('...Done Uploading your metadata description to IPFS...');
+        return App.modifyArtwork(id, hash);
       });
     });
   },
@@ -121072,7 +121075,7 @@ App = {
       App.reloadArtworks();
       App.dataToModal(id, artworkPreview);
     });
-},
+  },
 
   validateArtwork: (id) => {
     const idToApprove = id.toNumber();
@@ -121080,7 +121083,6 @@ App = {
     App.contracts.Archives.deployed().then(function (instance) {
       return instance.approveArtwork(idToApprove, {
         from: App.account
-        //gas: 500000
       });
     }).then(function (result) {
       console.log('ValidateArtworkresult', result);
@@ -121088,10 +121090,8 @@ App = {
     });
   },
 
-  // Blockchain functions instances end
-
   filterValidObjects: () => {
-    if(App.loading) {
+    if (App.loading) {
       return;
     }
     const objectRow = document.getElementById('archivesRow');
@@ -121104,7 +121104,7 @@ App = {
   },
 
   filterPendingObjects: () => {
-    if(App.loading) {
+    if (App.loading) {
       return;
     }
     const objectRow = document.getElementById('archivesRow');
@@ -121118,7 +121118,7 @@ App = {
 };
 
 $(function () {
-  $(window).on('load', function() {
+  $(window).on('load', function () {
     App.init();
   });
 });
